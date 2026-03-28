@@ -9,7 +9,7 @@ pipeline {
     //   Server IP        = 3.109.40.92
     // ─────────────────────────────────────────────────────
     environment {
-        APP_SERVER   = 'ubuntu@3.109.40.92'
+        APP_SERVER   = 'ubuntu@13.233.124.148'
         APP_DIR      = '/var/www/html/textronics/dam/tdst/archive'
         SERVICE      = 'viewerapp.service'
         DLL_NAME     = 'ARCHIVE_VIEWER.dll'
