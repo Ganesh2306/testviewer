@@ -291,15 +291,6 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh '''
-                bash -c "
-                export NVM_DIR='/var/lib/jenkins/.nvm'
-                source \$NVM_DIR/nvm.sh
-
-                nvm install 14.17.6
-                nvm use 14.17.6
-
-                npm install -g npm@6.14.14
-
                 echo 'Node Version:'
                 node -v
 
