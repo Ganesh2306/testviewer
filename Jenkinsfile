@@ -14,7 +14,7 @@ pipeline {
         SERVICE      = 'viewerapp.service'
         DLL_NAME     = 'ARCHIVE_VIEWER.dll'
         GITHUB_REPO  = 'https://github.com/Ganesh2306/testarchive.git'
-        VERSION      = "v1.0.${BUILD_NUMBER}"
+        VERSION      = "1.0.${BUILD_NUMBER}"
     }
 
     stages {
