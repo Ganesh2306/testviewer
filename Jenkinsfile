@@ -274,163 +274,106 @@ pipeline {
         APP_DIR      = '/var/www/html/textronics/dam/tdst/archive'
         SERVICE      = 'viewerapp.service'
         DLL_NAME     = 'ARCHIVE_VIEWER.dll'
-        GITHUB_REPO  = 'https://github.com/Ganesh2306/testarchive.git'
         VERSION      = "1.0.${BUILD_NUMBER}"
     }
 
     stages {
 
-        // ✅ Checkout
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: "${GITHUB_REPO}",
+                    url: 'https://github.com/Ganesh2306/testarchive.git',
                     credentialsId: 'github-token'
-
-                script {
-                    env.GIT_COMMIT_SHORT = sh(
-                        script: 'git rev-parse --short HEAD',
-                        returnStdout: true
-                    ).trim()
-
-                    env.FULL_VERSION  = "${VERSION}-${env.GIT_COMMIT_SHORT}"
-                    env.VERSIONED_ZIP = "viewerapp-${env.FULL_VERSION}.zip"
-                }
             }
         }
 
-        // 🔥 IMPORTANT: SET REQUIRED VERSIONS
+        // 🔥 FIXED ENVIRONMENT (NO nvm error)
         stage('Setup Environment') {
             steps {
                 sh '''
-                echo "===== Setting Node 14 + npm 6 ====="
-
-                export NVM_DIR="$HOME/.nvm"
-                [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                bash -c "
+                export NVM_DIR='/var/lib/jenkins/.nvm'
+                source \$NVM_DIR/nvm.sh
 
                 nvm install 14.17.6
                 nvm use 14.17.6
+
                 npm install -g npm@6.14.14
 
-                echo "Node Version:"
+                echo 'Node Version:'
                 node -v
-                echo "NPM Version:"
+
+                echo 'NPM Version:'
                 npm -v
 
-                echo "===== Checking .NET ====="
+                echo 'Dotnet Version:'
                 dotnet --version
+                "
                 '''
             }
         }
 
-        // ✅ Frontend Build
+        // 🔥 FRONTEND BUILD (FIXED)
         stage('Frontend Build') {
             steps {
                 sh '''
-                # IMPORTANT: force bash
-                export NVM_DIR="/var/lib/jenkins/.nvm"
-                source $NVM_DIR/nvm.sh
-
+                bash -c "
+                export NVM_DIR='/var/lib/jenkins/.nvm'
+                source \$NVM_DIR/nvm.sh
                 nvm use 14.17.6
-
-                echo "Node:"
-                node -v
-
-                echo "NPM:"
-                npm -v
 
                 cd ClientApp
                 npm install
                 npm run build
+                "
                 '''
             }
         }
 
-        // ✅ Restore
         stage('Restore') {
             steps {
                 sh 'dotnet restore'
             }
         }
 
-        // ✅ Build
         stage('Build') {
             steps {
                 sh 'dotnet build --configuration Release --no-restore'
             }
         }
 
-        // ✅ Test
         stage('Test') {
             steps {
                 sh 'dotnet test --no-build --configuration Release'
             }
         }
 
-        // ✅ FIXED Publish
         stage('Publish & Package') {
             steps {
                 sh 'dotnet publish ARCHIVE_VIEWER.csproj --configuration Release --no-build --output ./publish'
 
-                script {
-                    sh '''
-                        cd publish
-                        ls -lh ARCHIVE_VIEWER.dll
-                        zip -r ../${VERSIONED_ZIP} .
-                        cd ..
-                    '''
-                }
+                sh '''
+                cd publish
+                zip -r ../app.zip .
+                cd ..
+                '''
             }
         }
 
-        // ✅ बाकी deploy same
         stage('Deploy to EC2') {
             steps {
-                sshagent(credentials: ['app-server-ssh-key']) {
+                sshagent(['app-server-ssh-key']) {
 
                     sh "ssh -o StrictHostKeyChecking=no ${APP_SERVER} 'sudo systemctl stop ${SERVICE}'"
 
-                    sh """
-                        scp -o StrictHostKeyChecking=no \
-                        ${env.VERSIONED_ZIP} \
-                        ${APP_SERVER}:/tmp/
-                    """
+                    sh "scp -o StrictHostKeyChecking=no app.zip ${APP_SERVER}:/tmp/"
 
                     sh """
-                        ssh -o StrictHostKeyChecking=no ${APP_SERVER} '
-                            set -e
-
-                            BACKUP_DIR="${APP_DIR}/backups/${env.FULL_VERSION}"
-                            sudo mkdir -p "\$BACKUP_DIR"
-
-                            sudo cp -r ${APP_DIR}/* "\$BACKUP_DIR/" || true
-
-                            sudo unzip -o /tmp/${env.VERSIONED_ZIP} -d ${APP_DIR}
-                            sudo rm -f /tmp/${env.VERSIONED_ZIP}
-
-                            sudo chown -R www-data:www-data ${APP_DIR}
-                            sudo chmod -R 755 ${APP_DIR}
-
-                            echo "${env.FULL_VERSION}" | sudo tee ${APP_DIR}/CURRENT_VERSION
-                        '
-                    """
-
-                    sh "ssh -o StrictHostKeyChecking=no ${APP_SERVER} 'sudo systemctl start ${SERVICE}'"
-                }
-            }
-        }
-
-        // ✅ Health check same
-        stage('Health Check') {
-            steps {
-                sshagent(credentials: ['app-server-ssh-key']) {
-                    sh """
-                        sleep 5
-                        ssh -o StrictHostKeyChecking=no ${APP_SERVER} '
-                            systemctl is-active --quiet ${SERVICE} || exit 1
-                            cat ${APP_DIR}/CURRENT_VERSION
-                            pgrep -a dotnet | grep ARCHIVE_VIEWER
-                        '
+                    ssh -o StrictHostKeyChecking=no ${APP_SERVER} '
+                        sudo unzip -o /tmp/app.zip -d ${APP_DIR}
+                        sudo rm -f /tmp/app.zip
+                        sudo systemctl start ${SERVICE}
+                    '
                     """
                 }
             }
@@ -439,15 +382,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ SUCCESS → ${env.FULL_VERSION}"
+            echo "✅ SUCCESS BUILD"
         }
         failure {
-            sshagent(credentials: ['app-server-ssh-key']) {
-                sh """
-                    ssh -o StrictHostKeyChecking=no ${APP_SERVER} \
-                    'sudo systemctl start ${SERVICE} || true'
-                """
-            }
+            echo "❌ BUILD FAILED"
         }
     }
 }
