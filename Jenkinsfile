@@ -13,7 +13,7 @@ pipeline {
         APP_DIR      = '/var/www/html/textronics/dam/tdst/archive'
         SERVICE      = 'viewerapp.service'
         DLL_NAME     = 'ARCHIVE_VIEWER.dll'
-        GITHUB_REPO  = 'https://github.com/Ganesh2306/test_archive.git'
+        GITHUB_REPO  = 'https://github.com/Ganesh2306/testarchive.git'
         VERSION      = "v1.0.${BUILD_NUMBER}"
     }
 
@@ -124,7 +124,7 @@ pipeline {
                                 -m "Release ${env.FULL_VERSION} | Build #${BUILD_NUMBER} | Jenkins Auto-Deploy"
 
                         # GitHub वर push करा
-                        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/Ganesh2306/test_archive.git \
+                        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/Ganesh2306/testarchive.git \
                                  "${env.FULL_VERSION}"
 
                         echo "[OK] Tag ${env.FULL_VERSION} pushed to GitHub"
