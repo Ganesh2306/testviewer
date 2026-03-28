@@ -327,9 +327,17 @@ pipeline {
         stage('Frontend Build') {
             steps {
                 sh '''
-                export NVM_DIR="$HOME/.nvm"
-                [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                # IMPORTANT: force bash
+                export NVM_DIR="/var/lib/jenkins/.nvm"
+                source $NVM_DIR/nvm.sh
+
                 nvm use 14.17.6
+
+                echo "Node:"
+                node -v
+
+                echo "NPM:"
+                npm -v
 
                 cd ClientApp
                 npm install
