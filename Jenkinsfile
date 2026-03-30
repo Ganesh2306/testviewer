@@ -23,7 +23,7 @@ pipeline {
                         returnStdout: true
                     ).trim()
                     env.FULL_VERSION  = "${VERSION}-${env.GIT_COMMIT_SHORT}"
-                    env.VERSIONED_ZIP = "viewerapp-${env.FULL_VERSION}.zip"
+                    env.VERSIONED_ZIP = "adminapp-${env.FULL_VERSION}.zip"
                     echo "Build Version : ${env.FULL_VERSION}"
                 }
             }
@@ -91,7 +91,7 @@ pipeline {
                     passwordVariable: 'GIT_TOKEN'
                 )]) {
                     sh """
-                        git config user.email "jenkins@viewerapp.ci"
+                        git config user.email "jenkins@adminapp.ci"
                         git config user.name  "Jenkins CI"
                         git tag -a "${env.FULL_VERSION}" \
                                 -m "Release ${env.FULL_VERSION} | Build #${BUILD_NUMBER}"
