@@ -5,7 +5,7 @@ pipeline {
         APP_SERVER = 'ubuntu@52.66.166.243'
         APP_DIR    = '/var/www/html/textronics/dam/tdst/viewer'
         SERVICE    = 'adminapp.service'
-        DLL_NAME   = 'ARCHIVE_VIEWER.dll'
+        DLL_NAME   = 'ARCHIVE_DASHBOARD.dll'
         VERSION    = "1.0.${BUILD_NUMBER}"
     }
 
