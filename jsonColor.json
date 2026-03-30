@@ -1,0 +1,75 @@
+{
+  "white": {
+    "name": "white",
+    "hex": "#ffffff"
+  },
+  "grey": {
+    "name": "grey",
+    "hex": "#808080"
+  },
+  "black": {
+    "name": "black",
+    "hex": "#000000"
+  },
+  "orange": {
+    "name": "orange",
+    "hex": "#ffa500"
+  },
+  "brown": {
+    "name": "brown",
+    "hex": "#a52a2a"
+  },
+  "maroon": {
+    "name": "maroon",
+    "hex": "#800000"
+  },
+  "green": {
+    "name": "green",
+    "hex": "#008000"
+  },
+  "olive": {
+    "name": "olive",
+    "hex": "#808000"
+  },
+  "red": {
+    "name": "red",
+    "hex": "#ff0000"
+  },
+  "blue": {
+    "name": "blue",
+    "hex": "#0000ff"
+  },
+  "purple": {
+    "name": "purple",
+    "hex": "#800080"
+  },
+  "yellow": {
+    "name": "yellow",
+    "hex": "#ffff00"
+  },
+  "cream": {
+    "name": "cream",
+    "hex": "#fff4b8"
+  },
+  "khaki": {
+    "name": "khaki",
+    "hex": "#baa636"
+  },
+  "pink": {
+    "name": "pink",
+    "hex": "#ffc0cb"
+  },
+  "gold": {
+    "name": "gold",
+    "hex": "#fcba03"
+  },
+  "beige": {
+    "name": "beige",
+    "hex": "#f0d7a1"
+  },
+  
+  "navyblue": {
+    "name": "navyblue",
+    "hex": "#010e63"
+  }
+}

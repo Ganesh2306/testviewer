@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+
+    <!-- Viewport settings for mobile optimization -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Web app manifest -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!-- Preload and reduced font load -->
+    <!-- <link href="https://fonts.gstatic.com/s/montserrat/v15/Jt7fZ6mMw9weKzVg5K2OaLfS_eJfJ7H8xu9k.woff2" rel="preload" as="font" type="font/woff2" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet"> -->
+
+    <!-- Inline critical CSS -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <!-- Responsive CSS (adjusted for critical screen sizes) -->
+    <!--<link rel="stylesheet" media="media= only screen and (max-width: 767px)"  href="./ResponsiveCss/p_mobile.css" />--> 
+    <!-- <link rel="stylesheet" href="./ResponsiveCss/p_totem.css" /> -->
+    <link rel="stylesheet" href="./ResponsiveCss/jquery-ui.css"/> 
+
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://plugin.dam3d.in" crossorigin>
+
+    <!-- Defer and async for non-critical JavaScript -->
+    <!-- <script src="https://plugin.dam3d.in/q3d/v1/Tds.min.js?v1.1" defer></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script> commented ManishaD called in Design.js-->
+    <!-- <script src="https://plugin.dam3d.in/q3d/v1/Tds.min.js?v3.2" defer></script> commented ManishaD called in Design.js-->
+    <script src="./js/jquery.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- <script src="./js/JsBarcodeNew.all.min.js" defer></script> -->
+    <!-- <script src="./js/qrious.js" defer></script> -->
+    <!-- <script src="./js/watermark.js" defer></script>
+    <script src="./js/getWatermarkImg.js" defer></script>
+    <script src="./js/jspdf.debug.js" defer></script>
+    <script src="./js/slick.js" defer></script> -->
+
+    <!-- Bootstrap JS from CDN -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" defer></script> 
+    <title>Textronics - Design Archive Viewer</title>
+</head>
+<body>
+    <!-- Your content here -->
+    <div id="root"></div>
+    <div id="setDPI"></div>
+    <!-- Lazy load non-critical JavaScript when needed -->
+     <!-- Example: Lazy load script when user interacts (e.g., clicks a button)-->
+    <!-- <script>       
+        document.getElementById("loadScriptButton").addEventListener("click", function() {
+            var script = document.createElement("script");
+            script.src = "./js/someLargeScript.js";
+            document.body.appendChild(script);
+        });
+    </script> -->
+</body>
+</html>
