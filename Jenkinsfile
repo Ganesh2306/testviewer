@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         APP_SERVER = 'ubuntu@52.66.166.243'
-        APP_DIR    = '/var/www/html/textronics/dam/tdst/archive'
-        SERVICE    = 'viewerapp.service'
+        APP_DIR    = '/var/www/html/textronics/dam/tdst/viewer'
+        SERVICE    = 'adminapp.service'
         DLL_NAME   = 'ARCHIVE_VIEWER.dll'
         VERSION    = "1.0.${BUILD_NUMBER}"
     }
@@ -14,7 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Ganesh2306/testarchive.git',
+                    url: 'https://github.com/Ganesh2306/testviewer.git',
                     credentialsId: 'github-token'
 
                 script {
@@ -95,7 +95,7 @@ pipeline {
                         git config user.name  "Jenkins CI"
                         git tag -a "${env.FULL_VERSION}" \
                                 -m "Release ${env.FULL_VERSION} | Build #${BUILD_NUMBER}"
-                        git push https://\${GIT_USER}:\${GIT_TOKEN}@github.com/Ganesh2306/testarchive.git \
+                        git push https://\${GIT_USER}:\${GIT_TOKEN}@github.com/Ganesh2306/testviewer.git \
                                  "${env.FULL_VERSION}"
                         echo "[OK] Tag ${env.FULL_VERSION} pushed to GitHub"
                     """
