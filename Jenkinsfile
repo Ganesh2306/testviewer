@@ -177,7 +177,7 @@ pipeline {
 
     post {
         success {
-            echo "✅ Deploy SUCCESS — Version: ${env.FULL_VERSION} — viewerapp.service RUNNING"
+            echo "✅ Deploy SUCCESS — Version: ${env.FULL_VERSION} — adminapp.service RUNNING"
         }
         failure {
             sshagent(credentials: ['app-server-ssh-key']) {
