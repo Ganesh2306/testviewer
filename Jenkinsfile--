@@ -72,8 +72,7 @@ pipeline {
 
         stage('Publish & Package') {
             steps {
-                // ✅ FIX: ARCHIVE_VIEWER → ARCHIVE_DASHBOARD
-                sh 'dotnet publish ARCHIVE_DASHBOARD.csproj --configuration Release --no-build --output ./publish'
+                sh 'dotnet publish ARCHIVE_VIEWER.csproj --configuration Release --no-build --output ./publish'
 
                 sh """
                     cd publish
@@ -123,6 +122,7 @@ pipeline {
                     """
 
                     // C) Backup + D) Unzip + E) Permissions
+                    // FIX: -not -name "archive" added to prevent self-copy error
                     sh """
                         ssh -o StrictHostKeyChecking=no ${APP_SERVER} '
                             set -e
@@ -133,7 +133,7 @@ pipeline {
                             sudo find ${APP_DIR} -maxdepth 1 \
                                    -not -name "backups" \
                                    -not -name "CURRENT_VERSION" \
-                                   -not -name "viewer" \
+                                   -not -name "archive" \
                                    -not -name "." \
                                    -exec cp -r {} "\$BACKUP_DIR/" \\;
                             echo "[OK] Backup: \$BACKUP_DIR"
