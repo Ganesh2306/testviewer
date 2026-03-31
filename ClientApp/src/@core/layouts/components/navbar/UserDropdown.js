@@ -134,7 +134,7 @@ const UserDropdown = () => {
                 <div class="vl"></div>
                
                 <div className='user-nav d-sm-flex'>
-                    <span className='user-name font-weight-bold' style={{ textTransform: 'none' }}>{(userData && userData['userName']) || 'Default User'}</span>
+                    <span className='user-name font-weight-bold'>{(userData && userData['userName']) || 'Default User'}</span>
                     <span className='user-status'>{(userData && getRoleByuserData()) || 'Admin'}</span>
                 </div>
                 <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />

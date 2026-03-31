@@ -241,8 +241,7 @@ export const SelectProGroup = (props) => {
             const res = JSON.parse(e.data).map((e) => {
                 return {name:e, code:e}
             })
-            const sortedres = res.sort((a, b) => a.code.localeCompare(b.code))
-            setproduct(sortedres)
+            setproduct(res)
         })
     }, [])
 

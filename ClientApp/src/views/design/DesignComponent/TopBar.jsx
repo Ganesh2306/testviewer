@@ -20,8 +20,7 @@ import {
 } from "reactstrap"
 import { MoreVertical, List, Grid } from 'react-feather'
 import { QrPopUp } from './popup/DeletePopUp'
-// import { UploadSareePopup } from "./popup/UploadSareePopup"
-import { UploadSaree } from "./popup/UploadSaree"
+import { UploadSareePopup } from "./popup/UploadSareePopup"
 import OpenExportExcel from './ExcelComponent/ExportExcel'
 import AddDesign from "./popup/AddDesign"
 import AddtoCollection from "../../seasonal/tables/tableData/AddtoCollection"
@@ -312,8 +311,7 @@ export const searchHandel = async (ps, txt, isAllSearch, start, end, sid, Isname
         } else {
             const temp = {}
             const daterange = {}
-            // if (isAllSearch === false) {
-            if (Object.keys(selectedObj).length !== 0) {
+            if (isAllSearch === false) {
                 Object.keys(selectedObj).map((e, k) => {
                     if (document.getElementById(e) !== null) {
                         const fname = document.getElementById(e)[0] !== undefined ? document.getElementById(e)[0].text : document.getElementById(e).getAttribute("text")
@@ -329,7 +327,6 @@ export const searchHandel = async (ps, txt, isAllSearch, start, end, sid, Isname
                     }
                 })
             }
-            // }
 
             obj = {
                 folderId: "0",
@@ -374,8 +371,7 @@ export const searchHandel = async (ps, txt, isAllSearch, start, end, sid, Isname
             return
         }
         const finalAppendFabrics = (pareseData, type = `t`) => {
-            //const path = pareseData.imageUrl
-            const path = pareseData.localUrl ? pareseData.localUrl : pareseData.imageUrl
+            const path = pareseData.imageUrl
             const timestamp = Date.now()
             return {
                 totalCount: pareseData.totalCount,
@@ -638,11 +634,10 @@ const TopRight = (props) => {
                 <div className="button-menu">
                     <div className="text-lg-right d-lg-flex slidemenu d-inline-flex" style={{ justifyContent: "right", gap: "5px" }}>
                         <AddDesign setSelectedPage={props.setSelectedPage} designList={props.designList} orderbyref={props.orderbyref} IdData={props.IdData} myColour={props.myColour}
-                            modal={props.modal} toggle={props.toggle} loaderRef={props.loaderRef} tempsearchValue={props.tempsearchValue} supplierref={props.supplierref} singlerepeat={props.singlerepeat}
+                            modal={modal} toggle={toggle} loaderRef={props.loaderRef} tempsearchValue={props.tempsearchValue} supplierref={props.supplierref} singlerepeat={props.singlerepeat}
                             orderbycountref={props.orderbycountref} setDesignList={props.setDesignList} Q3drenderpluginURL={props.Q3drenderpluginURL} products={props.products}
-                            unsavedesigns={props.unsavedesigns} setModal={props.setModal} selectedTypeRef={props.selectedTypeRef} setreRender={props.setreRender} reRender={props.reRender} access={props.access}
-                            showSaree={showSaree} setshowSaree={setshowSaree} toggleSaree={toggleSaree} saastoken={props.saastoken} setused_credit={props.setused_credit} remaning_credit={props.remaning_credit}
-                            setremaning_credit={props.setremaning_credit} saasapi={props.saasapi} />
+                            unsavedesigns={props.unsavedesigns} setModal={setModal} selectedTypeRef={props.selectedTypeRef} setreRender={props.setreRender} reRender={props.reRender} access={props.access}
+                            showSaree={showSaree} setshowSaree={setshowSaree} toggleSaree={toggleSaree} saastoken={props.saastoken} setused_credit={props.setused_credit} />
                         {ability.can('display', 'Design') &&
                             <Button.Ripple color='success'
                                 type="button"
@@ -658,22 +653,15 @@ const TopRight = (props) => {
                                             title: 'Please configure storage  !?',
                                             showConfirmButton: true
                                         })
-                                    } else if (props.remaning_credit <= 0 && props.saastoken !== null) {
-                                        Swal.fire({
-                                            icon: 'Error',
-                                            text: 'Not Enough credit balance for upload design',
-                                            allowOutsideClick: false,
-                                            backdrop: true
-                                        })
                                     } else {
-                                        props.toggle()
+                                        toggle()
                                     }
                                 }
                                 }
                             >
                                 <i className="fas fa-plus-circle mr-1"></i> Add Designs
                             </Button.Ripple>}
-                               {/* UploadSareePopup : Upload Saree Fabric Button to upload saree designs */}
+
                         {/* {ability.can('display', 'Design') &&
                             <Button.Ripple color='success'
                                 type="button"
@@ -1036,7 +1024,6 @@ const SearchToggleComponent = (props) => {
                                 onClick={() => {
                                     props.loaderRef.current.style.display = 'block'
                                     //props.setreRender(!props.reRender)
-                                    selectedObj = {}
                                     props.setSelect(!props.select)
                                     const isAllSearch = true
                                     props.setSelectedPage(0)
@@ -1358,8 +1345,6 @@ const TopBar = (props) => {
     const resetInput = event => {
         setSearchValue('')
     }
-    const [Modal, Setmodal] = useState(false)
-    const Toggle = () => Setmodal(!Modal)
     const [select, setSelect] = useState(null)
     const [Collectionlist, setSeasonlist_id] = useState([])
 
@@ -1367,6 +1352,8 @@ const TopBar = (props) => {
     const [Seaslist, sslist] = useState(null)
     const [rollData, setrollData] = useState(null)
     const [featureTData, setfeatureTData] = useState(null)
+    const [modal, setModal] = useState(false)
+    const toggle = () => setModal(!modal)
     const [Del, setDel] = useState(false)
     const deltoggle = () => setDel(!Del)
     const seasonidref = useRef(null)
@@ -1478,7 +1465,7 @@ const TopBar = (props) => {
         //     props.loaderRef.current.style.display = 'none'
         //     //props.setDesignList(null)
         // }
-    }, [Modal, props.reRender])
+    }, [modal, props.reRender])
     const obj = {
         OrganisationId: 0,
         SupplierId: 0,
@@ -1489,11 +1476,11 @@ const TopBar = (props) => {
     return (
         <>
             <Card className="contain1">
-                <div className="col-xl-12">
+                <div className="col-xl-12">            
                     <>
                         <CardHeader className='border-bottom'>
-                            <div className="d-flex">
-                                <CardTitle tag='h4' className='d-flex justify-content-start'>Designs</CardTitle>
+                          <div className="d-flex">
+                              <CardTitle tag='h4' className='d-flex justify-content-start'>Designs</CardTitle>
                                 {props.saastoken !== null && props.saastoken !== undefined && (
                                     <div className='creditwallet'>
                                         <div className='wallet_title'>Credit Balance</div>
@@ -1503,220 +1490,224 @@ const TopBar = (props) => {
                                             </div>
                                         </div>
                                     </div>
-                                )}
-
-                            </div>
+                                   )}   
+                                   
+                        </div>
                             <TopRight setSelectedPage={props.setSelectedPage} designList={props.designList} orderbyref={props.orderbyref} designcount={props.designcount} myColour={props.myColour}
-                                orderbycountref={props.orderbycountref} Modal={Modal} Setmodal={Setmodal} Toggle={Toggle} supplierref={props.supplierref} tempsearchValue={props.tempsearchValue} singlerepeat={props.singlerepeat}
-                                rollData={rollData} setreRender={props.setreRender} reRender={props.reRender} loaderRef={props.loaderRef}
-                                setDesignList={props.setDesignList} Q3drenderpluginURL={props.Q3drenderpluginURL} products={props.products} unsavedesigns={props.unsavedesigns} selectedTypeRef={selectedTypeRef}
-                                access={props.access} saastoken={props.saastoken} setused_credit={props.setused_credit} remaning_credit={props.remaning_credit} setremaning_credit={props.setremaning_credit}
-                                modal={props.modal} setModal={props.setModal} toggle={props.toggle} saasapi={props.saasapi} />
+                            orderbycountref={props.orderbycountref} supplierref={props.supplierref} tempsearchValue={props.tempsearchValue} singlerepeat={props.singlerepeat}
+                            rollData={rollData} modal={modal} setModal={setModal} toggle={toggle} setreRender={props.setreRender} reRender={props.reRender} loaderRef={props.loaderRef}
+                            setDesignList={props.setDesignList} Q3drenderpluginURL={props.Q3drenderpluginURL} products={props.products} unsavedesigns={props.unsavedesigns} selectedTypeRef={selectedTypeRef} 
+                            access={props.access} saastoken={props.saastoken} setused_credit={props.setused_credit} />
                         </CardHeader>
                     </>
+               
+                <CardBody className="pt-1">
+                    <Row className='mx-0 pb-2 seasonal_content_viewupload'>
+                        <>
+                            <Col className="col-xl-6 col-lg-6 col-md-8 col-sm-12 d-flex pr-0 pl-0">
+                                <form className="form-inline flex-wrap select col-md-4 col-sm-12 pr-50 pl-0">
+                                    <span className="float-left mr-1">Seasons</span>
+                                    <select id="seasonid" className="col-md-12 col-lg-12 col-md-6 col-sm-4 form-control float-left"
+                                        ref={seasonidref}
+                                        onChange={async () => {
+                                            const id = document.getElementById('seasonid').value
+                                            const SeasonID = parseInt(id)
+                                            const res = await axios.get(`./Seasonal/GetCollectionListBySeasonId?SeasonID=${SeasonID}`)
+                                            setSeasonlist_id(res.data.myCollection)
+                                        }
+                                        }
+                                    >
+                                        {
+                                            Seaslist && Seaslist.map((e, k) => {
+                                                return <option value={e.sm_Season_Id}>{e.sm_Season_Name}</option>
+                                            })
+                                        }
+                                    </select>
+                                </form>
+                                <form className="form-inline flex-wrap select col-md-4 col-sm-12 pr-50 pl-0">
+                                    <span className="float-left mr-1">Collection</span>
+                                    <select id="collectionId" className="col-md-12 col-lg-12 col-md-6 col-sm-4 form-control float-left"
+                                        ref={collectionlidref}
+                                    >
+                                        {
+                                            Collectionlist && Collectionlist.map((e, k) => {
+                                                return <option value={e.collection_Id}>{e.collection_Name}</option>
+                                            })
+                                        }
+                                    </select>
+                                </form>
 
-                    <CardBody className="pt-1">
-                        <Row className='mx-0 pb-2 seasonal_content_viewupload'>
-                            <>
-                                <Col className="col-xl-6 col-lg-6 col-md-8 col-sm-12 d-flex pr-0 pl-0">
-                                    <form className="form-inline flex-wrap select col-md-4 col-sm-12 pr-50 pl-0">
-                                        <span className="float-left mr-1">Seasons</span>
-                                        <select id="seasonid" className="col-md-12 col-lg-12 col-md-6 col-sm-4 form-control float-left"
-                                            ref={seasonidref}
-                                            onChange={async () => {
-                                                const id = document.getElementById('seasonid').value
-                                                const SeasonID = parseInt(id)
-                                                const res = await axios.get(`./Seasonal/GetCollectionListBySeasonId?SeasonID=${SeasonID}`)
-                                                setSeasonlist_id(res.data.myCollection)
-                                            }
-                                            }
+                            </Col>
+                        </>
+                    </Row>
+                    <Row className="mb-1 justify-content-end">
+                        <LeftTop orderbyref={props.orderbyref} orderbycountref={props.orderbycountref} rollData={rollData} setSelect={setSelect} searchHandel={searchHandel} fprops={props} sprollist={props.sprollist}
+                            splist={props.splist} supplierref={props.supplierref} setreRender={props.setreRender} loaderRef={props.loaderRef} setfeatureTData={setfeatureTData} setrollData={setrollData} featureTDataRef={featureTDataRef} access={props.access}
+                        //setaccess={props.setaccess} 
+                        />
+                        {/* <TopRight setSelectedPage={props.setSelectedPage} designList={props.designList} orderbyref={props.orderbyref} designcount={props.designcount} myColour={props.myColour}
+                            orderbycountref={props.orderbycountref} supplierref={props.supplierref} tempsearchValue={props.tempsearchValue} singlerepeat={props.singlerepeat}
+                            rollData={rollData} modal={modal} setModal={setModal} toggle={toggle} setreRender={props.setreRender} reRender={props.reRender} loaderRef={props.loaderRef}
+                            setDesignList={props.setDesignList} Q3drenderpluginURL={props.Q3drenderpluginURL} products={props.products} unsavedesigns={props.unsavedesigns} selectedTypeRef={selectedTypeRef} 
+                            access={props.access} saastoken={props.saastoken} setused_credit={props.setused_credit} /> */}
+
+                    </Row>
+                    <Row className='design_content'>
+                        <div className="col-xl-12 col-md-12 m-0 d-lg-flex flex-lg-column flex-sm-row">
+                            <div className="col-lg-12 col-md-12 col-sm-12 p-0">
+                                <div className="filterPanel">
+
+                                    <span className="font-weight-bold"> Please filter design here </span>
+                                    <div className="card-widgets pt-0">
+                                        <a
+                                            id="filter-expand"
+                                            role="button"
+                                            aria-expanded="false"
+                                            aria-controls="cardCollpase1"
+                                            className="btn btn-secondary btn-xs waves-effect waves-light m-0 collapsed"
+                                            style={{ lineHeight: '1rem' }}
+                                            onClick={() => {
+                                                setadvsearch(!advsearch)
+                                            }}
                                         >
-                                            {
-                                                Seaslist && Seaslist.map((e, k) => {
-                                                    return <option value={e.sm_Season_Id}>{e.sm_Season_Name}</option>
-                                                })
-                                            }
-                                        </select>
-                                    </form>
-                                    <form className="form-inline flex-wrap select col-md-4 col-sm-12 pr-50 pl-0">
-                                        <span className="float-left mr-1">Collection</span>
-                                        <select id="collectionId" className="col-md-12 col-lg-12 col-md-6 col-sm-4 form-control float-left"
-                                            ref={collectionlidref}
-                                        >
-                                            {
-                                                Collectionlist && Collectionlist.map((e, k) => {
-                                                    return <option value={e.collection_Id}>{e.collection_Name}</option>
-                                                })
-                                            }
-                                        </select>
-                                    </form>
-
-                                </Col>
-                            </>
-                        </Row>
-                        <Row className="mb-1 justify-content-end">
-                            <LeftTop orderbyref={props.orderbyref} orderbycountref={props.orderbycountref} rollData={rollData} setSelect={setSelect} searchHandel={searchHandel} fprops={props} sprollist={props.sprollist}
-                                splist={props.splist} supplierref={props.supplierref} setreRender={props.setreRender} loaderRef={props.loaderRef} setfeatureTData={setfeatureTData} setrollData={setrollData} featureTDataRef={featureTDataRef} access={props.access}
-                            //setaccess={props.setaccess} 
-                            />
-
-                        </Row>
-                        <Row className='design_content'>
-                            <div className="col-xl-12 col-md-12 m-0 d-lg-flex flex-lg-column flex-sm-row">
-                                <div className="col-lg-12 col-md-12 col-sm-12 p-0">
-                                    <div className="filterPanel">
-
-                                        <span className="font-weight-bold"> Please filter design here </span>
-                                        <div className="card-widgets pt-0">
-                                            <a
-                                                id="filter-expand"
-                                                role="button"
-                                                aria-expanded="false"
-                                                aria-controls="cardCollpase1"
-                                                className="btn btn-secondary btn-xs waves-effect waves-light m-0 collapsed"
-                                                style={{ lineHeight: '1rem' }}
-                                                onClick={() => {
-                                                    setadvsearch(!advsearch)
-                                                }}
-                                            >
-                                                {advsearch ? <i className="fas fa-minus mr-50"></i> : <i className="fas fa-plus mr-50"></i>}
-                                                Filter
-                                            </a>
-                                        </div>
-                                        {advsearch ? <SearchToggleComponent orderbycountref={props.orderbycountref} designList={props.designList} orderbyref={props.orderbyref} selectedPage={props.selectedPage} setSelectedPage={props.setSelectedPage} setreRender={props.setreRender} reRender={props.reRender}
-                                            setDesignList={props.setDesignList} advsearch={advsearch} setSelect={setSelect} select={select} rollData={rollData} featureTData={featureTData} supplierref={props.supplierref} loaderRef={props.loaderRef} featureTDataRef={featureTDataRef} setTempSearchValue={props.setTempSearchValue} /> : <InputSearchCombo orderbycountref={props.orderbycountref}
-                                                designList={props.designList} orderbyref={props.orderbyref} selectedPage={props.selectedPage}
-                                                setSelectedPage={props.setSelectedPage} tempsearchValue={props.tempsearchValue} setTempSearchValue={props.setTempSearchValue} setDesignList={props.setDesignList} setreRender={props.setreRender} reRender={props.reRender} supplierref={props.supplierref} loaderRef={props.loaderRef} />}
-
+                                            {advsearch ? <i className="fas fa-minus mr-50"></i> : <i className="fas fa-plus mr-50"></i>}
+                                            Filter
+                                        </a>
                                     </div>
+                                    {advsearch ? <SearchToggleComponent orderbycountref={props.orderbycountref} designList={props.designList} orderbyref={props.orderbyref} selectedPage={props.selectedPage} setSelectedPage={props.setSelectedPage} setreRender={props.setreRender} reRender={props.reRender}
+                                        setDesignList={props.setDesignList} advsearch={advsearch} setSelect={setSelect} select={select} rollData={rollData} featureTData={featureTData} supplierref={props.supplierref} loaderRef={props.loaderRef} featureTDataRef={featureTDataRef} setTempSearchValue={props.setTempSearchValue} /> : <InputSearchCombo orderbycountref={props.orderbycountref}
+                                            designList={props.designList} orderbyref={props.orderbyref} selectedPage={props.selectedPage}
+                                            setSelectedPage={props.setSelectedPage} tempsearchValue={props.tempsearchValue} setTempSearchValue={props.setTempSearchValue} setDesignList={props.setDesignList} setreRender={props.setreRender} reRender={props.reRender} supplierref={props.supplierref} loaderRef={props.loaderRef} />}
+
                                 </div>
-
                             </div>
-                            <div className="custominput_grid">
-                                <CustomInput
-                                    className='form-control cursor'
-                                    type='select'
-                                    id='rows-per-page'
-                                    innerRef={props.orderbycountref}
-                                    defaultValue={'15'}
-                                    style={{
-                                        width: '7rem',
-                                        padding: '0 0.8rem',
-                                        backgroundPosition: 'calc(100% - 3px) 11px, calc(100% - 20px) 13px, 100% 0'
-                                    }}
 
-                                    onChange={(e) => {
-                                        props.loaderRef.current.style.display = 'block'
-                                        props.setreRender(!props.reRender)
-                                        let textsearch = ""
-                                        if (props.tempsearchValue === '') {
-                                            textsearch = undefined
-                                        } else {
-                                            textsearch = props.tempsearchValue
-                                        }
-                                        const isAllSearch = false
-                                        let IsName = ""
-                                        if (props.orderbyref.current.value === "Name") {
-                                            IsName = true
-                                        } else {
-                                            IsName = false
-                                        }
-                                        props.setSelectedPage(0)
-                                        searchHandel(props, textsearch, isAllSearch, 0, parseInt(props.orderbycountref.current.value), props.supplierref.current?.value, IsName)
-                                            .then(() => {
-                                                props.loaderRef.current.style.display = 'none'
-                                                selection.AllCheckBox()
-                                            })
-                                            .catch((error) => {
-                                                console.error('Error:', error)
-                                                props.loaderRef.current.style.display = 'none'
-                                            })
-                                        //  selection.reMoveAll()
-                                        //  document.querySelector('#page').checked = false
-                                    }}
+                        </div>
+                        <div className="custominput_grid">
+                            <CustomInput
+                                className='form-control cursor'
+                                type='select'
+                                id='rows-per-page'
+                                innerRef={props.orderbycountref}
+                                defaultValue={'15'}
+                                style={{
+                                    width: '7rem',
+                                    padding: '0 0.8rem',
+                                    backgroundPosition: 'calc(100% - 3px) 11px, calc(100% - 20px) 13px, 100% 0'
+                                }}
+
+                                onChange={(e) => {
+                                    props.loaderRef.current.style.display = 'block'
+                                    props.setreRender(!props.reRender)
+                                    let textsearch = ""
+                                    if (props.tempsearchValue === '') {
+                                        textsearch = undefined
+                                    } else {
+                                        textsearch = props.tempsearchValue
+                                    }
+                                    const isAllSearch = false
+                                    let IsName = ""
+                                    if (props.orderbyref.current.value === "Name") {
+                                        IsName = true
+                                    } else {
+                                        IsName = false
+                                    }
+                                    props.setSelectedPage(0)
+                                    searchHandel(props, textsearch, isAllSearch, 0, parseInt(props.orderbycountref.current.value), props.supplierref.current?.value, IsName)
+                                        .then(() => {
+                                            props.loaderRef.current.style.display = 'none'
+                                            selection.AllCheckBox()
+                                        })
+                                        .catch((error) => {
+                                            console.error('Error:', error)
+                                            props.loaderRef.current.style.display = 'none'
+                                        })
+                                    //  selection.reMoveAll()
+                                    //  document.querySelector('#page').checked = false
+                                }}
+                            >
+                                <option value='10' className='dropdown-sort'>10</option>
+                                <option value='15' className='dropdown-sort'>15</option>
+                                <option value='25' className='dropdown-sort'>25</option>
+                                <option value='50' className='dropdown-sort'>50</option>
+                            </CustomInput>
+
+                            <CustomInput
+                                className='form-control mx-50 cursor'
+                                type='select'
+                                id='dfhhfd-size-bfjb'
+                                innerRef={props.orderbyref}
+                                defaultValue={'15'}
+                                style={{
+                                    width: '6rem',
+                                    padding: '0 0.8rem',
+                                    backgroundPosition: 'calc(100% - 3px) 11px, calc(100% - 20px) 13px, 100% 0'
+                                }}
+
+                                onChange={(e) => {
+                                    props.loaderRef.current.style.display = 'block'
+                                    let IsName = ""
+                                    if (props.orderbyref.current.value === "Name") {
+                                        IsName = true
+                                    } else {
+                                        IsName = false
+                                    }
+                                    props.setSelectedPage(0)
+                                    const isAllSearch = true
+                                    searchHandel(props, undefined, isAllSearch, 0, props.orderbycountref.current.value ? parseInt(props.orderbycountref.current.value) : 15, props.supplierref.current?.value, IsName)
+                                        .then(() => {
+                                            props.loaderRef.current.style.display = 'none'
+                                            selection.setSelectAll(false, props.designList)
+                                            selection.reMoveAll()
+                                            if (document.querySelector('#page')) {
+                                                document.querySelector('#page').checked = false
+                                            }
+                                            // document.querySelector('#page').checked = false
+                                        })
+                                        .catch((error) => {
+                                            console.error('Error:', error)
+                                            props.loaderRef.current.style.display = 'none'
+                                        })
+                                    // selection.setSelectAll(false, props.designList)
+                                    // selection.reMoveAll()
+                                    // document.querySelector('#page').checked = false
+                                    // loaderRef.current.style.display = 'none'
+
+                                }}
+                            >
+                                <option value='Name' className='dropdown-sort'>Name</option>
+                                <option value='Latest' className='dropdown-sort'>Latest</option>
+                            </CustomInput>
+
+                            <ButtonGroup className='btn-group-toggle listgrid-toggle'>
+                                <Button
+                                    tag='label'
+                                    className={classnames('btn-icon view-btn grid-view-btn border-0', {
+                                        active: props.activeView === 'grid'
+                                    })}
+                                    color='primary'
+                                    outline
+                                    onClick={() => props.setActiveView('grid')}
                                 >
-                                    <option value='10' className='dropdown-sort'>10</option>
-                                    <option value='15' className='dropdown-sort'>15</option>
-                                    <option value='25' className='dropdown-sort'>25</option>
-                                    <option value='50' className='dropdown-sort'>50</option>
-                                </CustomInput>
-
-                                <CustomInput
-                                    className='form-control mx-50 cursor'
-                                    type='select'
-                                    id='dfhhfd-size-bfjb'
-                                    innerRef={props.orderbyref}
-                                    defaultValue={'15'}
-                                    style={{
-                                        width: '6rem',
-                                        padding: '0 0.8rem',
-                                        backgroundPosition: 'calc(100% - 3px) 11px, calc(100% - 20px) 13px, 100% 0'
-                                    }}
-
-                                    onChange={(e) => {
-                                        props.loaderRef.current.style.display = 'block'
-                                        let IsName = ""
-                                        if (props.orderbyref.current.value === "Name") {
-                                            IsName = true
-                                        } else {
-                                            IsName = false
-                                        }
-                                        const item = props.tempsearchValue ? props.tempsearchValue : undefined
-                                        props.setSelectedPage(0)
-                                        let isAllSearch
-                                        if (props.tempsearchValue !== '') {
-                                            isAllSearch = false
-                                        } else {
-                                            isAllSearch = true
-                                        }
-                                        searchHandel(props, item, isAllSearch, 0, props.orderbycountref.current.value ? parseInt(props.orderbycountref.current.value) : 15, props.supplierref.current?.value, IsName)
-                                            .then(() => {
-                                                props.loaderRef.current.style.display = 'none'
-                                                selection.setSelectAll(false, props.designList)
-                                                selection.reMoveAll()
-                                                if (document.querySelector('#page')) {
-                                                    document.querySelector('#page').checked = false
-                                                }
-                                            })
-                                            .catch((error) => {
-                                                console.error('Error:', error)
-                                                props.loaderRef.current.style.display = 'none'
-                                            })
-                                    }}
+                                    <Grid size={16} />
+                                </Button>
+                                <Button
+                                    tag='label'
+                                    className={classnames('btn-icon view-btn list-view-btn', {
+                                        active: props.activeView === 'list'
+                                    })}
+                                    color='primary'
+                                    outline
+                                    onClick={() => props.setActiveView('list')}
                                 >
-                                    <option value='Name' className='dropdown-sort'>Name</option>
-                                    <option value='Latest' className='dropdown-sort'>Latest</option>
-                                </CustomInput>
+                                    <List size={16} />
+                                </Button>
+                            </ButtonGroup>
+                        </div>
+                    </Row>
 
-                                <ButtonGroup className='btn-group-toggle listgrid-toggle'>
-                                    <Button
-                                        tag='label'
-                                        className={classnames('btn-icon view-btn grid-view-btn border-0', {
-                                            active: props.activeView === 'grid'
-                                        })}
-                                        color='primary'
-                                        outline
-                                        onClick={() => props.setActiveView('grid')}
-                                    >
-                                        <Grid size={16} />
-                                    </Button>
-                                    <Button
-                                        tag='label'
-                                        className={classnames('btn-icon view-btn list-view-btn', {
-                                            active: props.activeView === 'list'
-                                        })}
-                                        color='primary'
-                                        outline
-                                        onClick={() => props.setActiveView('list')}
-                                    >
-                                        <List size={16} />
-                                    </Button>
-                                </ButtonGroup>
-                            </div>
-                        </Row>
-
-                    </CardBody>
-
+                </CardBody>
+                   
                 </div>
             </Card>
             <R_Loader loaderRef={props.loaderRef} />

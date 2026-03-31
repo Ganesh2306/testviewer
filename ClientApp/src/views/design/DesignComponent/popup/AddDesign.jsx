@@ -31,10 +31,8 @@ import { setClearTimeOut, updatecheckforUpload } from '../../../SessionComponent
 import { selection } from "../Utility/selection"
 import { searchHandel } from "../TopBar"
 import { R_Loader } from "../../../loader/loader"
-import { UploadSaree } from "./UploadSaree"
+import { UploadSareePopup } from "./UploadSareePopup"
 import { AbilityContext } from '@src/utility/context/Can'
-//import TdsFabric from "../../../../js/TdsFabric.js"
-//import fabricJsObj1 from '../../../../../public/js/TdsFabric.min'
 const IdelTime = 1000 * 60 * 0.3
 const Swal = require('sweetalert2')
 let forBtn = true
@@ -42,7 +40,7 @@ export const getHead = () => {
     const arr = []
     try {
         const a = document.getElementById('main-thead').firstElementChild.cells
-        for (let index = 2; index < a.length; index++) {     //increse number of index if and extra td is added in content_table.
+        for (let index = 2; index < a.length; index++) {     //increse number of index if and extra td is added in contenttable.
             if (index > 5) {
                 arr.push(a[index].id)
             } else {
@@ -341,7 +339,7 @@ const TopBody = (props) => {
                 </Col>
                 <Col className="col-lg-7 col-md-3 col-sm-12 float-left text-lg-right p-0 rightpanel">
                     <div className="form-group pt-1">
-                        {/* {props.ability.can('display', 'Design') &&
+                        {props.ability.can('display', 'Design') &&
                             <Button
                                 style={{ minWidth: '160px', whiteSpace: 'nowrap' }}
                                 className="btn btn-sm btn-success waves-effect waves-light mb-1 mr-10"
@@ -352,9 +350,9 @@ const TopBody = (props) => {
                                 }
                             >
                                 <i className="fas fa-plus-circle mr-1"></i> Upload Saree Fabric
-                            </Button>} */}
-                        {/* <UploadSaree showSaree={props.showSaree} toggleSaree={props.toggleSaree} setshowSaree={props.setshowSaree}
-                            handleAttachFIle={props.handleAttachFIle} combofilesRef={props.combofilesRef} /> */}
+                            </Button>}
+                        <UploadSareePopup showSaree={props.showSaree} toggleSaree={props.toggleSaree} setshowSaree={props.setshowSaree}
+                            handleAttachFIle={props.handleAttachFIle} combofilesRef={props.combofilesRef} />
 
                         <Label
                             className="btn btn-sm btn-primary waves-effect waves-light  mb-1"
@@ -363,7 +361,7 @@ const TopBody = (props) => {
                             <Input
                                 id="importFabric"
                                 type="file"
-                                accept="image/x-png,image/jpeg,image/jpg,image/bmp,.dob"  //image/tiff,image/tif
+                                accept="image/x-png,image/jpeg,image/jpg,image/tiff,image/tif,image/bmp,.dob"
                                 multiple="true"
                                 onChange={props.handleAttachFIle}
                                 style={{ display: "none", padding: "0.486rem 0.5rem" }}
@@ -483,6 +481,129 @@ const TopBody = (props) => {
                             Remove All
                         </Button>
                         <span className='vertical'> </span>
+
+                        {/*<Label*/}
+                        {/*    className="btn btn-sm waves-effect waves-light btn btn-secondary mb-1"*/}
+
+                        {/*>*/}
+                        {/*    <Input*/}
+                        {/*        id="importExcelAdd"*/}
+                        {/*        type="file"*/}
+                        {/*        accept=".xls,.xlsx"*/}
+                        {/*        multiple=""*/}
+                        {/*        style={{ padding: "0px 0px 0px 0px", display: "none" }}*/}
+                        {/*        onChange={(e) => {*/}
+
+                        {/*            if (old.length > 0) {*/}
+
+                        {/*                readXlsxFile(e.target.files[0]).then((rows) => {*/}
+
+                        {/*                    const arr1 = getHead()*/}
+                        {/*                    const temp = arr1*/}
+                        {/*                    temp[0] = 'Dm_Design_Code'*/}
+                        {/*                    temp[1] = 'Dm_Article'*/}
+                        {/*                    temp[2] = 'Dm_Design'*/}
+                        {/*                    temp[3] = 'Dm_Variant'*/}
+                        {/*                    addXlData(rows, temp)*/}
+                        {/*                    props.setxlRerender(true)*/}
+
+                        {/*                    e.target.value = ''*/}
+                        {/*                })*/}
+                        {/*            } else {*/}
+                        {/*                Swal.fire({*/}
+                        {/*                    icon: 'info',*/}
+                        {/*                    position: 'center',*/}
+                        {/*                    text: 'Please Add Design',*/}
+                        {/*                    showConfirmButton: false,*/}
+                        {/*                    timer: 2500*/}
+                        {/*                })*/}
+                        {/*                e.target.value = ''*/}
+                        {/*            }*/}
+
+                        {/*        }}*/}
+
+                        {/*    />*/}
+                        {/*    Import <i class="fa fa-file-excel-o" aria-hidden="true"></i>*/}
+                        {/*</Label>*/}
+                        {/*<Button*/}
+                        {/*    type="button"*/}
+                        {/*    id="exportExcelAdd"*/}
+                        {/*    className="btn btn-sm btn-light waves-effect waves-light mb-1"                          */}
+                        {/*    onClick={() => {*/}
+
+                        {/*        if (old.length === 0) {*/}
+                        {/*            Swal.fire({*/}
+                        {/*                icon: 'info',*/}
+                        {/*                position: 'center',*/}
+                        {/*                text: 'Please Add Design',*/}
+                        {/*                showConfirmButton: false,*/}
+                        {/*                timer: 2500*/}
+                        {/*            })*/}
+                        {/*        } else {*/}
+                        {/*            const arr1 = getHead()*/}
+                        {/*            const rowFTdata = []*/}
+                        {/*            const rowTableHeader = []*/}
+                        {/*            const finalData = []*/}
+                        {/*            for (let y = 0; y < arr1.length; y++) {*/}
+                        {/*                rowFTdata[y] = arr1[y]*/}
+                        {/*                rowTableHeader[y] = arr1[y]*/}
+
+                        {/*                if (y > 3) {*/}
+                        {/*                    rowTableHeader[y] = document.getElementById(arr1[y]).innerHTML*/}
+
+                        {/*                }*/}
+                        {/*            }*/}
+                        {/*            finalData.push(rowTableHeader)*/}
+                        {/*            rowFTdata[0] = 'Dm_Design_Code'*/}
+                        {/*            rowFTdata[1] = 'Dm_Article'*/}
+                        {/*            rowFTdata[2] = 'Dm_Design'*/}
+                        {/*            rowFTdata[3] = 'Dm_Variant'*/}
+
+                        {/*            const AllD = old*/}
+
+                        {/*            for (let data = 0; data < AllD.length; data++) {*/}
+                        {/*                const tempArr = []*/}
+                        {/*                for (let fi = 0; fi < rowFTdata.length; fi++) {*/}
+                        {/*                    tempArr[fi] = AllD[data][rowFTdata[fi]]*/}
+                        {/*                    if (fi === rowFTdata.length - 1) {*/}
+                        {/*                        finalData.push(tempArr)*/}
+                        {/*                    }*/}
+                        {/*                }*/}
+
+                        {/*            }*/}
+
+                        {/*            const wb = XLSX.utils.book_new()*/}
+                        {/*            wb.Props = {*/}
+                        {/*                Title: "SheetJS Tutorial"*/}
+
+                        {/*            }*/}
+                        {/*            wb.SheetNames.push("Test Sheet")*/}
+                        {/*            const ws_data = finalData*/}
+                        {/*            const ws = XLSX.utils.aoa_to_sheet(ws_data)*/}
+                        {/*            wb.Sheets["Test Sheet"] = ws*/}
+                        {/*            const wbout = XLSX.write(wb, {*/}
+                        {/*                bookType: 'xlsx',*/}
+                        {/*                type: 'binary'*/}
+                        {/*            })*/}
+                        {/*            function s2ab(s) {*/}
+                        {/*                const buf = new ArrayBuffer(s.length)*/}
+                        {/*                const view = new Uint8Array(buf)*/}
+                        {/*                for (let i = 0; i < s.length; i++) {*/}
+                        {/*                    view[i] = s.charCodeAt(i) & 0xFF*/}
+                        {/*                }*/}
+                        {/*                return buf*/}
+
+                        {/*            }*/}
+                        {/*            FileSaver.saveAs(new Blob([s2ab(wbout)], {*/}
+                        {/*                type: "application/octet-stream"*/}
+                        {/*            }), 'DesignMaster.xlsx')*/}
+
+                        {/*        }*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    Export Excel*/}
+                        {/*</Button>*/}
+
 
                         <UncontrolledDropdown>
                             <DropdownToggle className='hide-arrow ml-50 bg-secondary d-block text-center' tag='a' style={{ width: '32px', height: '28px' }}>
@@ -713,7 +834,6 @@ export const AddDesign = (props) => {
     const unsavedesigns = []
     const failureGroups = {}
     const mainTDSRef = useRef(null)
-    const fabricInstance = useRef(null)
     const selectedfeatureRef = useRef(null)
     const [isDeleted, setIsDeleted] = useState(false)
     const airesponseRef = useRef('')
@@ -793,26 +913,6 @@ export const AddDesign = (props) => {
             })
         }
     }, [props.Q3drenderpluginURL])
-    useEffect(() => {
-        if (window.TdsFabric && !window.fabricJsObj1) {
-            window.fabricJsObj1 = new window.TdsFabric({
-                ServiceUrl: "https://tpv.dam3d.in",
-                onCloseCrop: () => console.log("Crop closed")
-            })
-        }
-    }, [])
-    // useEffect(() => {
-    //     // initialize plugin once
-    //     // fabricInstance.current = new TdsFabric({
-    //     //     ServiceUrl: "https://tpv.dam3d.in",
-    //     //     onCloseCrop: () => {
-    //     //         console.log("Crop closed")
-    //     //     }
-    //     // })
-    //     if (window.fabricJsObj1) {
-    //         window.fabricJsObj1.loadCrop()
-    //     }
-    // }, [])
 
     useEffect(() => {
         const fetchdata = async () => {
@@ -858,104 +958,91 @@ export const AddDesign = (props) => {
 
     const handleAttachFIle = async (e, useMe) => {
         //ToDo: could do some validation for the attached file here  
-        loader_Ref.current.style.display = 'block'
-        const ext = e.target.files[0].name.split('.').pop()
-        if (!['jpg', 'jpeg', 'JPG', 'JPEG'].includes(ext)) {
-            alert("Invalid file type! Please upload a valid image file (supported JPG).")
-        }
-        if (e.target.files[0].name.length > 32) {
-            Swal.fire({
-                position: 'center',
-                icon: 'warning',
-                title: 'The design name must contain at most 32 characters',
-                showConfirmButton: true
+        const validArr = []
+        const err = []
+        let namehtml = ''
+        //let lenhtml  = ''
+        let a = false
+        let b = false
+
+        //let errorState = null // set -> 0 for str 1 for len 2 for both 
+        Array.from(e.target.files).map((f, k) => {
+            const [strValid, lenValid] = ValidateImageName(f.name)
+            const fabName = []
+            const objectData = useMe === undefined ? old : useMe
+            objectData.map((e, k) => {
+                const A = objectData[k].Dm_Design_Code
+                fabName.push(A)
             })
-        } else {
-            const validArr = []
-            const err = []
-            let namehtml = ''
-            //let lenhtml  = ''
-            let a = false
-            let b = false
+            const fabric = f.name.substring(0, f.name.indexOf('.'))
+            if (fabName.includes(fabric)) {
 
-            //let errorState = null // set -> 0 for str 1 for len 2 for both 
-            Array.from(e.target.files).map((f, k) => {
-                const [strValid, lenValid] = ValidateImageName(f.name)
-                const fabName = []
-                const objectData = useMe === undefined ? old : useMe
-                objectData.map((e, k) => {
-                    const A = objectData[k].Dm_Design_Code
-                    fabName.push(A)
-                })
-                const fabric = f.name.substring(0, f.name.indexOf('.'))
-                if (fabName.includes(fabric)) {
-
+            } else {
+                if (strValid && lenValid) {
+                    validArr.push(f)
                 } else {
-                    if (strValid && lenValid) {
-                        validArr.push(f)
-                    } else {
-                        if (strValid === false) {
-                            namehtml += `<li><b>${f.name}</b></li>`
-                            a = true
-                        } else if (lenValid === false) {
-                            namehtml += `<li><b>${f.name}</b></li>`
-                            b = true
-                        }
-                        err.push(`${f.name}<br>`)
+                    if (strValid === false) {
+                        namehtml += `<li><b>${f.name}</b></li>`
+                        a = true
+                    } else if (lenValid === false) {
+                        namehtml += `<li><b>${f.name}</b></li>`
+                        b = true
                     }
+                    err.push(`${f.name}<br>`)
                 }
+            }
+        })
+
+        if (err.length > 0) {
+            let msg = ''
+            if (a && b) {
+                //both 
+                msg = `This File Name Contains Special Characters -<br> "(/[&\/\\#,+$~%.'":*?<>{}]/)" <br> and Length Should Less Than 50 Characters`
+            } else if (a) {
+                //for spl char
+                msg = `This File Name contains special characters -<br> "(/[&\/\\#,+$~%.'":*?<>{}]/)" `
+            } else if (b) {
+                //for length 
+                msg = `File Name Length Should Less Than 50 Characters`
+            }
+            Swal.fire({
+                // title: 'File Name Validation',      
+                html: `<div id='tt'><br><h3>${msg}</h3><div class='popupscroll'><ol class="listname">${namehtml}</ol></div></div>`
             })
-
-            if (err.length > 0) {
-                let msg = ''
-                if (a && b) {
-                    //both 
-                    msg = `This File Name Contains Special Characters -<br> "(/[&\/\\#,+$~%.'":*?<>{}]/)" <br> and Length Should Less Than 50 Characters`
-                } else if (a) {
-                    //for spl char
-                    msg = `This File Name contains special characters -<br> "(/[&\/\\#,+$~%.'":*?<>{}]/)" `
-                } else if (b) {
-                    //for length 
-                    msg = `File Name Length Should Less Than 50 Characters`
-                }
-                Swal.fire({
-                    // title: 'File Name Validation',      
-                    html: `<div id='tt'><br><h3>${msg}</h3><div class='popupscroll'><ol class="listname">${namehtml}</ol></div></div>`
-                })
-            }
-
-            airesponseRef.current = []
-
-            // Fetch AI responses for Auto Tagging per uploaded file 
-            for (const file of validArr) {
-                try {
-                    const base64image = await new Promise((resolve, reject) => {
-                        const reader = new FileReader()
-                        reader.onloadend = () => resolve(reader.result)
-                        reader.onerror = reject
-                        reader.readAsDataURL(file)
-                    })
-
-                    const res = await axios.post(`./Design/GetAiResponce`, {
-                        base64Image: base64image,
-                        is_ai: is_Ai
-                    })
-                    const result = JSON.parse(res.data)
-
-                    airesponseRef.current.push(result)
-                    console.log(`AI response for ${file.name}:`, result)
-                } catch (err) {
-                    //if ai response is getting null feature box will be empty
-                    console.error(`AI tagging failed for ${file.name}`, err)
-                    airesponseRef.current.push({})
-                }
-            }
-            setFiles(validArr)
         }
+
+        airesponseRef.current = []
+
+        // Fetch AI responses for Auto Tagging per uploaded file 
+        for (const file of validArr) {
+            try {
+                const base64image = await new Promise((resolve, reject) => {
+                    const reader = new FileReader()
+                    reader.onloadend = () => resolve(reader.result)
+                    reader.onerror = reject
+                    reader.readAsDataURL(file)
+                })
+
+                const res = await axios.post(`./Design/GetAiResponce`, {
+                    base64Image: base64image,
+                    is_ai: is_Ai
+                })
+                const result = JSON.parse(res.data)
+
+                airesponseRef.current.push(result)
+                console.log(`AI response for ${file.name}:`, result)
+            } catch (err) {
+                //if ai response is getting null feature box will be empty
+                console.error(`AI tagging failed for ${file.name}`, err)
+                airesponseRef.current.push({})
+            }
+        }
+        setFiles(validArr)
+
         setTimeout(() => {
             e.target.value = ""
         }, 200)
-        loader_Ref.current.style.display = 'none'
+
     }
 
     //! Save->All
@@ -1012,8 +1099,7 @@ export const AddDesign = (props) => {
                                 DuplicateString += `<li>${e[key]}</li>`
                             }
                         }
-                         DName.push(e[key].trim())
-                         //DName.push(e[key])
+                        DName.push(e[key])
                         if (e[key].split('-').length !== 3) {
                             DCode.push(k)
                             DcodeString += `<li>${objectData[k].Dm_Design_Code}</li>`
@@ -1050,11 +1136,6 @@ export const AddDesign = (props) => {
             obj['SeasonId'] = 0
             obj['is_single_repeat'] = props.singlerepeat.current
             obj['is_ai'] = is_Ai
-            if (JSON.parse(localStorage.profile).user_type === 0) {
-                obj['is_saasuser'] = false
-            } else {
-                obj['is_saasuser'] = true
-            }
             // obj['Dm_Supplier_Id'] = props.supplierref.current?.value ? props.supplierref.current?.value : 0
             //obj['Di_State'] = document.getElementById('Warehouseid').value //cad,noos,stock
             // obj['De_Customer_Id'] = document.getElementById('selectCustomer').value
@@ -1091,7 +1172,49 @@ export const AddDesign = (props) => {
                 return
             }
         }
-       
+        // const sknos = ['noos', 'stock'].includes(document.getElementById('Warehouseid').value.toLowerCase())
+        // if (Duplicate.length > 0) {
+        //     console.log(DuplicateString)
+        //     await Swal.fire({
+        //         position: 'center',
+        //         icon: 'info',
+        //         html: `<h3>Duplicate Design Code Found.</h3><br><div class='popupscroll'><ol style="text-align: left;">${DuplicateString}</ol></div>`, //DuplicateString
+        //         showConfirmButton: true
+        //     })
+        //     return
+        // // } else if (DCode.length > 0 && sknos && useMe === undefined) {
+        // //     await Swal.fire({
+        // //         position: 'center',
+        // //         icon: 'warning',
+        // //         title: 'Please Fill Article,Design & Varient',
+        // //         html: `<div class='popupscroll'><ol class="listname">${DcodeString}</ol></div>`,
+        // //         showConfirmButton: true
+        // //     })
+        // //     return
+        // } else if (useMe !== undefined && DCode.length > 0 && sknos) {
+        //     let rs = false
+        //     await Swal.fire({
+        //         position: 'center',
+        //         icon: 'warning',
+        //        /* title: `Your Design Doesn't Contain Article OR Design OR Varient`,*/
+        //         html: `<div class='popupscroll'><ol class="listname">${DcodeString}</ol></div>`,
+        //         showConfirmButton: true,
+        //         confirmButtonText: `Don't overwrite`,
+        //         denyButtonText: `overwrite`
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             DCode.map((e, k) => {
+
+        //             })
+        //         } else if (result.isDenied) {
+        //             rs = true
+        //         }
+        //     })
+
+        //     if (!rs) {
+        //         return
+        //     }
+        // }
         const existNameList = await getExistDname(DName)
 
         if (existNameList === null || existNameList.existingDesigns === null) {
@@ -1147,7 +1270,7 @@ export const AddDesign = (props) => {
                 await Swal.fire({
                     html: `${skipText}<div class='popupscroll'><ol style="text-align: left;">${skipMSG}</ol></div>`,
                     confirmButtonText: `Skip`,
-                    allowOutsideClick: false
+                    allowOutsideClick: false  
                 }).then(async (result) => {
                     if (result.isConfirmed) {
 
@@ -1159,8 +1282,7 @@ export const AddDesign = (props) => {
                 //ToDo Updatae this ->
 
                 await Swal.fire({
-                    //html: `${overwriteMSG}<div class='popupscroll'><ol style="text-align: left;">${overWrite}</ol></div>`,
-                    html: `${overwriteMSG}<div class="popupscroll"><ol class="overwrite-list">${overWrite}</ol></div>`,
+                    html: `${overwriteMSG}<div class='popupscroll'><ol style="text-align: left;">${overWrite}</ol></div>`,
                     showDenyButton: true,
                     confirmButtonText: `Don't overwrite`,
                     denyButtonText: `overwrite`,
@@ -1177,7 +1299,7 @@ export const AddDesign = (props) => {
                                 temp_rr.push(temp_final[parseInt(e)])
                             }
                         }
-                        done = await uploadFile(temp_rr, cb, imageurl, mainTDSRef.current, loader_Ref, props.products, isoverwrite, unsavedesigns, combofilesRef, props.saastoken, props.setused_credit, failureGroups, props.remaning_credit, props.saasapi)
+                        done = await uploadFile(temp_rr, cb, imageurl, mainTDSRef.current, loader_Ref, props.products, isoverwrite, unsavedesigns, combofilesRef, props.saastoken, props.setused_credit, failureGroups)
                         const propsCopy = { ...props }
                         propsCopy.unsavedesigns = []
                         props = propsCopy
@@ -1190,7 +1312,7 @@ export const AddDesign = (props) => {
                                 temp_final[parseInt(e)].Dm_Design_Id = existNameList.existingDesigns[temp_final[parseInt(e)].Dm_Design_Code].split(',')[0]
                             }
                         }
-                        done = await uploadFile(temp_final, cb, imageurl, mainTDSRef.current, loader_Ref, props.products, isoverwrite, unsavedesigns, combofilesRef, props.saastoken, props.setused_credit, failureGroups, props.remaning_credit, props.saasapi)
+                        done = await uploadFile(temp_final, cb, imageurl, mainTDSRef.current, loader_Ref, props.products, isoverwrite, unsavedesigns, combofilesRef, props.saastoken, props.setused_credit, failureGroups)
                         const propsCopy = { ...props }
                         propsCopy.unsavedesigns = []
                         props = propsCopy
@@ -1199,7 +1321,7 @@ export const AddDesign = (props) => {
             }
 
         } else {
-            done = await uploadFile(temp_arr, cb, imageurl, mainTDSRef.current, loader_Ref, props.products, isoverwrite, unsavedesigns, combofilesRef, props.saastoken, props.setused_credit, failureGroups, props.remaning_credit, props.saasapi)
+            done = await uploadFile(temp_arr, cb, imageurl, mainTDSRef.current, loader_Ref, props.products, isoverwrite, unsavedesigns, combofilesRef, props.saastoken, props.setused_credit, failureGroups)
             const propsCopy = { ...props }
             propsCopy.unsavedesigns = []
             props = propsCopy
@@ -1381,11 +1503,6 @@ export const AddDesign = (props) => {
             obj['SeasonId'] = 0
             obj['is_single_repeat'] = props.singlerepeat.current
             obj['is_ai'] = is_Ai
-            if (JSON.parse(localStorage.profile).user_type === 0) {
-                obj['is_saasuser'] = false
-            } else {
-                obj['is_saasuser'] = true
-            }
             // obj['Dm_Supplier_Id'] = props.supplierref.current?.value ? props.supplierref.current?.value : 0
             //obj['Di_State'] = document.getElementById('Warehouseid').value //cad,noos,stock
             // obj['De_Customer_Id'] = document.getElementById('selectCustomer').value
@@ -1596,8 +1713,6 @@ export const AddDesign = (props) => {
                             setshowSaree={props.setshowSaree}
                             toggleSaree={props.toggleSaree}
                             combofilesRef={combofilesRef}
-                            remaning_credit={props.remaning_credit}
-                            setremaning_credit={props.setremaning_credit}
                         />
 
                         <ContentTable
@@ -1620,7 +1735,6 @@ export const AddDesign = (props) => {
                             singlerepeat={props.singlerepeat}
                             access={props.access}
                             airesponseRef={airesponseRef}
-                            fabricInstance={fabricInstance}
 
                         />
                         <MyModel ProgressModel={ProgressModel} ProgressObj={progressObj} toggle={props.toggle} />

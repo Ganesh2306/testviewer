@@ -30,6 +30,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }
+
+
     public class OrgData
     {
         public string UserId { get; set; }
@@ -43,6 +45,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
         public bool IsDeleted { get; set; }
         public bool IsBlocked { get; set; }
     }
+
+    
     public class Suppliers
     {
         public string Name { get; set; }
@@ -88,6 +92,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
             //List<OrgData> data = JsonConvert.DeserializeObject<List<OrgData>>(result.Result.ToString());
             //return Json(data);
             return Json("");
-        }    
+        }
+
+       
     }
 }

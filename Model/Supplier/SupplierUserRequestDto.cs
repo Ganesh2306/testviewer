@@ -46,7 +46,6 @@ namespace ARCHIVE_DASHBOARD.Model.Supplier
 
 
         public string login_id { get; set; }
-        public int user_type { get; set; }
 
         public int state { get; set; }//0.add 1.unchange 2.update 3.del
         // [Required]

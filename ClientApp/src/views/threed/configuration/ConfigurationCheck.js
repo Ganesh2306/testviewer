@@ -25,8 +25,6 @@ const ConfigurationCheck = () => {
    const ProfileImgSizeRef = useRef()
    const FullViewDisplayimgRef = useRef()
    const DispalyproductNameRef = useRef()
-   const TryonTrialCountRef = useRef()
-   const FeatureNameRef = useRef()
    const StartDateref = useRef() //vaibhavi
 
    const RotationWithPanRef = useRef()
@@ -47,7 +45,6 @@ const ConfigurationCheck = () => {
    const InfoRef = useRef()
    const Q3dliteRef = useRef()
    const CustomDownloadRef = useRef()
-   const QrRenderDownloadRef = useRef()
 
    const DomainNameErrorRef = useRef(null)
    const ServerIPErrorRef = useRef(null)
@@ -62,8 +59,6 @@ const ConfigurationCheck = () => {
    const ProfileImgSizeErrorRef = useRef(null)
    const FullViewDisplayimgErrorRef = useRef(null)
    const DispalyproductNameErrorRef = useRef(null)
-   const TryonTrialCountErrorRef = useRef(null)
-   const FeatureNameErrorRef = useRef(null)
    const StartDateErrorref = useRef(null) //vaibhavi
    let Q3dConfigurationRequest = {}
    const validateInput = () => {
@@ -259,22 +254,7 @@ const ConfigurationCheck = () => {
          StartDateErrorref.current.textContent = 'Please Enter valid date '
       }
    }
-   const FeatureNameOnChange = () => {
-      const userInput = FeatureNameRef.current.value
-      if (userInput.length > 0) {
-         FeatureNameErrorRef.current.textContent = ''
-      } else {
-         FeatureNameErrorRef.current.textContent = 'Please Enter Feature Name'
-      }
-   }
-   const TryonTrialCountOnChange = () => {
-      const userInput = TryonTrialCountRef.current.value
-      if (userInput.length > 0) {
-         TryonTrialCountErrorRef.current.textContent = ''
-      } else {
-         TryonTrialCountErrorRef.current.textContent = 'Please Enter Tryon Trial Count'
-      }
-   }
+
    useEffect(() => {
       const showconfiguration = async () => {
          if (Q3dConfiguration !== undefined && Q3dConfiguration !== null) {
@@ -297,8 +277,6 @@ const ConfigurationCheck = () => {
             CookieStoreRef.current.value = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_CookieStore ? Q3dConfiguration.q3d_CookieStore : ""
             ProfileImgSizeRef.current.value = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_ProfileImgSize ? Q3dConfiguration.q3d_ProfileImgSize : ""
             DispalyproductNameRef.current.value = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_Product_Name ? Q3dConfiguration.q3d_Product_Name : ""
-            TryonTrialCountRef.current.value = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_tryon_trial_count ? Q3dConfiguration.q3d_tryon_trial_count : ""
-            FeatureNameRef.current.value = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_Feature_name ? Q3dConfiguration.q3d_Feature_name : ""
             StartDateref.current.value = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.startDate ? (Q3dConfiguration.startDate).split('T')[0] : ""
 
             RotationWithPanRef.current.checked = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_rotation_with_pan ? Q3dConfiguration.q3d_rotation_with_pan : false
@@ -319,7 +297,7 @@ const ConfigurationCheck = () => {
             InfoRef.current.checked = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_is_Show_Info ? Q3dConfiguration.q3d_is_Show_Info : false
             Q3dliteRef.current.checked = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_is_q3d_lite ? Q3dConfiguration.q3d_is_q3d_lite : false
             CustomDownloadRef.current.checked = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_is_custom_download ? Q3dConfiguration.q3d_is_custom_download : false
-            QrRenderDownloadRef.current.checked = Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_qr_render_download ? Q3dConfiguration.q3d_qr_render_download : false
+
 
          }
          if (Q3dConfiguration === "") {
@@ -333,6 +311,7 @@ const ConfigurationCheck = () => {
       showconfiguration()
 
    }, [Q3dConfiguration])
+
 
    useEffect(() => {
       const fetchdata = async () => {
@@ -352,6 +331,10 @@ const ConfigurationCheck = () => {
          const res = JSON.parse(response.data).value
          setQ3dConfiguration(res)
       })
+   }
+   function convertDateToApiFormat(dateString) {
+      const [day, month, year] = dateString.split('/')
+      return `${year}/${day}/${month}`
    }
    return (
       <>
@@ -396,8 +379,6 @@ const ConfigurationCheck = () => {
                            Q3d_CookieStore: CookieStoreRef.current ? CookieStoreRef.current.value : CookieStoreRef.current.defaultValue,
                            Q3d_ProfileImgSize: ProfileImgSizeRef.current ? ProfileImgSizeRef.current.value : ProfileImgSizeRef.current.defaultValue,
                            Q3d_Product_Name: DispalyproductNameRef.current ? DispalyproductNameRef.current.value : DispalyproductNameRef.current.defaultValue,
-                           Q3d_tryon_trial_count: TryonTrialCountRef.current ? TryonTrialCountRef.current.value : TryonTrialCountRef.current.defaultValue,
-                           q3d_feature_name: FeatureNameRef.current ? FeatureNameRef.current.value : FeatureNameRef.current.defaultValue,
                            startDate: StartDateref.current ? StartDateref.current.value : StartDateref.current.value,
 
                            Q3d_rotation_with_pan: RotationWithPanRef.current[0] ? RotationWithPanRef.current[0] : RotationWithPanRef.current.checked,
@@ -416,8 +397,9 @@ const ConfigurationCheck = () => {
                            Q3d_is_Show_Product: ShowmodelProductsRef.current[0] ? ShowmodelProductsRef.current[0] : ShowmodelProductsRef.current.checked,
                            Q3d_is_Show_Info: InfoRef.current[0] ? InfoRef.current[0] : InfoRef.current.checked,
                            q3d_is_q3d_lite: Q3dliteRef.current[0] ? Q3dliteRef.current[0] : Q3dliteRef.current.checked,
-                           q3d_is_custom_download: CustomDownloadRef.current[0] ? CustomDownloadRef.current[0] : CustomDownloadRef.current.checked,
-                           q3d_qr_render_download: QrRenderDownloadRef.current[0] ? QrRenderDownloadRef.current[0] : QrRenderDownloadRef.current.checked
+                           q3d_is_custom_download: CustomDownloadRef.current[0] ? CustomDownloadRef.current[0] : CustomDownloadRef.current.checked
+
+                           //q3d_product_order_no : ClientLogoRef.current[0] ? ClientLogoRef.current[0] : ClientLogoRef.current.defaultChecked
                         }
                         if (Q3dConfigurationRequest.Q3d_IdealTime === "") {
                            Q3dConfigurationRequest.Q3d_IdealTime = 0
@@ -451,6 +433,7 @@ const ConfigurationCheck = () => {
                               <FormGroup className='mb-0 py-0'>
                                  <input
                                     className="form-control "
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_domain_name ? Q3dConfiguration.q3d_domain_name : ""}
                                     ref={DomainNameRef}
                                     type="text"
                                     placeholder=""
@@ -471,6 +454,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="text"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_ip ? Q3dConfiguration.q3d_ip : ""}
                                     ref={ServerIPRef}
                                     className="form-control "
                                     placeholder=""
@@ -491,6 +475,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="text"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_user_id ? Q3dConfiguration.q3d_user_id : ""}
                                     Q3d_ip
                                     ref={LoginUserIDRef}
                                     className="form-control "
@@ -512,6 +497,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="password"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_password ? Q3dConfiguration.q3d_password : ""}
                                     max="500"
                                     ref={LoginPasswordRef}
                                     className="form-control "
@@ -533,6 +519,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="text"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_fullview_image ? Q3dConfiguration.q3d_fullview_image : ""}
                                     ref={FullViewDisplayimgRef}
                                     className="form-control "
                                     placeholder=""
@@ -553,6 +540,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="text"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_show_fabrics ? Q3dConfiguration.q3d_show_fabrics : ""}
                                     ref={MinFabricshowRef}
                                     className="form-control "
                                     placeholder=""
@@ -573,6 +561,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="text"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_draping_file ? Q3dConfiguration.q3d_draping_file : ""}
                                     ref={DrapingfileRef}
                                     className="form-control "
                                     placeholder=""
@@ -593,6 +582,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="text"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_drape_count ? Q3dConfiguration.q3d_drape_count : ""}
                                     ref={NoOfRenderingRef}
                                     className="form-control "
                                     placeholder=""
@@ -613,6 +603,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="text"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_user_multi_logins ? Q3dConfiguration.q3d_user_multi_logins : ""}
                                     ref={SameUserMulitiLoginRef}
                                     className="form-control "
                                     placeholder=""
@@ -633,6 +624,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="text"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_IdealTime ? Q3dConfiguration.q3d_IdealTime : ""}
                                     ref={IdalTimeRef}
                                     className="form-control "
                                     placeholder=""
@@ -653,6 +645,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="text"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_CookieStore ? Q3dConfiguration.q3d_CookieStore : ""}
                                     ref={CookieStoreRef}
                                     className="form-control "
                                     placeholder=""
@@ -673,6 +666,7 @@ const ConfigurationCheck = () => {
 
                                  <input
                                     type="text"
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_ProfileImgSize ? Q3dConfiguration.q3d_ProfileImgSize : ""}
                                     ref={ProfileImgSizeRef}
                                     className="form-control "
                                     placeholder=""
@@ -686,46 +680,6 @@ const ConfigurationCheck = () => {
                               </FormGroup>
                            </div>
                         </div>
-                         <div className="row form-group">
-                           <Label className="col-form-label col-sm-4 pl-3">Feature Name</Label>
-                           <div className='col-sm-7'>
-                              <FormGroup className='mb-0 py-0'>
-
-                                 <input
-                                    type="text"
-                                    ref={FeatureNameRef}
-                                    className="form-control "
-                                    placeholder=""
-                                    autoComplete="off"
-                                    onChange={(e) => {
-                                       FeatureNameRef.current.value = [e.target.value]
-                                       FeatureNameOnChange(e)
-                                    }}
-                                 ></input>
-                                 <div style={{ color: 'red' }} className="error-message" ref={FeatureNameErrorRef}></div>
-                              </FormGroup>
-                           </div>
-                        </div>
-                         <div className="row form-group">
-                           <Label className="col-form-label col-sm-4 pl-3">Tryon Trial Count</Label>
-                           <div className='col-sm-7'>
-                              <FormGroup className='mb-0 py-0'>
-
-                                 <input
-                                    type="text"
-                                    ref={TryonTrialCountRef}
-                                    className="form-control "
-                                    placeholder=""
-                                    autoComplete="off"
-                                    onChange={(e) => {
-                                       TryonTrialCountRef.current.value = [e.target.value]
-                                       TryonTrialCountOnChange(e)
-                                    }}
-                                 ></input>
-                                 <div style={{ color: 'red' }} className="error-message" ref={TryonTrialCountErrorRef}></div>
-                              </FormGroup>
-                           </div>
-                        </div>
                         <div className="row form-group">
                            <Label className="col-form-label col-sm-4 pl-3">Display product Name</Label>
                            <div className='col-sm-7'>
@@ -733,6 +687,7 @@ const ConfigurationCheck = () => {
 
                                  <textarea
                                     multiline
+                                    //defaultValue={Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_Product_Name ? Q3dConfiguration.q3d_Product_Name : ""}
                                     maxRows={4}
                                     ref={DispalyproductNameRef}
                                     type="textarea"
@@ -754,6 +709,7 @@ const ConfigurationCheck = () => {
                            <Label className="col-form-label col-sm-4 pl-3">Q3D Start Date</Label>
                            <div className='col-sm-7'>
                               <FormGroup className='mb-0 py-0'>
+                                 {/* <input selected={startDate} onChange={(date) => setStartDate(date)} className='form-control'id="date" type="date" required/> */}
                                  <input
                                     ref={StartDateref}
                                     autoComplete="off"
@@ -775,6 +731,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={RotationWithPanRef}
+                                 //defaultChecked={RotationWithPanRef.current?.defaultChecked ? RotationWithPanRef.current.defaultChecked : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     // RotationWithPanRef.current = [e.target.checked]
@@ -790,6 +747,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={DownloadOptionRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_download_option) ? Q3dConfiguration.q3d_download_option : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //  DownloadOptionRef.current = [e.target.checked]
@@ -805,6 +763,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={ShareOptionRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_share_option) ? Q3dConfiguration.q3d_share_option : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //   ShareOptionRef.current = [e.target.checked]
@@ -820,6 +779,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={DrapeOptionRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_drape_option) ? Q3dConfiguration.q3d_drape_option : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //   DrapeOptionRef.current = [e.target.checked]
@@ -834,6 +794,7 @@ const ConfigurationCheck = () => {
                         <div className="row form-group">
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_double_click_zoom) ? Q3dConfiguration.q3d_double_click_zoom : false}
                                  ref={DoubleClickZoomRef}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
@@ -850,6 +811,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={DisplayGroupsRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_display_groups) ? Q3dConfiguration.q3d_display_groups : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //    //setDoubleclickZoom(true)
@@ -867,6 +829,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={ThreedImage2ndGroupRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_second_group_selection) ? Q3dConfiguration.q3d_second_group_selection : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //    //setThreedImage2ndGroup(true)
@@ -884,6 +847,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={ModelChangeFabricRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_model_to_fabric) ? Q3dConfiguration.q3d_model_to_fabric : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //    //setModelChangeFabric(true)
@@ -901,6 +865,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={FabricChangeModelRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_fabric_to_model) ? Q3dConfiguration.q3d_fabric_to_model : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //    //setFabricChangeModelRef(true)
@@ -918,6 +883,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={ModelDrape1stFabricRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_drape_first_fabric) ? Q3dConfiguration.q3d_drape_first_fabric : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //    //setModelDrape1stFabric(true)
@@ -935,6 +901,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={UploadFabricRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_Upload_Fabrics) ? Q3dConfiguration.q3d_Upload_Fabrics : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //    //setUploadFabric(true)
@@ -952,6 +919,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={BackgroundLogoRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_Background_Image) ? Q3dConfiguration.q3d_Background_Image : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //    //setBackgroundLogo(true)
@@ -969,6 +937,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={TryonVisibleRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_Tryon_Visible) ? Q3dConfiguration.q3d_Tryon_Visible : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //    //setTryonvisible(true)
@@ -986,6 +955,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={ClientLogoRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_Tryon_Visible) ? Q3dConfiguration.q3d_Tryon_Visible : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //    //setTryonvisible(true)
@@ -1003,6 +973,7 @@ const ConfigurationCheck = () => {
                            <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
                               <input type="checkbox" style={{ width: "22px", height: "22px" }}
                                  ref={ShowmodelProductsRef}
+                                 //defaultChecked={(Q3dConfiguration !== undefined && Q3dConfiguration !== null && Q3dConfiguration.q3d_Tryon_Visible) ? Q3dConfiguration.q3d_Tryon_Visible : false}
                                  onClick={(e) => {
                                     // if (e.target.checked) {
                                     //    //setTryonvisible(true)
@@ -1066,23 +1037,6 @@ const ConfigurationCheck = () => {
                               />
                            </div>
                            <Label className="col-form-label col-sm-4 ">Custom Download</Label>
-                        </div>
-                         <div className="row form-group">
-                           <div style={{ paddingTop: "0.5rem", paddingRight: "0rem" }}>
-                              <input type="checkbox" style={{ width: "22px", height: "22px" }}
-                                 ref={QrRenderDownloadRef}
-                                 onClick={(e) => {
-                                    // if (e.target.checked) {
-
-                                    //    CustomDownloadRef.current = [e.target.checked]
-                                    // } else {
-                                    //    //setTryonvisible(false)
-                                    //    CustomDownloadRef.current = [e.target.checked]
-                                    // }
-                                 }}
-                              />
-                           </div>
-                           <Label className="col-form-label col-sm-4 ">Qr Render Download</Label>
                         </div>
                      </Col>
                   </Row>

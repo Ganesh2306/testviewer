@@ -41,7 +41,6 @@ namespace ARCHIVE_DASHBOARD.Model.Organization
         public string newpassword { get; set; }
         public long userId { get; set; }
         public string org_email { get; set; }
-        public int user_type { get; set; }
 
     }
 

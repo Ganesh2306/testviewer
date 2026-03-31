@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Swal from 'sweetalert2'
-
+//'../darco/'
 export const getExistDname = async (designData) => {
   try {
     const response = await axios.post(`./Design/IsDesignExist`, designData)
@@ -96,6 +96,8 @@ const renderstatus = async (dsize, imageurl, items, mainTDS, Dm_Design, loader_R
           flag = false
         }
       }
+      //const productName = `${e.productName}_${index + 1}`
+      // Check if Base64 is not white background or blank image  
       if (!isBlank) {
         saveBase64Image = {
           base64image: e.data.split(',')[1],
@@ -137,10 +139,145 @@ const renderstatus = async (dsize, imageurl, items, mainTDS, Dm_Design, loader_R
   })
 }
 
-const help_for_upload = async (file, cb, totalCount, fileno, imageurl, mainTDS, loader_Ref, ConfiguredProducts, isoverwrite, unsavedesigns, combofilesRef, saastoken, setused_credit, failureGroups, saasapi) => {
+// const help_for_upload = async (file, cb, totalCount, fileno, imageurl, mainTDS, loader_Ref, ConfiguredProducts, isoverwrite, unsavedesigns, combofilesRef, saastoken, setused_credit) => {
+
+//   const formPayload = new FormData()
+//   const obj = {}
+//   formPayload.append('file', file.file)
+//   combofilesRef?.current?.forEach((item, index) => {
+//     const newFileName = `${file.file.name.split('.')[0]}_${item.name}`
+//     const renamedFile = new File([item.file], newFileName, {
+//       type: item.file.type
+//     })
+//     formPayload.append("combofiles", renamedFile)
+//   })
+//   const FileSize = file.file.size
+//   delete file.file
+//   formPayload.append('alldata', JSON.stringify(file))
+//   if (cb !== null) {
+//     cb(file.Dm_Design, totalCount, fileno, null, FileSize)
+//   }
+//   await axios({
+//     url: './Design/UploadDesigns',
+//     method: 'post',
+//     data: formPayload,
+//     headers: { 'Content-Type': 'multipart/form-data' },
+//     enctype: 'multipart/form-data',
+//     onUploadProgress: progress => {
+//       const { loaded, total } = progress
+//       const percentageProgress = Math.floor((loaded / total) * 100)
+//       if (cb !== null) {
+//         //cb(loaded, total, percentageProgress, file.Dm_Design, totalCount, fileno)
+//       }
+//       //const percentageProgress = Math.floor((loaded / total) * 100)
+//     }
+//   }).then(async (e) => {
+//     obj[file.Dm_Design] = e.data.issaved
+//     const failed = ''
+//     if (e.data) {
+//       if (e.data.issaved === false) {
+//         unsavedesigns.push(file.Dm_Design_Code)
+//         const a = [...unsavedesigns]
+//         localStorage.setItem('unsavedesigns', a)
+//       }
+
+//       if (e.data.message === 'You have exceed design limit') {
+//         e.data.message = 'Upload limit exceeded. Upgrade your plan or contact Textronics Design System Pvt Ltd '
+//       } else {
+//         e.data.message = (e.data.message === null || e.data.message === undefined) ? '' : e.data.message
+//         if (unsavedesigns.length > 0) {
+//           if (unsavedesigns.length === 1) {
+//             e.data.message = `The design seems too small. It should be at least 0.5 inches, Failed design Name : ${unsavedesigns.join(', ')}`
+//           } else if (unsavedesigns.length > 1) {
+//             e.data.message = `The design seems too small. It should be at least 0.5 inches, Failed design Names : ${unsavedesigns.join(', ')}`
+//           } else if (e.data.message === null) {
+//             e.data.message = ''
+//           } else if (e.data.message === undefined || e.data.message !== null) {
+//             e.data.message = `Failed to save design`
+//           }
+//         }
+//       }
+//       try {
+//         if (e.data.issaved && file.State === 0 && saastoken !== null && saastoken !== undefined) {
+//           const saasobj = {
+//             email:  JSON.parse(localStorage.profile).org_email, //"nikhil@vnswebsolutions.com",
+//             organisation_id: String(JSON.parse(localStorage.profile).org_id), //"1339637714",
+//             activity: "UploadDesign",
+//             deduct_credit: 1,
+//             api_token: saastoken
+//           }
+//           const deductcredit = await axios.post("https://sa.textronic.online/api/deduct-credit", saasobj, {
+//             headers: {
+//               "Content-Type": "application/json"
+//             }
+//           })
+//           setused_credit(deductcredit.data.used_fabric_upload)
+//         }
+//       } catch (error) {
+//         console.error("Error fetching SaaS token:", error)
+//       }
+//     }
+
+//     const checkboxElement = document.getElementById(`check-${file.Dm_Design_Code}`)
+//     //check if checkbox is checked at the time of savedesign
+//     if (checkboxElement !== null && checkboxElement.checked === true && e.data.issaved === true) {
+//       //create dynamic imageUrl
+//       const timestamp = Date.now()
+//       let imageUrl = `${e.data.imageUrl}/z/${file.Dm_Design_Code}z.jpg`
+//       //const imageUrl = `${e.data.imageUrl}/z/${file.Dm_Design_Code}z.jpg?v=${timestamp}`
+
+//       //Check if Selected Product is present in configuredProductList
+//       const productlist = file.SaveInventoryDesignRequestDto.Di_Product.split(',')
+//       const items = []
+//       const indexes = []
+//       ConfiguredProducts.forEach(product => {
+//         productlist.forEach(item => {
+//           if (item.toLowerCase().includes(product.toLowerCase())) {
+//             if (!items.includes(product)) {
+//               items.push(product)
+//             }
+//           }
+//         })
+//       })
+//       if (items.length > 0 && e.data.designSize !== null && e.data.designSize !== undefined && imageUrl !== undefined && imageUrl !== null && mainTDS !== undefined && mainTDS !== null && file.Dm_Design_Code !== undefined && file.Dm_Design_Code !== "" && isoverwrite !== undefined && loader_Ref !== undefined) {
+//         if (isoverwrite === false) {
+//           imageUrl = `${e.data.imageUrl}/z/${file.Dm_Design_Code}z.jpg`
+//         } else {
+//           imageUrl = `${e.data.imageUrl}/z/${file.Dm_Design_Code}z.jpg?v=${timestamp}`
+//         }
+//         await renderstatus(e.data.designSize, imageUrl, items, mainTDS, file.Dm_Design_Code, loader_Ref, isoverwrite, ConfiguredProducts)
+//       }
+//     }
+//     if (cb !== null) {
+//       cb(file.Dm_Design, totalCount, fileno, e.data.issaved, FileSize, e.data.message)
+//     }
+//     // else {
+//     //   return cb = null
+//     // }
+//   })
+//   return obj
+// }
+const help_for_upload = async (
+  file,
+  cb,
+  totalCount,
+  fileno,
+  imageurl,
+  mainTDS,
+  loader_Ref,
+  ConfiguredProducts,
+  isoverwrite,
+  unsavedesigns,
+  combofilesRef,
+  saastoken,
+  setused_credit,
+  failureGroups // <-- pass the SAME object for the whole batch
+) => {
 
   const formPayload = new FormData()
-  const result = {} 
+  const result = {} // { [Dm_Design]: boolean }
+
+  // main file
   formPayload.append('file', file.file)
 
   // combo files (renamed)
@@ -189,20 +326,15 @@ const help_for_upload = async (file, cb, totalCount, fileno, imageurl, mainTDS, 
 
       // -------- CREDIT DEDUCTION (only on success) --------
       try {
-        if (e.data.issaved && file.State === 0 && saastoken && JSON.parse(localStorage.profile).user_type !== 0) {
+        if (e.data.issaved && file.State === 0 && saastoken) {
           const saasobj = {
-            // email: JSON.parse(localStorage.profile).org_email,
+            email: JSON.parse(localStorage.profile).org_email,
             organisation_id: String(JSON.parse(localStorage.profile).org_id),
             activity: 'UploadDesign',
             deduct_credit: 1,
             api_token: saastoken
           }
-          if (JSON.parse(localStorage.profile).user_type === 1) {
-            saasobj.email = JSON.parse(localStorage.profile).org_email
-          } else {
-            saasobj.email = JSON.parse(localStorage.profile).login_id
-          }
-          const deductcredit = await axios.post(`${saasapi}deduct-credit`, saasobj, {
+          const deductcredit = await axios.post('https://sa.textronic.online/api/deduct-credit', saasobj, {
             headers: {
               'Content-Type': 'application/json'
             }
@@ -240,7 +372,16 @@ const help_for_upload = async (file, cb, totalCount, fileno, imageurl, mainTDS, 
       ) {
         imageUrl = isoverwrite ? `${e.data.imageUrl}/z/${file.Dm_Design_Code}z.jpg?v=${timestamp}` : `${e.data.imageUrl}/z/${file.Dm_Design_Code}z.jpg`
 
-        await renderstatus(e.data.designSize, imageUrl, items, mainTDS, file.Dm_Design_Code, loader_Ref, isoverwrite, ConfiguredProducts)
+        await renderstatus(
+          e.data.designSize,
+          imageUrl,
+          items,
+          mainTDS,
+          file.Dm_Design_Code,
+          loader_Ref,
+          isoverwrite,
+          ConfiguredProducts
+        )
       }
     }
 
@@ -250,20 +391,15 @@ const help_for_upload = async (file, cb, totalCount, fileno, imageurl, mainTDS, 
   return result
 }
 
-export const uploadFile = async (files, cb = null, imageurl, mainTDS, loader_Ref, ConfiguredProducts, isoverwrite, unsavedesigns, combofilesRef, saastoken, setused_credit, failureGroups, remaning_credit, saasapi) => {
+export const uploadFile = async (files, cb = null, imageurl, mainTDS, loader_Ref, ConfiguredProducts, isoverwrite, unsavedesigns, combofilesRef, saastoken, setused_credit, failureGroups) => {
 
   const res = []
   try {
     if (files.length > 0) {
-      if (saastoken && remaning_credit > 0) {
-        const uploadCount = Math.min(remaning_credit, files.length)
-        for (let i = 0; i < uploadCount; i++) {
-          res.push(await help_for_upload(files[i], cb, uploadCount, i, imageurl, mainTDS, loader_Ref, ConfiguredProducts, isoverwrite, unsavedesigns, combofilesRef, saastoken, setused_credit, failureGroups, saasapi))
-        }
-      } else {
-        for (let i = 0; i < files.length; i++) {
-          res.push(await help_for_upload(files[i], cb, files.length, i, imageurl, mainTDS, loader_Ref, ConfiguredProducts, isoverwrite, unsavedesigns, combofilesRef, saastoken, setused_credit, failureGroups, saasapi))
-        }
+
+      for (let i = 0; i < files.length; i++) {
+
+        res.push(await help_for_upload(files[i], cb, files.length, i, imageurl, mainTDS, loader_Ref, ConfiguredProducts, isoverwrite, unsavedesigns, combofilesRef, saastoken, setused_credit, failureGroups))
       }
       const reasons = Object.keys(failureGroups)
       if (reasons.length > 0) {

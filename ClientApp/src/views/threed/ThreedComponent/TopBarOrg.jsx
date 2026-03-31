@@ -26,49 +26,42 @@ import MultiSelectProduct from "./MultiselectProduct"
 import { imgData } from "./data"
 //!Top-Left
 const LeftTop = ({ pageRest, forceRerender, ability, PrOrList, applicationref, modelsref,
-    productsref, orgidref, showTdsConfiguration, multiSlectReset, setsaastoken, setCredit, setused_credit, saasapi }) => {
+    productsref, orgidref, showTdsConfiguration, multiSlectReset, setsaastoken, setCredit, setused_credit }) => {
     const orgtype = JSON.parse(localStorage.userData).org_type
     const updateorgcredit = async (e) => {
         const selectedOption = e.target.options[e.target.selectedIndex]
         const Org_email = selectedOption.getAttribute('email')
         const orgid = e.target.value
-        const issaasuser = await axios.get(`./Organization/GetUserType?OrganisationId=${orgid}`)
-        if (issaasuser.data !== "0") {
-            try {
-                const saasobj = {
-                    email: Org_email,
-                    organisation_id: String(orgid)
+        try {
+            const saasobj = {
+                email: Org_email,
+                organisation_id: String(orgid)
+            }
+            const getsaastoken = await axios.post("https://sa.textronic.online/api/get-token", saasobj, {
+                headers: {
+                    "Content-Type": "application/json"
                 }
-                const getsaastoken = await axios.post(`${saasapi}get-token`, saasobj, {
+            })
+            console.log(getsaastoken.data.api_token)
+            if (getsaastoken.data.api_token) {
+                setsaastoken(getsaastoken.data.api_token)
+                saasobj.api_token = getsaastoken.data.api_token
+                const getcredits = await axios.post("https://sa.textronic.online/api/check-subscription", saasobj, {
                     headers: {
                         "Content-Type": "application/json"
                     }
                 })
-                console.log(getsaastoken.data.api_token)
-                if (getsaastoken.data.api_token) {
-                    setsaastoken(getsaastoken.data.api_token)
-                    saasobj.api_token = getsaastoken.data.api_token
-                    const getcredits = await axios.post(`${saasapi}check-subscription`, saasobj, {
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    })
-                    if (getcredits.data !== null) {
-                        setused_credit(getcredits.data.total_model)
-                        setCredit(getcredits.data.used_model)
-                    }
-                } else {
-                    setsaastoken(null)
-                    setused_credit(0)
-                    setCredit(0)
+                if (getcredits.data !== null) {
+                    setused_credit(getcredits.data.total_model)
+                    setCredit(getcredits.data.used_model)
                 }
-            } catch (error) {
-                console.error("Error fetching SaaS token:", error)
+            } else {
                 setsaastoken(null)
                 setused_credit(0)
                 setCredit(0)
             }
-        } else {
+        } catch (error) {
+            console.error("Error fetching SaaS token:", error)
             setsaastoken(null)
             setused_credit(0)
             setCredit(0)
@@ -77,6 +70,8 @@ const LeftTop = ({ pageRest, forceRerender, ability, PrOrList, applicationref, m
     }
     return (
         <Col className="col-xl-6 col-lg-6 col-md-12 col-sm-12 d-flex pr-0  col ">
+            {/* <form class="form-inline mb-1 flex-nowrap">*/}
+            {/*{ ability.can('Display', '3DImages') && <span className="float-left mr-1 ml-1">Orgnization</span> }*/}
             {ability.can('Display', '3DImages') && <> <form class="form-inline flex-wrap select col-md-3 col-sm-12 pl-0 pr-50"> <span className="float-left mr-1">Orgnization</span>
                 <select
                     id="collection3DLibrary"
@@ -159,6 +154,9 @@ const LeftTop = ({ pageRest, forceRerender, ability, PrOrList, applicationref, m
                         TryOn
                     </option>
                     }
+                    {/* {ability.can('configure', '3DImages') // for organisationAdmin
+                ability.can('Display', '3DImages') //for platformAdmin
+                */}
                 </select>
             </form>
 
@@ -175,7 +173,7 @@ const LeftTop = ({ pageRest, forceRerender, ability, PrOrList, applicationref, m
 }
 
 //!Top Right
-const TopRight = ({ modal, toggle, ability, PrOrList, forceRerender, newselctionref, showTdsConfiguration, applicationref, productsref, orgidref, txtsearchref, designameref, saastoken, setCredit, saasapi }) => {
+const TopRight = ({ modal, toggle, ability, PrOrList, forceRerender, newselctionref, showTdsConfiguration, applicationref, productsref, orgidref, txtsearchref, designameref, saastoken, setCredit }) => {
 
     const Swal = require('sweetalert2')
     //const [count, setcount] = useState(0)
@@ -315,19 +313,17 @@ const TopRight = ({ modal, toggle, ability, PrOrList, forceRerender, newselction
                                     backdrop: true
                                 })
                                 try {
-                                    if (JSON.parse(localStorage.profile).user_type !== 0 && saastoken !== null && count > 0) {
+
+                                    //if (saastoken !== null && _RootTdShowroomConfiguration.td_Showroom_Configurations[0].td_Order_No === 1 && _RootTdShowroomConfiguration.td_Showroom_Configurations[0].state === 0) {
+                                    if (saastoken !== null && count > 0) {
                                         const saasobj = {
+                                            email: JSON.parse(localStorage.profile).org_email, //"nikhil@vnswebsolutions.com",
                                             organisation_id: String(JSON.parse(localStorage.profile).org_id), //"1339637714",
                                             activity: "Select3DImage",
-                                            deduct_credit: count,
+                                            deduct_credit: count, //_RootTdShowroomConfiguration.td_Showroom_Configurations[0].Td_Credit,
                                             api_token: saastoken
                                         }
-                                        if (JSON.parse(localStorage.profile).user_type === 1) {
-                                            saasobj.email = JSON.parse(localStorage.profile).org_email
-                                        } else {
-                                            saasobj.email = JSON.parse(localStorage.profile).login_id
-                                        }
-                                        const deductcredit = await axios.post(`${saasapi}deduct-credit`, saasobj, {
+                                        const deductcredit = await axios.post("https://sa.textronic.online/api/deduct-credit", saasobj, {
                                             headers: {
                                                 "Content-Type": "application/json"
                                             }
@@ -421,6 +417,15 @@ const TopRight = ({ modal, toggle, ability, PrOrList, forceRerender, newselction
                 // default:
                 case 'Archive':
                     const _RootTdQvImageConfiguration = new Object()
+
+                    /* const TdQvImageConfigurations = []
+                    const TdQvImageConfiguration = new Object()
+                    TdQvImageConfiguration.state = 0
+                    TdQvImageConfiguration.td_Qv_Image_Configurations_Id = 0
+                    TdQvImageConfiguration.td_Threed_Image_Id = 55
+                    TdQvImageConfiguration.td_Organisation_Id = 0
+                    TdQvImageConfiguration.td_Order_No = 0
+                    TdQvImageConfigurations.push(TdQvImageConfiguration) */
                     _RootTdQvImageConfiguration.td_Qv_Image_Configurations = SaveConfigToArr()
                     await axios.post(`./ThreeD/SaveFullViewImageConfiguration`, _RootTdQvImageConfiguration)
                         .then(async response => {
@@ -440,27 +445,22 @@ const TopRight = ({ modal, toggle, ability, PrOrList, forceRerender, newselction
                                     allowOutsideClick: false,
                                     backdrop: true
                                 })
-
                                 try {
-                                    if (JSON.parse(localStorage.profile).user_type !== 0 && saastoken !== null && count > 0) {
+                                    //if (saastoken !== null && _RootTdQvImageConfiguration.td_Qv_Image_Configurations[0].td_Order_No === 1 && _RootTdQvImageConfiguration.td_Qv_Image_Configurations[0].state === 0) {
+                                    if (saastoken !== null && count > 0) {
                                         const saasobj = {
+                                            email: JSON.parse(localStorage.profile).org_email, //"nikhil@vnswebsolutions.com",
                                             organisation_id: String(JSON.parse(localStorage.profile).org_id), //"1339637714",
                                             activity: "Select3DImage",
-                                            deduct_credit: count,
+                                            deduct_credit: count, //_RootTdQvImageConfiguration.td_Qv_Image_Configurations[0].Td_Credit,
                                             api_token: saastoken
                                         }
-                                        if (JSON.parse(localStorage.profile).user_type === 1) {
-                                            saasobj.email = JSON.parse(localStorage.profile).org_email
-                                        } else {
-                                            saasobj.email = JSON.parse(localStorage.profile).login_id
-                                        }
-                                        const deductcredit = await axios.post(`${saasapi}deduct-credit`, saasobj, {
+                                        const deductcredit = await axios.post("https://sa.textronic.online/api/deduct-credit", saasobj, {
                                             headers: {
                                                 "Content-Type": "application/json"
                                             }
                                         })
                                         setCredit(deductcredit.data.used_model)
-
                                     }
                                 } catch (error) {
                                     console.error("Error fetching SaaS token:", error)
@@ -494,6 +494,7 @@ const TopRight = ({ modal, toggle, ability, PrOrList, forceRerender, newselction
                     break
             }
         }
+        //alert(msg)
         return
 
         const _RoleAssignment = new Object()
@@ -753,7 +754,6 @@ const TopBarOrg = (props) => {
                             newselctionref={props.newselctionref} pageRest={pageRest} txtsearchref={props.txtsearchref} setimgData={props.setimgData}
                             modelsref={props.modelsref} productsref={props.productsref} applicationref={props.applicationref} setCredit={props.setCredit}
                             designameref={props.designameref} showTdsConfiguration={showTdsConfiguration} orgidref={props.orgidref} saastoken={props.saastoken}
-                            saasapi={props.saasapi}
                         />
 
                     </CardHeader>
@@ -765,8 +765,7 @@ const TopBarOrg = (props) => {
                             applicationref={props.applicationref} modelsref={props.modelsref} productsref={props.productsref}
                             orgidref={props.orgidref} pagestartref={props.pagestartref} pagendref={props.pagendref}
                             newselctionref={props.newselctionref} showTdsConfiguration={showTdsConfiguration}
-                            multiSlectReset={props.multiSlectReset} setsaastoken={props.setsaastoken} setCredit={props.setCredit}
-                            setused_credit={props.setused_credit} saasapi={props.saasapi}
+                            multiSlectReset={props.multiSlectReset} setsaastoken={props.setsaastoken} setCredit={props.setCredit} setused_credit={props.setused_credit}
                         />
 
                         <div className="col-xl-6 col-xl-6 col-md-12  col-sm-12 d-lg-flex justify-content-end pl-0" style={{ marginTop: "25px" }}>

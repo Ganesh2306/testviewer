@@ -31,6 +31,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
         {
             return View();
         }
+
+
         public IActionResult Agents([FromBody] AgentListRequestDto agentListRequestDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -68,6 +70,9 @@ namespace ARCHIVE_DASHBOARD.Controllers
             return Json(result);
 
         }
+
+
+
         public IActionResult AgentUsers([FromBody] AgentUserListRequestDto  agentUserListRequestDto)
         {
 
@@ -118,6 +123,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var result = ApiHelper.PostData(baseAddress, "api/Configuration/CreateAgent", _AgentDto, myComplexObject.AccessToken);
             return Json(result);
         }
+
         public IActionResult SaveAgentUser([FromBody] OrganisationUserListDto _OrganisationUsersRequest)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -127,10 +133,12 @@ namespace ARCHIVE_DASHBOARD.Controllers
             //_OrganisationUsersRequest.org_type = myComplexObject.org_type;
             _OrganisationUsersRequest.org_type_id = _OrganisationUsersRequest.org_type_id != 0 ? _OrganisationUsersRequest.org_type_id : myComplexObject.org_type_id;
             _OrganisationUsersRequest.org_id = myComplexObject.OrganisationId;
-            _OrganisationUsersRequest.user_type = 0;
             var result = ApiHelper.PostData(baseAddress, "api/Configuration/CreateOrgUser", _OrganisationUsersRequest, myComplexObject.AccessToken);
             return Json(new { data = result, req = _OrganisationUsersRequest });
         }
+
+
+
         public IActionResult GetAgentById([FromBody] EditAgent _EditAgent)
         {
             string url = "api/Configuration/GetAgentById?agentid=" + _EditAgent.id;
@@ -147,6 +155,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
                 return Json(new Root());
 
         }
+
         public IActionResult getEditAgentUSer([FromBody] OrganisationUserListDto _EditOrgUser)
         {
 
@@ -163,6 +172,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
             return Json(data);
 
         }
+
+
         public IActionResult GetEditOrgUser([FromBody] OrganisationUserListDto _EditOrgUser)
         {
 
@@ -173,5 +184,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
 
             return Json(data);
         }
+
+
     }
 }

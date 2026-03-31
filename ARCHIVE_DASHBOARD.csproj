@@ -23,20 +23,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Compile Remove="ClientApp\src\NewFolder\**" />
     <Compile Remove="ClientApp\src\views\management\tables\store - Copy\**" />
-    <Compile Remove="Model\NewFolder\**" />
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\src\NewFolder\**" />
     <Content Remove="ClientApp\src\views\management\tables\store - Copy\**" />
-    <Content Remove="Model\NewFolder\**" />
-    <EmbeddedResource Remove="ClientApp\src\NewFolder\**" />
     <EmbeddedResource Remove="ClientApp\src\views\management\tables\store - Copy\**" />
-    <EmbeddedResource Remove="Model\NewFolder\**" />
     <None Remove="$(SpaRoot)**" />
-    <None Remove="ClientApp\src\NewFolder\**" />
     <None Remove="ClientApp\src\views\management\tables\store - Copy\**" />
-    <None Remove="Model\NewFolder\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -46,9 +38,11 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\configs\acl\" />
+    <Folder Include="ClientApp\src\NewFolder\" />
     <Folder Include="ClientApp\src\views\agent\tables\basic\" />
     <Folder Include="ClientApp\src\views\analytics\" />
     <Folder Include="Model\Design\" />
+    <Folder Include="Model\NewFolder\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

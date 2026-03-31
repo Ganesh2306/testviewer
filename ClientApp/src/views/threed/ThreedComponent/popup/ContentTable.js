@@ -4,6 +4,7 @@ import Select from "react-select"
 import { selectThemeColors } from "@utils"
 import '@styles/react/libs/react-select/_react-select.scss'
 import './../ThreedStyle.css'
+import { Edit } from "react-feather"
 /*import Example from "./MultiSelect"*/
 import { Threedold, currentselected, setCurrentselected, UpdateThreedold, DelIndex, reset, setThreedold, emptyThreedold } from './Tableold'
 import MultiSelectDropdown, { SelectOrg, SelectTryonType, SelectGender, MultiSelectDropdown2} from "./MultiselectDropodown"
@@ -14,6 +15,7 @@ import {
   Label,
   Input 
 } from "reactstrap"
+import { event } from "jquery"
 
 export const old = []
 
@@ -39,11 +41,12 @@ const GroupImgOrder = ({ name, handelOnchange, identifiers, id, pid, src, GroupO
     )
 }
 
-const ImgPicGroups = ({ key, src }) => { 
+const ImgPicGroups = ({ key, src }) => { //{`${src}?v=${timestamp}`}
   const timestamp = Date.now()
   return (
     <>
      <tr><td><img src={src} /></td></tr>
+    {/* <tr><td><img src={src.startsWith('http') ? `${src}?v=${timestamp}` : `data:image/jpeg;base64,${src}`} /></td></tr>  */}
     </>
   )
 }
@@ -61,11 +64,15 @@ const DisplayGroupOrderNo = ({ name, handelOnchange, identifiers, id, pid, src, 
  }
 
  const Drapeorder = ({ name, handelOnchange, identifiers, id, pid, src, Drapeorder, selectedOrder, setSelectedOrder, totalItems }) => {
+  // useEffect(() => {
+  //   handelOnchange({identifiers, id, text:{target:{value:Drapeorder}}, pid})
+  // }, [])
   useEffect(() => {
     if (selectedOrder === id) {
       handelOnchange({ identifiers, id, text: { target: { value: Drapeorder } }, pid })
     }
   }, [])
+//selectedOrder, identifiers, id, Drapeorder, pid, handelOnchange
   const handleRadioChange = (e) => {
     const id = parseInt(e.target.id)
     setSelectedOrder(id)
@@ -171,12 +178,15 @@ const MainRow = ({datard, id, PrOrList, props, DispalyNameRef, DispalyNameErrorR
   <tr key={id} id={`mainRow-${id}`} style={{backgroundColor: currentselected.id === id ? `#f7f7f7` : ''}} onClick={() => {
     if (currentselected.id !== id) {
       setCurrentselected(id)
+      //setactive(currentselected)
     }
   }}>
     <td>{list}</td>
      <td>
             <div className="d-flex flex-column text-center align-items-center">
                   <img src={datard.imageUrl.startsWith('http') ? `${datard.imageUrl}?v=${timestamp}` : `data:image/jpeg;base64,${datard.imageUrl}`} alt={`Thum Images`} />
+                  {/* `data:image/jpeg;base64,${base64String}` */}
+                  {/* src={`${datard.imageUrl}?v=${timestamp}` */}
                   <span>{datard.td_Threed_Image_Name}</span>
                   <div className="pt-50">
                       <label style={{ fontSize: '0.8rem' }}>Rename</label>
@@ -194,10 +204,17 @@ const MainRow = ({datard, id, PrOrList, props, DispalyNameRef, DispalyNameErrorR
               </td>
               <td>
               <table className="ContentInner">
+                {/* {
+                  datard.td_Image_Configuration.map((e, k) => {
+                   return <MultiSelectDropdown handelOnchange={handelOnchange}  identifiers={`td_Products`} pid={id} PrOrList={PrOrList} />
+                  })
+                } */}
                 <MultiSelectDropdown handelOnchange={handelOnchange}  identifiers={`Td_Productname`} pid={id} PrOrList={PrOrList} rootstage={true} 
+                //td_Productname = {datard?.Td_Productname[0]?.td_Productname} 
                       datard={datard} onAddProduct={handleAddProduct} onAddGroupProduct={handleAddGroupProduct}
-                /> 
-                  </table>
+                />   
+
+              </table>
           </td>
           <td>
               <SelectOrg PrOrList={PrOrList} handelOnchange={handelOnchange} pid={id} identifiers={`td_Organisations`} also={`is_Exclusive`} datard={datard} />
@@ -238,6 +255,7 @@ const MainRow = ({datard, id, PrOrList, props, DispalyNameRef, DispalyNameErrorR
                   {                                                                                                                                                                    
                       datard.td_Image_Configuration.map((e, k) => {
                           return <ImgPicGroups
+                          //src={e.groupPath}
                           key={e}
                           src={e.groupPath.startsWith('http') ? `${e.groupPath}?v=${timestamp}` : `data:image/jpeg;base64,${e.groupPath}`}
                           />
@@ -273,10 +291,11 @@ const MainRow = ({datard, id, PrOrList, props, DispalyNameRef, DispalyNameErrorR
                   {
                     datard.td_Image_Configuration.map((e, k) => {
                     return <Drapeorder key={k} pid={id} id={k} identifiers={`td_is_drapedfabric`} 
+                    //productName={e.td_Group_Name}
                     selectedOrder={selectedOrder}
                     setSelectedOrder={setSelectedOrder}
                     handelOnchange={handelOnchange}  
-                    Drapeorder={e.td_is_drapedfabric} 
+                    Drapeorder={e.td_is_drapedfabric} //td_is_drapedfabric
                     src={e.groupPath} totalItems={totalItems}/>
                   })
                   }
@@ -313,6 +332,19 @@ const MainRow = ({datard, id, PrOrList, props, DispalyNameRef, DispalyNameErrorR
                    />
                    }) 
                    }
+
+                {/*{ datard.td_Image_Configuration.map((e, k) => {*/}
+                 
+                {/*    return <Example PrOrList={ PrOrList }/>*/}
+                {/*       })*/}
+                {/*       }*/}
+                  {/* { datard.td_Image_Configuration.map((e, k) => {
+                 
+                  return <GroupProducts pid={id} id={k} identifiers={`td_Group_Product_Name`} 
+                        handelOnchange={handelOnchange} 
+                        productName={e.td_Group_Product_Name} />
+                        })
+                        } */}
               </table>
               </td>
               <td>
@@ -326,6 +358,8 @@ const MainRow = ({datard, id, PrOrList, props, DispalyNameRef, DispalyNameErrorR
           </tr>
   </>
 }
+
+
 const ContentTable = (props) => {
   const [Thumb, setThumb] = useState([])
   const windowSize = useWindowSize()

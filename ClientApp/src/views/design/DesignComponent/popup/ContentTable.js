@@ -15,9 +15,6 @@ import {
 import { getHead } from "./AddDesign"
 import { Selectbox, Rating } from "./SelectBox"
 import axios from "axios"
-// './CropDesign/js/init.js'
-//import fabricJsObj1 from '../../../../../public/js/TdsFabric.min'
-
 export const forColour = { value: null }
 const Customcomponent = {
     Rating: (e) => <Rating id={e.id} onChange={e.onChange} />,
@@ -44,6 +41,7 @@ window.getold = () => {
     return old
 }
 //const glob
+
 export let MandatoryOptionsId = {}
 export let refSelectedId = null
 let selectedId = null
@@ -144,6 +142,7 @@ const useWindowSize = () => {
     return windowSize
 }
 // manisha
+
 const TableRow = (props) => {
     const [checkid, setcheckid] = useState(props.name.split('.')[0])
     useEffect(() => {
@@ -154,16 +153,6 @@ const TableRow = (props) => {
         }
     }, [])
 
-    // const handleOpenCrop = (e, props) => {
-    //     e.stopPropagation()
-    //     e.preventDefault()
-    //     if (window.fabricJsObj1) {
-    //         window.fabricJsObj1.loadCrop()
-    //         window.getImage(props.name, true, props.url)
-    //     } else {
-    //         console.error("fabricJsObj1 not initialized")
-    //     }
-    // }
     const Thead = getHead()
     const constantValues = ['Dm_Design_Code', 'Dm_Article', 'Dm_Design', 'Dm_Variant', 'Dm_Design_Code']//Abhishek Dm_Design_Code
     return (
@@ -182,20 +171,15 @@ const TableRow = (props) => {
                 </td>
                 <td>
                     <div className="align-items-center flex-column justify-content-center">
-                        {/* <div id="cropper-container"> */}
-                            {/* <div id="mainDivId"></div> */}
-                        {/* </div> */}
                         <div className="thumbouter">
-                            {/* <button
-                                className="crop-btn"
-                                id="ok"
-                                onClick={(e) => {
-                                    handleOpenCrop(e, props)
-                                }}
-                            >
-                                ✂️
-                            </button> */}
                             <div className="thumbImg" style={{ backgroundImage: `url("${props.url}")` }}></div></div>
+                        {/* <img
+                            className="mr-75"
+                            src={props.url}
+                            alt="avatar1"
+                            height="50"
+                            width="50"
+                        /> */}
                         <div className="align-middle thumbdesign_name" title={props.name.split('.')[0]}>{props.name.split('.')[0]}</div>
                     </div>
                 </td>
@@ -314,7 +298,7 @@ const TableData = (props) => {
     const handelChange = (e) => {
         //TODO : --> Working
 
-        //-------------Delete feature type------------//
+        //-------------Delete feature type----rinku---------//
         const arr = getHead()
         const id = parseInt(e.currentTarget.parentElement.parentElement.parentElement.id.split('-')[1])
         const tempid = e.target.options[e.target.selectedIndex]
@@ -326,6 +310,8 @@ const TableData = (props) => {
             FeatureTypeName: e.target.value
         }
         props.selectedfeatureRef.current = selectedfeature
+        //-------------rinku---------//
+
         if (!(refSelectedId === null)) {
             const arr = getHead()
             const id = parseInt(e.currentTarget.parentElement.parentElement.parentElement.id.split('-')[1])
@@ -909,7 +895,6 @@ const ContentTable = (props) => {
                             name={e.name}
                             singlerepeat={props.singlerepeat}
                             id={k}
-                            fabricInstance={props.fabricInstance}
                             e={e} />
                     })
                 }

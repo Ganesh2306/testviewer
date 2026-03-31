@@ -243,8 +243,7 @@ const OrgnizationList = () => {
           columns={OrgnizationTableColumns}
           sortIcon={<ChevronDown size={10} />}
           paginationComponent={CustomPagination}
-          data={dataToRender()}      
-  
+          data={dataToRender()}
         // setCurrentPage={setCurrentPage}
         // currentPage={currentPage}
         />

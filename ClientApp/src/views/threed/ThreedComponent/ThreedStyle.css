@@ -458,7 +458,7 @@ td.thumb-cardbody .img_title1 {
     top: 0;
 }
 
-/* Added for show product name, paid, iscombo and tryon flag*/
+/* Added by rinku for show product name, paid, iscombo and tryon flag*/
 .product {
     background: #b4aeff;
     display: inline-block;

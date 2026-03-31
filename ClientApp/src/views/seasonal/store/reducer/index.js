@@ -65,7 +65,7 @@ export const Seasonal = (state = initialState, action) => {
         case 'DELETE_Season':
             return { ...state }
         default:
-            return { ...state }     
+            return { ...state }
     }
 }
 

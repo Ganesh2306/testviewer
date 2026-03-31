@@ -1,11 +1,5 @@
 ﻿/* show hide div module  below important */
 /*akash */
-[dir] body {  
-    user-select: text;
-}
-.react-dataTable{
-    min-height:400px!important;
-}
 #D_deletepopup {
     border-radius: 0 !important;
     width: auto !important;
@@ -870,15 +864,15 @@ a#filter-expand:hover {
     top: 1rem;
 }
 
-/* .card-header .show {
+.card-header .show {
     border-color: #0a66c2 !important;
     background-color: #0a66c2 !important;
-} */
+}
 
-/* .card-header .show:hover {
+.card-header .show:hover {
     background-color: #08539e !important;
     border-color: #084d92 !important;
-} */
+}
 
 .rectangle-card .show {
     position: absolute;

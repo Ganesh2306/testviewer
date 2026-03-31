@@ -29,6 +29,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
             baseAddress = host + path;
         }
 
+
+
         [TypeFilter(typeof(CheckExpiryTime))]
         public IActionResult OrganizationUser([FromBody] OrganisationLIstRequestDto  organisationLIstRequestDto)
         {
@@ -85,7 +87,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             _OrganisationUsersRequest.org_id = myComplexObject.OrganisationId;
             // _OrganisationUsersRequest.org_type = myComplexObject.org_type;
             _OrganisationUsersRequest.org_type_id = myComplexObject.org_type_id;
-            _OrganisationUsersRequest.user_type = 0;
             var result = ApiHelper.PostData(baseAddress, "api/Configuration/CreateOrgUser", _OrganisationUsersRequest, myComplexObject.AccessToken);
             return Json(result);
         }
@@ -104,7 +105,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             }
             return Json(data);
         }
-        
+
         [TypeFilter(typeof(AdminExpiryTime))]
         public IActionResult Organization([FromBody] Model.Agent.AgentListRequestDto agentListRequestDto)
         {
@@ -188,6 +189,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             return Json(result);
 
         }
+
 
         [TypeFilter(typeof(AdminExpiryTime))]
         public IActionResult SaveOrganisation([FromBody] SaveOrganisationRequestDto _Organisation)
@@ -299,13 +301,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             var result = ApiHelper.PostData(baseAddress, "api/Configuration/SaveCloneCustomer", _Organisation, myComplexObject.AccessToken);
             return Json(result);
-        }
-        public IActionResult GetUserType([FromQuery] long OrganisationId)
-        {
-            string url = "api/Configuration/GetUserType?OrganisationId=" + OrganisationId;
-            var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
-            var response = ApiHelper.GetDataNewQS(baseAddress, url, myComplexObject.AccessToken);
-            return Json(response);
         }
     }
 }

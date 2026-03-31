@@ -199,10 +199,11 @@ namespace ARCHIVE_DASHBOARD.Controllers
 
 
         }
-
-        #region UploadDesigns
         public async Task<IActionResult> UploadDesigns()
         {
+
+
+            ///TO DO api/Configuration/GetStorageLocation use this for storage path
             try
             {
 
@@ -222,7 +223,9 @@ namespace ARCHIVE_DASHBOARD.Controllers
 
                     }
 
-                      _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + myComplexObject.AccessToken);
+
+
+                    _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + myComplexObject.AccessToken);
                     using var form1 = new MultipartFormDataContent();
                     
                    Byte[] b = null;
@@ -236,9 +239,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
                     {
 
                         b = ReadFully(form.Files[0].OpenReadStream());
-                        var extension = Path.GetExtension(form.Files[0].FileName);
-                        //form1.Add(new StringContent(form.Files[0].FileName.Split('.')[1]), "designmasterDto.Dm_DesignType");
-                        form1.Add(new StringContent(extension.TrimStart('.')), "designmasterDto.Dm_DesignType");
+                        form1.Add(new StringContent(form.Files[0].FileName.Split('.')[1]), "designmasterDto.Dm_DesignType");
                     }
                     using var fileContent = new ByteArrayContent(b);
                     fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
@@ -342,7 +343,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
                     {
                         form1.Add(new StringContent("false"), "designmasterDto.is_combo");
                     }
-                    form1.Add(new StringContent(request.is_saasuser.ToString()), "designmasterDto.is_saasuser");
+                    //form1.Add(new StringContent(request.is_combo.ToString()), "designmasterDto.is_combo");
                     //form1.Add(new StringContent(myComplexObject.org_type_id.ToString()), "designmasterDto.Dm_Supplier_Id");
                     form1.Add(new StringContent(myComplexObject.Userid.ToString()),"designmasterDto.Dm_Created_By");
                     //  form1.Add(new StringContent(request.SaveInventoryDesignRequestDto.Di_Inventory_Id.ToString().Trim()), "SaveInventoryDesignRequestDto.Di_Inventory_Id");
@@ -575,7 +576,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             }
             return Json(new { Issaved = false });
         }
-        #endregion UploadDesigns
         public IActionResult GetFeatureTypeList([FromQuery] string PTPG)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -620,6 +620,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
 
             return Json(result1);
         }
+
         public IActionResult IsDesignExist([FromBody] string[] designNameList)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -627,6 +628,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
 
             return Json(result);
         }
+
+
         public IActionResult GetDesignSearchByfolderId([FromBody] GetDesignSearchRequestDto getDesignSearchRequestDto)
         {
             string[] designTypeIdGroupId = getDesignSearchRequestDto.DesignTypeIdGroupId.Split('-');
@@ -653,6 +656,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
 
             return Json(result2);
         }
+
+
         public IActionResult GetRoleDesignConfigurationByRole([FromQuery] long RoleId)
         {
                 var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -671,6 +676,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
             }
            
         }
+
+
         public IActionResult LoadJson()
         {
             string json = "";
@@ -681,6 +688,34 @@ namespace ARCHIVE_DASHBOARD.Controllers
             }
             return Json(json);
         }
+        //public async Task<IActionResult> GenerateThumb()
+        //{
+        //    var base64 = "";
+        //    var form = Request.Form;
+        //    try
+        //    {
+
+        //        Byte[] b = ReadFully(form.Files[0].OpenReadStream());
+
+        //        using (var cDib = new MagickImage(b))
+        //        {
+        //            cDib.Resize(50, 50);
+        //            //cDib.Quality = quality;
+        //            cDib.Format = MagickFormat.Jpg;
+        //            base64 = cDib.ToBase64();
+        //            cDib.Dispose();
+
+        //        }
+
+
+        //        return Json(new { base64 = base64 });
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return Json(new { base64 = "" });
+        //    }
+        //}
+
         public static byte[] ReadFully(Stream input)
         {
             byte[] buffer = new byte[16 * 1024];
@@ -694,6 +729,37 @@ namespace ARCHIVE_DASHBOARD.Controllers
                 return ms.ToArray();
             }
         }
+
+
+        //public IActionResult GetDesignMasterExcel([FromBody] GetDesignMasterExcelRequest r)
+        //{
+        //    int Dc = 0;
+        //    GetStorageLocation();
+        //    var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
+        //    var myComplexstorage = HttpContext.Session.GetObjectFromJson<StorageDataDto>("storage");
+        //    var result1 = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/GetFolderIdByDesTypeIdDesSupId?DesignTypeId=" + r.designTypeId.ToString().Trim() + "&DesignGroupId=" + r.designGroupId.ToString().Trim() + "&OrgId=" + myComplexObject.OrganisationId + "&DesignSupplierId=" + myComplexObject.org_type_id, myComplexObject.AccessToken);
+        //    // getDesignSearchRequestDto
+        //    var result = JsonConvert.DeserializeObject<folderIdDto>(result1.ToString());
+        //    r.folderId = result.folderId;
+        //    r.organisationId = myComplexObject.OrganisationId;  
+        //    r.drivePath = myComplexstorage.drive_path;
+        //    //var response = ApiHelper.PostData(baseAddress, "api/Configuration/GetDesignMasterExcel", r, myComplexObject.AccessToken);
+        //    var DesignCount = ApiHelper.PostData(baseAddress, "api/Configuration/ExportExcelTime", r, myComplexObject.AccessToken);
+
+        //    //if (DesignCount == null || DesignCount == "")
+        //    //{
+        //    //    Dc = 1;
+        //    //}
+        //    //else
+        //    //   Dc = Convert.ToInt32(DesignCount);
+
+        //    int MilliSeconds = Dc * 10; // by sanket 
+
+        //    var response = ApiHelper.PostDataWait(baseAddress, "api/Configuration/GetDesignMasterExcel", r, myComplexObject.AccessToken, MilliSeconds);
+        //    //var result = JsonConvert.DeserializeObject<RootEmail>(response.ToString());
+
+        //    return Json(response);
+        //}
         public IActionResult GetDesignMasterExcel([FromBody] GetDesignMasterExcelRequest r)
         {
             GetStorageLocation();
@@ -772,6 +838,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             return Json(new { Issaved = false });
 
         }
+
         public IActionResult GetSupplierList()
         {
 
@@ -806,12 +873,14 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var response = ApiHelper.PostData(baseAddress, "api/Configuration/GetRenderCount", getRenderCount, myComplexObject.AccessToken);
             return Json(response);
         }
+
         public IActionResult GetOrgRenderCount([FromBody] GetorgRenderCount getorgRenderCount)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             var response = ApiHelper.PostData(baseAddress, "api/LicenseManager/GetOrgRenderCount", getorgRenderCount, myComplexObject.AccessToken);
             return Json(response);
         }
+
         public IActionResult SaveBase64Image([FromBody] SaveBase64ImageDto saveBase64ImageDto)
         {
 
@@ -827,6 +896,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var result = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/GetConfiguredProducts?OrganisationId=" + myComplexObject.OrganisationId, myComplexObject.AccessToken);
             return Json(result);
         }
+
         public IActionResult GetDesignCountMasterExcelRequest([FromBody] GetDesignCountMasterExcelRequestD r) 
         {
             GetStorageLocation();
@@ -847,6 +917,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var response = ApiHelper.PostData(baseAddress, "api/Configuration/UploadDesignsPerMonth_Product", r, myComplexObject.AccessToken);
             return Json(response);
         }
+
         public IActionResult DeleteFeatureTypes([FromQuery] long FeatureId, long FeatureTypeId, string PTPG)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -866,6 +937,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             return Json(result1);
 
         }
+
         public IActionResult GetAiResponce([FromBody] AiImageRequestDto aiImageRequestDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");

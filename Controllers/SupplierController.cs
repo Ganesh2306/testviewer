@@ -29,6 +29,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
             string path = configuration.GetSection("WebAPIConfiguration").GetSection("Path").Value;
             baseAddress = host + path;
         }
+
+    
         public IActionResult Suppliers([FromBody] Model.Agent.AgentListRequestDto agentListRequestDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -66,6 +68,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             return Json(result);
 
         }
+
         public IActionResult GetEditSupplier([FromBody] SupplierListDto _Supplier)
         {
 
@@ -90,6 +93,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var result = _Supplier == null ? null : ApiHelper.PostData(baseAddress, "api/Configuration/CreateSupplier", _Supplier, myComplexObject.AccessToken);
             return Json(result);
         }
+
         public IActionResult SupplierUsers([FromBody] SupplierUserListRequestDto _Supplier)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -169,11 +173,13 @@ namespace ARCHIVE_DASHBOARD.Controllers
             _supplierUserDto.org_type_id = _supplierUserDto.org_type_id != 0 ? _supplierUserDto.org_type_id : myComplexObject.org_type_id;//temprory
             _supplierUserDto.org_id = myComplexObject.OrganisationId;
             _supplierUserDto.is_administrator = false;
-            _supplierUserDto.user_type = 0;
             //_supplierUserDto.org_type = myComplexObject.org_type;// 2 for supplier
             var result = ApiHelper.PostData(baseAddress, "api/Configuration/CreateOrgUser", _supplierUserDto, myComplexObject.AccessToken);
             return Json(result);
         }
+
+
+        //SaveSupplierCustomerConfiguration
         public IActionResult SaveSupplierCustomerConfiguration([FromBody] SaveSupplierCustomerConfigurationRequestDto _SaveSupplierCustomerConfigurationRequestDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -182,6 +188,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var result = ApiHelper.PostData(baseAddress, "api/Configuration/SaveSupplierCustomerConfiguration", _SaveSupplierCustomerConfigurationRequestDto, myComplexObject.AccessToken);
             return Json(result);
         }
+
         public IActionResult GetUnconfiguredCustomer([FromBody] GetUnconfiguredCustomerListRequestDto getUnconfiguredCustomerListRequestDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -191,6 +198,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var result = JsonConvert.DeserializeObject<customerList>(response.ToString());
             return Json(result);
         }
+
+
         public IActionResult GetConfiguredCustomerList([FromBody] GetSuppliercustomerListRequestDto getsuppliercustomer)
         {
 
@@ -209,6 +218,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             }
             return Json(data);
         }
+
         public IActionResult SearchConfiguredCustomersList([FromBody] SuppliercustomerListRequestDto searchDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -228,7 +238,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
             }
             return Json(data);
         }
-        public IActionResult GetCollectionList([FromBody] GetCollectionsList getCollectionsList)
+
+         public IActionResult GetCollectionList([FromBody] GetCollectionsList getCollectionsList)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             getCollectionsList.OrgannisationId = myComplexObject.OrganisationId;
@@ -236,6 +247,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var response = ApiHelper.GetDataNewQS(baseAddress, url, myComplexObject.AccessToken);
             return Json(response);
         }
+
         public IActionResult GetSeasonalCollectionList([FromBody] GetCollectionsList getCollectionsList)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -244,6 +256,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var response = ApiHelper.GetDataNewQS(baseAddress, url, myComplexObject.AccessToken);
             return Json(response);
         }
+
         public IActionResult SaveCustomerShareConfiguration([FromBody] List<Savesharecollection> _savesharecollection)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -268,6 +281,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var response = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/GetShareId?ShareName=", myComplexObject.AccessToken);
             return Json(response);
         }
+
         public IActionResult ExportStockQty([FromBody] Excelrequest excelrequest)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -277,6 +291,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var response2 = ApiHelper.PostData(baseAddress, "api/Configuration/ExportStockQty?SupplierId=" + excelrequest.SupplierId + "&OrganisationId=" + myComplexObject.OrganisationId, excelrequest, myComplexObject.AccessToken);
             return Json(response2);
         }
+
         public IActionResult ExportOrderRequest([FromBody] Excelrequest excelrequest)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -293,6 +308,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var response = ApiHelper.PostData(baseAddress, url,excelrequest, myComplexObject.AccessToken);
             return Json(response);
         }
+
         public static byte[] ReadFully(Stream input)
         {
             byte[] buffer = new byte[16 * 1024];
@@ -352,5 +368,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var result = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/DeleteSupplier?SupplierId=" + SupplierId, myComplexObject.AccessToken);
             return Json(result);
         }
-     }
+
+    }
 }

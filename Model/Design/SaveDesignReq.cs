@@ -92,7 +92,6 @@ namespace ARCHIVE_DASHBOARD.Model.Design
         public long Dm_Supplier_Id { get; set; }
         public long Dm_Created_By { get; set; }
         public bool is_combo { get; set; }
-        public bool is_saasuser { get; set; }
         public DateTime Dm_Created_On { get; set; }
 
 

@@ -41,10 +41,10 @@ const ThreeDImages = () => {
   const [activeView, setActiveView] = useState('grid')
   const [multiSlectReset, setmultiSlectReset] = useState(false)
   const [tempsearchValue, setTempSearchValue] = useState('')
-  const [saasapi, getsaasapi] = useState("")
   let PrOr = [null, null]
   const callme = async () => {
     PrOr[0] = await axios.get(`./ThreeD/GetProductList`)
+    //const GetOrganisationList 
     PrOr[1] = await axios.get(`./ThreeD/GetOrganisationList`)
   }
 
@@ -68,84 +68,52 @@ const ThreeDImages = () => {
     })
     return orgnizationlist //getList
   }
-
-  useEffect(async () => {
-    const fetchCall = async (saasobj) => {
-      try {
-        let saasApiUrl = "http://CheckAppSeeting"
-        try {
-          const res = await axios.get("./Login/Getsaasapi")
-          if (res?.data) {
-            saasApiUrl = res.data
-            localStorage.setItem("saasapi", res.data)
-          }
-        } catch (err) {
-          console.error("Error fetching SaaS API URL:", err)
+    useEffect(async () => {
+    try {
+      if (PrOrList !== null && PrOrList !== undefined) {
+       const saasobj = {
+          email: JSON.parse(localStorage.userData).org_type === 0 ? PrOrList.OrgList[0].email : JSON.parse(localStorage.profile).org_email,
+          organisation_id: JSON.parse(localStorage.userData).org_type === 0 ? String(PrOrList.OrgList[0].organisation_id) : String(JSON.parse(localStorage.profile).org_id)
+      }
+      // const saasobj = {
+      //   email: "nikhil@vnswebsolutions.com",
+      //   organisation_id: "1339637714"
+      // }
+       if (JSON.parse(localStorage.userData).org_type === 2) {
+      saasobj.organisation_id = String(JSON.parse(localStorage.profile).org_id)
+      saasobj.email = JSON.parse(localStorage.profile).email
+    }
+      const getsaastoken = await axios.post("https://sa.textronic.online/api/get-token", saasobj, {
+        headers: {
+          "Content-Type": "application/json"
         }
-        getsaasapi(saasApiUrl)
-        const getsaastoken = await axios.post(`${saasApiUrl}get-token`, saasobj, {
+      })
+      console.log(getsaastoken.data.api_token)
+      if (getsaastoken.data.api_token) {
+        setsaastoken(getsaastoken.data.api_token)
+        saasobj.api_token = getsaastoken.data.api_token
+        const getcredits = await axios.post("https://sa.textronic.online/api/check-subscription", saasobj, {
           headers: {
             "Content-Type": "application/json"
           }
         })
-
-        console.log(getsaastoken.data.api_token)
-
-        if (getsaastoken.data.api_token) {
-          setsaastoken(getsaastoken.data.api_token)
-          saasobj.api_token = getsaastoken.data.api_token
-
-          const getcredits = await axios.post(`${saasApiUrl}check-subscription`, saasobj, {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          })
-
-          if (getcredits.data !== null) {
-            setused_credit(getcredits.data.total_model)
-            setCredit(getcredits.data.used_model)
-          }
-        } else {
-          setsaastoken(null)
-          setused_credit(0)
-          setCredit(0)
+        if (getcredits.data !== null) {
+          setused_credit(getcredits.data.total_model)
+          setCredit(getcredits.data.used_model)
         }
-      } catch (error) {
-        console.error("Error in fetchCall:", error)
+      } else {
         setsaastoken(null)
         setused_credit(0)
         setCredit(0)
+      } 
       }
-    }
-    if (PrOrList !== null && PrOrList !== undefined) {
-      const saasobj = {}
-      //login with admin : platformadmin
-      if (localStorage?.userData && JSON.parse(localStorage?.userData)?.org_type === 0) {
-        const orgid = String(PrOrList.OrgList[0].organisation_id)
-        const issaasuser = await axios.get(`./Organization/GetUserType?OrganisationId=${orgid}`)
-        if (issaasuser.data !== "0") {
-          saasobj.organisation_id = String(PrOrList.OrgList[0].organisation_id)
-          saasobj.email = PrOrList.OrgList[0].email
-          fetchCall(saasobj)
-        }
-        //login with supplier admin 
-      } else if (localStorage?.userData && JSON.parse(localStorage?.userData)?.org_type === 2 && localStorage?.profile && JSON.parse(localStorage?.profile)?.user_type !== 0) {
-        saasobj.organisation_id = String(JSON.parse(localStorage.profile).org_id)
-        if (JSON.parse(localStorage.profile).user_type === 1) {
-          saasobj.email = JSON.parse(localStorage.profile).org_email
-        } else {
-          saasobj.email = JSON.parse(localStorage.profile).login_id
-        }
-        fetchCall(saasobj)
-        //login with organisation
-      } else if (localStorage?.profile && JSON.parse(localStorage?.profile)?.user_type !== 0) {
-        saasobj.organisation_id = String(JSON.parse(localStorage.profile).org_id)
-        saasobj.email = JSON.parse(localStorage.profile).org_email
-        fetchCall(saasobj)
-      }
+    } catch (error) {
+      console.error("Error fetching SaaS token:", error)
+      setsaastoken(null)
+      setused_credit(0)
+      setCredit(0)
     }
   }, [PrOrList])
-
   useEffect(async () => {
     try {
       axios.get(`./ThreeD/GetProductList`).then((productList) => {
@@ -174,6 +142,9 @@ const ThreeDImages = () => {
       </div>
     </div>
   }
+  // if (isLoading) {
+  //   return <div className="App">Loading...</div>
+  // }
 
   return (
     <Fragment>
@@ -185,8 +156,7 @@ const ThreeDImages = () => {
           pagestartref={pagestartref} pagendref={pagendref} newselctionref={newselctionref} activeView={activeView}
           setActiveView={setActiveView} multiSlectReset={multiSlectReset} setmultiSlectReset={setmultiSlectReset}
           setTempSearchValue={setTempSearchValue} tempsearchValue={tempsearchValue} used_credit={used_credit} saastoken={saastoken}
-          setCredit={setCredit} setsaastoken={setsaastoken} setused_credit={setused_credit} setTotalCredit={setTotalCredit}
-          Totalcredit={Totalcredit} saasapi={saasapi}
+          setCredit={setCredit} setsaastoken={setsaastoken} setused_credit={setused_credit} setTotalCredit={setTotalCredit} Totalcredit={Totalcredit}
         />
 
         <ImgGrid txtsearchref={txtsearchref} designameref={designameref} orgidref={orgidref} productsref={productsref}
@@ -195,9 +165,9 @@ const ThreeDImages = () => {
           setimgData={setimgData} setCount={setCount} setCredit={setCredit} setcreditlimit={setcreditlimit}
           credit={credit} creditlimit={creditlimit} pagestartref={pagestartref} pagendref={pagendref} count={count}
           newselctionref={newselctionref} newcheckedref={newcheckedref} activeView={activeView} setActiveView={setActiveView}
-          setmultiSlectReset={setmultiSlectReset} setTempSearchValue={setTempSearchValue} tempsearchValue={tempsearchValue}
-          saastoken={saastoken} used_credit={used_credit} setused_credit={setused_credit} setTotalCredit={setTotalCredit} Totalcredit={Totalcredit}
-        />
+          setmultiSlectReset={setmultiSlectReset} setTempSearchValue={setTempSearchValue} tempsearchValue={tempsearchValue} 
+          saastoken={saastoken} used_credit={used_credit} setused_credit={setused_credit} setTotalCredit={setTotalCredit} Totalcredit={Totalcredit} 
+          />
       </div>
     </Fragment>
   )

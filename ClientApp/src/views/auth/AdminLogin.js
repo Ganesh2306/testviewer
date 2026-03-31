@@ -220,7 +220,7 @@ const LoginV1 = () => {
               <h2 className='brand-text text-primary ml-1' style={{ padding: "15px" }}>Textronics</h2>
             </Link>
             <CardTitle tag='h4' className='mb-1'>
-              Welcome to Design Archive! 👋
+              Welcome to Design Archive ganesh ! 👋
             </CardTitle>
             <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
             <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>

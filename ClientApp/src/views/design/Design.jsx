@@ -61,16 +61,13 @@ const Design = () => {
     const supplierref = useRef(null)
     const loaderRef = useRef(null)
     const [Q3drenderpluginURL, setQ3drenderpluginURL] = useState('')
-    const [saasapi, getsaasapi] = useState("")
     const [products, setproduct] = useState([])
     const [isLoading, setLoading] = useState(true)
     const singlerepeat = useRef(false)
     const [credit, setcredit] = useState(0)
-    const [remaning_credit, setremaning_credit] = useState(0)
     const [saastoken, setsaastoken] = useState(null)
     const [used_credit, setused_credit] = useState(0)
-    const [modal, setModal] = useState(false)
-    const toggle = () => setModal(!modal)
+
 
     // const [access, setaccess] = useState(null)
     const access = useRef(null)
@@ -80,14 +77,13 @@ const Design = () => {
         End: 10
     }
     const saasobj = {
+        email: JSON.parse(localStorage.profile).org_email,
         organisation_id: String(JSON.parse(localStorage.profile).org_id)
     }
-    if (JSON.parse(localStorage.profile).user_type === 1) {
-        saasobj.email = JSON.parse(localStorage.profile).org_email
-    } else {
-        saasobj.email = JSON.parse(localStorage.profile).login_id
-    }
-
+    // const saasobj = {
+    // email: "nikhil@vnswebsolutions.com",
+    // organisation_id: "1339637714"
+    // }
     const FilterData = (data) => {
 
         const b = {}
@@ -103,6 +99,32 @@ const Design = () => {
     }
     const unsavedesigns = []
     useEffect(async () => {
+        try {
+            const getsaastoken = await axios.post("https://sa.textronic.online/api/get-token", saasobj, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            console.log(getsaastoken.data.api_token)
+            if (getsaastoken.data.api_token) {
+                setsaastoken(getsaastoken.data.api_token)
+                saasobj.api_token = getsaastoken.data.api_token
+                const getcredits = await axios.post("https://sa.textronic.online/api/check-subscription", saasobj, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            if (getcredits.data !== null) {
+                 setcredit(getcredits.data.total_fabric_upload)
+                 setused_credit(getcredits.data.used_fabric_upload)
+            }
+            } else {
+                setsaastoken(null)
+            }
+        } catch (error) {
+            console.error("Error fetching SaaS token:", error)
+            setsaastoken(null)
+        }
         const myColour = await axios.get("./Design/LoadJson") //ToDo:
         const supplierList = await axios.post("./Supplier/Suppliers", obj)
         test((supplierList && (supplierList.data.supplierListDto ? supplierList.data.supplierListDto : null)))
@@ -137,12 +159,6 @@ const Design = () => {
         }).catch(e => {
             Q3drenderpluginURL = `http://CheckAppSeeting`
         })
-        // axios.get('./Login/getsaasapi').then(e => {
-        //     getsaasapi(e.data ? e.data : `http://CheckAppSeeting`)
-        //     localStorage.setItem('saasapi', e.data)
-        // }).catch(e => {
-        //     saasapi = `http://CheckAppSeeting`
-        // })
         await axios.get("./Design/GetConfiguredProducts").then(e => {
             setproduct(JSON.parse(e.data))
             localStorage.setItem('products', e.data)
@@ -155,68 +171,9 @@ const Design = () => {
             setsplist(null)
         }
     }, [])
-    useEffect(async () => {
+    useEffect(() => {
         selection.designInfo = designList.designMaster
     })
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                //const getsaastoken = await axios.post("https://sas.textronic.online/api/get-token",
-                let saasApiUrl = "http://CheckAppSeeting"
-                try {
-                    const res = await axios.get("./Login/Getsaasapi")
-                    if (res?.data) {
-                        saasApiUrl = res.data
-                        localStorage.setItem("saasapi", res.data)
-                    }
-                } catch (err) {
-                    console.error("Error fetching SaaS API URL:", err)
-                }
-
-                // optional: update state if you have one
-                getsaasapi(saasApiUrl)
-                const getsaastoken = await axios.post(`${saasApiUrl}get-token`,
-                    saasobj,
-                    {
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    }
-                )
-
-                console.log(getsaastoken.data.api_token)
-
-                if (getsaastoken.data.api_token) {
-                    setsaastoken(getsaastoken.data.api_token)
-                    saasobj.api_token = getsaastoken.data.api_token
-
-                    const getcredits = await axios.post(
-                        `${saasApiUrl}check-subscription`,
-                        saasobj,
-                        {
-                            headers: {
-                                "Content-Type": "application/json"
-                            }
-                        }
-                    )
-
-                    if (getcredits.data !== null) {
-                        setcredit(getcredits.data.total_fabric_upload)
-                        setused_credit(getcredits.data.used_fabric_upload)
-                        setremaning_credit(getcredits.data.remaining_credits)
-                    }
-                } else {
-                    setsaastoken(null)
-                }
-            } catch (error) {
-                console.error("Error fetching SaaS token:", error)
-                setsaastoken(null)
-            }
-        }
-        if (JSON.parse(localStorage.profile).user_type !== 0) {
-            fetchData()
-        }
-    }, [modal]) // runs on mount + whenever `modal` state changes
 
     const toSetSelectedAll = (isSelectAll) => {
         if (!select) {
@@ -248,8 +205,7 @@ const Design = () => {
                     tempsearchValue={tempsearchValue} setTempSearchValue={setTempSearchValue} pagestartref={pagestartref} pagendref={pagendref} setSelectedPage={setSelectedPage} selectedPage={selectedPage}
                     designcount={designcount} orderbyref={orderbyref} orderbycountref={orderbycountref} supplierref={supplierref} loaderRef={loaderRef}
                     Q3drenderpluginURL={Q3drenderpluginURL} products={products} unsavedesigns={unsavedesigns} access={access} singlerepeat={singlerepeat}
-                    saastoken={saastoken} credit={credit} usedcredit={used_credit} setused_credit={setused_credit} remaning_credit={remaning_credit} setremaning_credit={setremaning_credit}
-                    modal={modal} setModal={setModal} toggle={toggle} saasapi={saasapi}
+                    saastoken={saastoken} credit={credit} usedcredit={used_credit} setused_credit={setused_credit}
                 />
                 <ImgGrid ImgViewToggle={ImgViewToggle} setImgViewToggle={setImgViewToggle} setDesignList={setDesignList} designList={designList} reRender={reRender} setreRender={setreRender}
                     activeView={activeView} setActiveView={setActiveView} tempsearchValue={tempsearchValue} pagestartref={pagestartref} pagendref={pagendref} selectedPage={selectedPage}

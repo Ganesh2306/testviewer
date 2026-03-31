@@ -166,10 +166,7 @@ const OnHoverOption = ({ src, id, fibName, setreRender, reRender, features, seto
             features={features}
           />
         </Button>
-        {/* {access.current !== null && access.current["444449"] && !access.current["444449"]["227789"] && <Button className="iconthumb" color='light' title="Garment" href={org_type === 2 ? `${selection.Q3dURL}?k=${selection.userId()}&t=${fibName}` : `${selection.Q3dURL}?k=${JSON.parse(supplierref.current.value).toString(16)}&t=${fibName}`} target="_blank">
-          <Icon icon={tshirtCrewOutline} role='button' />
-        </Button>} */}
-        {access.current !== null && access.current["444449"] && !access.current["444449"]["227789"] && <Button className="iconthumb" color='light' title="Garment" href={window.location.host === 'getznertech-admin.q3d.in' ? `${selection.Q3dURL}?k=${selection.userId()}&t=${fibName}&p=ecom` : (org_type === 2 ? `${selection.Q3dURL}?k=${selection.userId()}&t=${fibName}` : `${selection.Q3dURL}?k=${parseInt(supplierref.current.value).toString(16)}&t=${fibName}`)} target="_blank">
+        {access.current !== null && access.current["444449"] && !access.current["444449"]["227789"] && <Button className="iconthumb" color='light' title="Garment" href={org_type === 2 ? `${selection.Q3dURL}?k=${selection.userId()}&t=${fibName}` : `${selection.Q3dURL}?k=${JSON.parse(supplierref.current.value).toString(16)}&t=${fibName}`} target="_blank">
           <Icon icon={tshirtCrewOutline} role='button' />
         </Button>}
         {(ability.can('display', 'Design') || ability.can('show', 'Design')) && <Button className="iconthumb" onClick={async () => {
@@ -213,6 +210,10 @@ const ImgBox = (props) => {
     setFeatures(props.features)
   }, [])
 
+  /* useEffect(() => {
+    
+    setCheck()
+  }, []) */
   const handleError = (e) => {
     if (e.currentTarget.src !== props.localSrc && checkBackgroundImage.current) {
       checkBackgroundImage.current.style.backgroundImage = `url("${props.localSrc}")`
@@ -224,7 +225,9 @@ const ImgBox = (props) => {
   return (
 
     <tr className='ecommerce-card card mb-1 p-0'
-
+    //onClick={(e) => {       
+    //selection.showSelected({ id: props.imgId, name: props.fname, imgUrl: src, features: Features, designSize: props.designSize, ctrlKey: e.ctrlKey })
+    //}}
     >
 
       <td className="thumb-checkbox-wrap">
@@ -242,6 +245,9 @@ const ImgBox = (props) => {
         <div key={`c-${props.imgId}`} id={props.id}
           designid={props.imgId}
           className={divstyle}
+        //  onClick={(e) => {       
+        // selection.showSelected({ id: props.imgId, name: props.fname, imgUrl: src, features: Features, designSize: props.designSize, ctrlKey: true })
+        // }} 
         >
 
           <div className='custom-control custom-checkbox'>
@@ -413,272 +419,211 @@ const ImgGrid = (p) => {
   const handleCalendarClose = () => {
     setShowCalendar(false)
   }
-  
-  const formatDate = (date) => {
-    return date.toLocaleDateString('sv-SE')
-  }
-
   const handleDateRangeChange = async (item) => {
-
-    const startdate = formatDate(item.selection.startDate)
-    const enddate = formatDate(item.selection.endDate)
-
-    const payload = {
-      StartDate: startdate,
-      EndDate: enddate
-    }
     setState([item.selection])
-
-    try {
-      const response = await axios.post("./Design/GetRenderCount", payload)
-      const data = JSON.parse(response.data).totalDrapeCount
-      setcount(data)
-    } catch (err) {
-      console.error(err)
-    }
+    const response = await axios.post(`./Design/GetRenderCount`, item.selection)
+    const data = JSON.parse(response.data).totalDrapeCount
+    setcount(data)
   }
   // Function to show Monthly Rendered count
-  // const Monthly = async () => {
-  //   const da = new Date()
-  //   let cdate = ""
-  //   let fdate = ""
-  //   if (da.getMonth() + 1 < 10 && da.getDate() < 10) {
-  //     cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 > 10 && da.getDate() >= 10) {
-  //     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 < 10 && da.getDate() >= 10) {
-  //     cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 > 10 && da.getDate() < 10) {
-  //     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 === 10 && da.getDate() === 10) {
-  //     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 === 10 && da.getDate() > 10) {
-  //     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 === 10 && da.getDate() < 10) {
-  //     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
-  //   }
-
-  //   if (da.getMonth() + 1 < 10) {
-  //     fdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${1}`
-  //   }
-  //   if (da.getMonth() + 1 > 10) {
-  //     fdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${1}`
-  //   }
-  //   if (da.getMonth() + 1 === 10) {
-  //     fdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${1}`
-  //   }
-  //   const obj = {
-  //     StartDate: fdate,
-  //     EndDate: cdate
-  //   }
-  //   await axios.post(`./Design/GetRenderCount`, obj).then(response => {
-  //     const data = JSON.parse(response.data).totalDrapeCount
-  //     setcount(data)
-  //   })
-  // }
-  // Function to show Yearly Rendered count
-  // const Yearly = async () => {
-  //   const da = new Date()
-  //   let cdate = ""
-  //   let fdate = ""
-
-  //   if (da.getMonth() + 1 < 10 && da.getDate() < 10) {
-  //     cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 > 10 && da.getDate() >= 10) {
-  //     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 < 10 && da.getDate() >= 10) {
-  //     cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 > 10 && da.getDate() < 10) {
-  //     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 === 10 && da.getDate() === 10) {
-  //     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 === 10 && da.getDate() > 10) {
-  //     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //   }
-  //   if (da.getMonth() + 1 === 10 && da.getDate() < 10) {
-  //     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
-  //   }
-  //   fdate = `${da.getFullYear()}-0${1}-0${1}`
-  //   const obj = {
-  //     StartDate: fdate,
-  //     EndDate: cdate
-  //   }
-  //   await axios.post(`./Design/GetRenderCount`, obj).then(response => {
-  //     const data = JSON.parse(response.data).totalDrapeCount
-  //     setcount(data)
-  //   })
-  // }
-  //Function to show Weekly Rendered count
-  // const Weekly = async () => {
-  //   const da = new Date()
-  //   let cdate = ""
-  //   let fdate = ""
-  //   cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //   fdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate() - 6}`
-  //   const newDate = da.getDate() - 6
-  //   if (newDate <= 0) {
-
-  //     const currentDate = new Date()
-  //     const sixDaysBefore = new Date(currentDate)
-
-  //     sixDaysBefore.setDate(currentDate.getDate() - 6)
-  //     while (sixDaysBefore > currentDate) {
-  //       sixDaysBefore.setDate(sixDaysBefore.getDate() - 1)
-  //     }
-
-  //     fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-${sixDaysBefore.getDate()}`
-  //     //Current Date
-  //     if (da.getMonth() + 1 < 10 && da.getDate() < 10) {
-  //       cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 > 10 && da.getDate() >= 10) {
-  //       cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 < 10 && da.getDate() >= 10) {
-  //       cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 > 10 && da.getDate() < 10) {
-  //       cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 === 10 && da.getDate() === 10) {
-  //       cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 === 10 && da.getDate() > 10) {
-  //       cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 === 10 && da.getDate() < 10) {
-  //       cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
-  //     }
-  //     //First Date
-  //     if (sixDaysBefore.getMonth() + 1 < 10 && sixDaysBefore.getDate() < 10) {
-  //       fdate = `${sixDaysBefore.getFullYear()}-0${sixDaysBefore.getMonth() + 1}-0${sixDaysBefore.getDate()}`
-  //     }
-  //     if (sixDaysBefore.getMonth() + 1 > 10 && sixDaysBefore.getDate() >= 10) {
-  //       fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-${sixDaysBefore.getDate()}`
-  //     }
-  //     if (sixDaysBefore.getMonth() + 1 < 10 && sixDaysBefore.getDate() >= 10) {
-  //       fdate = `${sixDaysBefore.getFullYear()}-0${sixDaysBefore.getMonth() + 1}-${sixDaysBefore.getDate()}`
-  //     }
-  //     if (sixDaysBefore.getMonth() + 1 > 10 && sixDaysBefore.getDate() < 10) {
-  //       fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-0${sixDaysBefore.getDate()}`
-  //     }
-  //     if (sixDaysBefore.getMonth() + 1 === 10 && sixDaysBefore.getDate() === 10) {
-  //       fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-${sixDaysBefore.getDate()}`
-  //     }
-  //     if (sixDaysBefore.getMonth() + 1 === 10 && sixDaysBefore.getDate() > 10) {
-  //       fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-${sixDaysBefore.getDate()}`
-  //     }
-  //     if (sixDaysBefore.getMonth() + 1 === 10 && sixDaysBefore.getDate() < 10) {
-  //       fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-0${sixDaysBefore.getDate()}`
-  //     }
-  //   } else {
-  //     //Current Date
-  //     if (da.getMonth() + 1 < 10 && da.getDate() < 10) {
-  //       cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 > 10 && da.getDate() >= 10) {
-  //       cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 < 10 && da.getDate() >= 10) {
-  //       cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 > 10 && da.getDate() < 10) {
-  //       cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 === 10 && da.getDate() === 10) {
-  //       cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 === 10 && da.getDate() > 10) {
-  //       cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
-  //     }
-  //     if (da.getMonth() + 1 === 10 && da.getDate() < 10) {
-  //       cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
-  //     }
-  //     //First Date
-  //     if (da.getMonth() + 1 < 10 && newDate < 10) {
-  //       fdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate() - 6}`
-  //     }
-  //     if (da.getMonth() + 1 > 10 && newDate >= 10) {
-  //       fdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate() - 6}`
-  //     }
-  //     if (da.getMonth() + 1 < 10 && newDate >= 10) {
-  //       fdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate() - 6}`
-  //     }
-  //     if (da.getMonth() + 1 > 10 && newDate < 10) {
-  //       fdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate() - 6}`
-  //     }
-  //     if (da.getMonth() + 1 === 10 && newDate === 10) {
-  //       fdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate() - 6}`
-  //     }
-  //     if (da.getMonth() + 1 === 10 && newDate < 10) {
-  //       fdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate() - 6}`
-  //     }
-  //     if (da.getMonth() + 1 === 10 && newDate > 10) {
-  //       fdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate() - 6}`
-  //     }
-  //   }
-  //   const obj = {
-  //     StartDate: fdate,
-  //     EndDate: cdate
-  //   }
-  //   await axios.post(`./Design/GetRenderCount`, obj).then(response => {
-  //     const data = JSON.parse(response.data).totalDrapeCount
-  //     setcount(data)
-  //   })
-  // }
-
   const Monthly = async () => {
-    const today = new Date()
-    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1)
-
-    const obj = {
-      StartDate: firstDay.toLocaleDateString('sv-SE'),
-      EndDate: today.toLocaleDateString('sv-SE')
+    const da = new Date()
+    let cdate = ""
+    let fdate = ""
+    if (da.getMonth() + 1 < 10 && da.getDate() < 10) {
+      cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate()}`
+    }
+    if (da.getMonth() + 1 > 10 && da.getDate() >= 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+    }
+    if (da.getMonth() + 1 < 10 && da.getDate() >= 10) {
+      cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate()}`
+    }
+    if (da.getMonth() + 1 > 10 && da.getDate() < 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+    }
+    if (da.getMonth() + 1 === 10 && da.getDate() === 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+    }
+    if (da.getMonth() + 1 === 10 && da.getDate() > 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+    }
+    if (da.getMonth() + 1 === 10 && da.getDate() < 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
     }
 
-    const response = await axios.post("./Design/GetRenderCount", obj)
-    const data = JSON.parse(response.data).totalDrapeCount
-    setcount(data)
+    if (da.getMonth() + 1 < 10) {
+      fdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${1}`
+    }
+    if (da.getMonth() + 1 > 10) {
+      fdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${1}`
+    }
+    if (da.getMonth() + 1 === 10) {
+      fdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${1}`
+    }
+    const obj = {
+      StartDate: fdate,
+      EndDate: cdate
+    }
+    await axios.post(`./Design/GetRenderCount`, obj).then(response => {
+      const data = JSON.parse(response.data).totalDrapeCount
+      setcount(data)
+    })
   }
-
+  //Function to show Yearly Rendered count
   const Yearly = async () => {
-    const today = new Date()
-    const firstDay = new Date(today.getFullYear(), 0, 1)
+    const da = new Date()
+    let cdate = ""
+    let fdate = ""
 
-    const obj = {
-      StartDate: firstDay.toLocaleDateString('sv-SE'),
-      EndDate: today.toLocaleDateString('sv-SE')
+    if (da.getMonth() + 1 < 10 && da.getDate() < 10) {
+      cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate()}`
     }
-
-    const response = await axios.post("./Design/GetRenderCount", obj)
-    const data = JSON.parse(response.data).totalDrapeCount
-    setcount(data)
+    if (da.getMonth() + 1 > 10 && da.getDate() >= 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+    }
+    if (da.getMonth() + 1 < 10 && da.getDate() >= 10) {
+      cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate()}`
+    }
+    if (da.getMonth() + 1 > 10 && da.getDate() < 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+    }
+    if (da.getMonth() + 1 === 10 && da.getDate() === 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+    }
+    if (da.getMonth() + 1 === 10 && da.getDate() > 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+    }
+    if (da.getMonth() + 1 === 10 && da.getDate() < 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+    }
+    fdate = `${da.getFullYear()}-0${1}-0${1}`
+    const obj = {
+      StartDate: fdate,
+      EndDate: cdate
+    }
+    await axios.post(`./Design/GetRenderCount`, obj).then(response => {
+      const data = JSON.parse(response.data).totalDrapeCount
+      setcount(data)
+    })
   }
-
+  //Function to show Weekly Rendered count
   const Weekly = async () => {
-    const today = new Date()
-    const start = new Date()
-    start.setDate(today.getDate() - 6)
+    const da = new Date()
+    let cdate = ""
+    let fdate = ""
+    cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+    fdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate() - 6}`
+    const newDate = da.getDate() - 6
+    if (newDate <= 0) {
 
-    const obj = {
-      StartDate: start.toLocaleDateString('sv-SE'),
-      EndDate: today.toLocaleDateString('sv-SE')
+      const currentDate = new Date()
+      const sixDaysBefore = new Date(currentDate)
+
+      sixDaysBefore.setDate(currentDate.getDate() - 6)
+      while (sixDaysBefore > currentDate) {
+        sixDaysBefore.setDate(sixDaysBefore.getDate() - 1)
+      }
+
+      fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-${sixDaysBefore.getDate()}`
+      //Current Date
+      if (da.getMonth() + 1 < 10 && da.getDate() < 10) {
+        cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate()}`
+      }
+      if (da.getMonth() + 1 > 10 && da.getDate() >= 10) {
+        cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+      }
+      if (da.getMonth() + 1 < 10 && da.getDate() >= 10) {
+        cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate()}`
+      }
+      if (da.getMonth() + 1 > 10 && da.getDate() < 10) {
+        cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+      }
+      if (da.getMonth() + 1 === 10 && da.getDate() === 10) {
+        cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+      }
+      if (da.getMonth() + 1 === 10 && da.getDate() > 10) {
+        cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+      }
+      if (da.getMonth() + 1 === 10 && da.getDate() < 10) {
+        cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+      }
+      //First Date
+      if (sixDaysBefore.getMonth() + 1 < 10 && sixDaysBefore.getDate() < 10) {
+        fdate = `${sixDaysBefore.getFullYear()}-0${sixDaysBefore.getMonth() + 1}-0${sixDaysBefore.getDate()}`
+      }
+      if (sixDaysBefore.getMonth() + 1 > 10 && sixDaysBefore.getDate() >= 10) {
+        fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-${sixDaysBefore.getDate()}`
+      }
+      if (sixDaysBefore.getMonth() + 1 < 10 && sixDaysBefore.getDate() >= 10) {
+        fdate = `${sixDaysBefore.getFullYear()}-0${sixDaysBefore.getMonth() + 1}-${sixDaysBefore.getDate()}`
+      }
+      if (sixDaysBefore.getMonth() + 1 > 10 && sixDaysBefore.getDate() < 10) {
+        fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-0${sixDaysBefore.getDate()}`
+      }
+      if (sixDaysBefore.getMonth() + 1 === 10 && sixDaysBefore.getDate() === 10) {
+        fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-${sixDaysBefore.getDate()}`
+      }
+      if (sixDaysBefore.getMonth() + 1 === 10 && sixDaysBefore.getDate() > 10) {
+        fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-${sixDaysBefore.getDate()}`
+      }
+      if (sixDaysBefore.getMonth() + 1 === 10 && sixDaysBefore.getDate() < 10) {
+        fdate = `${sixDaysBefore.getFullYear()}-${sixDaysBefore.getMonth() + 1}-0${sixDaysBefore.getDate()}`
+      }
+    } else {
+      //Current Date
+      if (da.getMonth() + 1 < 10 && da.getDate() < 10) {
+        cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate()}`
+      }
+      if (da.getMonth() + 1 > 10 && da.getDate() >= 10) {
+        cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+      }
+      if (da.getMonth() + 1 < 10 && da.getDate() >= 10) {
+        cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate()}`
+      }
+      if (da.getMonth() + 1 > 10 && da.getDate() < 10) {
+        cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+      }
+      if (da.getMonth() + 1 === 10 && da.getDate() === 10) {
+        cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+      }
+      if (da.getMonth() + 1 === 10 && da.getDate() > 10) {
+        cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+      }
+      if (da.getMonth() + 1 === 10 && da.getDate() < 10) {
+        cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+      }
+      //First Date
+      if (da.getMonth() + 1 < 10 && newDate < 10) {
+        fdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate() - 6}`
+      }
+      if (da.getMonth() + 1 > 10 && newDate >= 10) {
+        fdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate() - 6}`
+      }
+      if (da.getMonth() + 1 < 10 && newDate >= 10) {
+        fdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate() - 6}`
+      }
+      if (da.getMonth() + 1 > 10 && newDate < 10) {
+        fdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate() - 6}`
+      }
+      if (da.getMonth() + 1 === 10 && newDate === 10) {
+        fdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate() - 6}`
+      }
+      if (da.getMonth() + 1 === 10 && newDate < 10) {
+        fdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate() - 6}`
+      }
+      if (da.getMonth() + 1 === 10 && newDate > 10) {
+        fdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate() - 6}`
+      }
     }
-
-    const response = await axios.post("./Design/GetRenderCount", obj)
-    const data = JSON.parse(response.data).totalDrapeCount
-    setcount(data)
+    const obj = {
+      StartDate: fdate,
+      EndDate: cdate
+    }
+    await axios.post(`./Design/GetRenderCount`, obj).then(response => {
+      const data = JSON.parse(response.data).totalDrapeCount
+      setcount(data)
+    })
   }
   return (
     <>

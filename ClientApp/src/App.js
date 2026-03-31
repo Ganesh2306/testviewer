@@ -10,10 +10,15 @@ import { Link, useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import  ProfileProvider from "./views/context/ProfileContext"
 import { R_Loader } from '../../ClientApp/src/views/loader/loader'
-
+// import jQuery from 'jquery'
+// window.jQuery = jQuery
+// window.$ = jQuery
+// window.mainTDS = require('../../ClientApp/src/assets/CommonScript/q3d-lite.js')
+//import { ToastContainer, toast } from 'react-toastify'
+//import "react-toastify/dist/ReactToastify.css"
 const Newapp = () => {
     const [isOnline, setIsOnline] = useState(true)
-    console.info('%cARCHIVE_ADMIN v 0.86--05/03', 'background: #222; color: #bada55')
+    console.info('%cARCHIVE_ADMIN v 0.15--24/09', 'background: #222; color: #bada55')
     const history = useHistory()
     const dispatch = useDispatch()
     const myStyles = {
@@ -62,6 +67,7 @@ const Newapp = () => {
     validation()
 
         const Swal = require('sweetalert2')
+// 
         window.addEventListener("online", () => {
             setIsOnline(true)
         })
@@ -82,4 +88,5 @@ const Newapp = () => {
 )
 }
 const App = (props) =>  <Newapp />
+//const App = props => <Newapp />
 export default App

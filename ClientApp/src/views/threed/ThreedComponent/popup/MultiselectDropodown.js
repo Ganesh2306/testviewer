@@ -7,7 +7,89 @@ import '../../../../customStyles/selectmenu.css'
 import "primereact/resources/primereact.min.css"
 import "primereact/resources/themes/lara-light-indigo/theme.css"
 import "primeicons/primeicons.css"
+//import { Skeleton } from 'primereact/skeleton'
 
+
+// const MultiSelectDropdown = (props) => {
+//     //colourInfo={props.colourInfo}
+//     const {handelOnchange, pid, identifiers, rootstage, id} = props
+//     const [selectedprlist, setSelectedprlist] = useState(null)
+//     const [selectedCountries, setSelectedCountries] = useState(null)
+//     //const [items] = useState(Array.from({ length: 100000 }).map((_, i) => ({ label: `Item #${i}`, value: i })))
+//  const prlist =  props.PrOrList.ProductList
+//  //orlist.findIndex(org => org.organisation_id === props.datard?.td_images_org_configuration[0]?.td_Organisation_Id)
+//  const i = props.datard?.Td_Productname !== null && props.datard?.Td_Productname !== undefined && props.datard?.Td_Productname[0]?.td_Productname !== null && props.datard?.Td_Productname[0]?.td_Productname !== undefined && prlist.indexOf(props.datard?.Td_Productname[0]?.td_Productname)
+//  const objName = identifiers === `Td_Productname` ? `td_Productname` : `td_Group_Product_Name`
+    
+//     function pr(z) {
+//         const obj = {}
+//         obj[objName] = z
+//         obj.code = z
+//         return obj
+//     }
+
+//    const pro = prlist.map(pr)
+
+//  useEffect(() => {
+//      setSelectedCountries([])
+// }, [])
+// useEffect(() => {
+//     if (props.datard?.Td_Productname !== null && props.datard?.Td_Productname !== undefined && props.datard?.Td_Productname[0]?.td_Productname !== null && props.datard?.Td_Productname[0]?.td_Productname !== undefined && i !== -1) {
+//         setSelectedprlist([pro[i]])
+//     } else {
+//         setSelectedprlist([])
+//     }
+// }, [])
+
+//     const countryTemplate = (option) => {
+//         return (
+//             <div className="country-item">
+//                 <img alt={option.name} src="images/flag/flag_placeholder.png"  />
+//                 <div>{option.name}</div>
+//             </div>
+//         )
+//     }
+
+//     const selectedCountriesTemplate = (option) => {
+//         if (option) {
+//             return (
+//                 <div className="country-item country-item-value">
+//                     <img alt={option.name} src="images/flag/flag_placeholder.png"  />
+//                     <div>{option.name}</div>
+//                 </div>
+//             )
+//         }
+
+//         return "Select Countries"
+//     }
+
+//     const panelFooterTemplate = () => {
+//         const selectedItems = selectedCountries
+//         const length = selectedItems ? selectedItems.length : 0
+//         return (
+//             <div className="py-2 px-3">
+//                 <b>{length}</b> item{length > 1 ? 's' : ''} selected.
+//             </div>
+//         )
+//     }
+
+//     return (
+//         <div className="multiselect-demo">
+//             <div className="card">   
+//                 <MultiSelect appendTo='self' value={selectedprlist} options={pro} 
+            
+//                     onChange={(e) => {
+//                         handelOnchange({pid, id, identifiers, text:{target:{value:e.value}}, rootstage})
+//                         setSelectedprlist(e.value)
+//                     }}
+//                     optionLabel={`${objName}`}              
+//                   display="chip"
+//                 />
+               
+//             </div>
+//         </div>
+//     )
+// } // rinku_old_code
 export const MultiSelectDropdown = (props) => {
     const { handelOnchange, pid, identifiers, rootstage, id } = props
     const [selectedprlist, setSelectedprlist] = useState([])
@@ -31,7 +113,6 @@ export const MultiSelectDropdown = (props) => {
         if (newOption.trim() && !prlist.includes(newOption)) {
           const newPro = { [objName]: newOption, code: newOption }
           prlist.push(newOption) // Update the original list
-          prlist.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
           setSelectedprlist([...selectedprlist, newPro]) // Update selected list
           setNewOption('') // Clear the input after adding
           props.onAddProduct(newPro)  // Pass the newPro object as a prop to MultiSelectDropdown2
@@ -81,11 +162,7 @@ export const MultiSelectDropdown = (props) => {
                     display="chip"
                     itemTemplate={(option) => (
                         <div className='text'>
-                          <span 
-                          //style={{ margin: '10%' }} 
-                          >
-                            {option[objName]}
-                            </span>
+                          <span style={{ margin: '10%' }} >{option[objName]}</span>
                           {/* <i
                             className="p-multiselect-token-icon pi pi-times-circle"
                             style={{  cursor: 'pointer', color: "#4338CA" }}

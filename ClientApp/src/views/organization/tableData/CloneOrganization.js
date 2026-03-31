@@ -15,7 +15,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 const CloneOrganization = (props) => {
     const [is_open, setis_open] = useState(false)
     const Swal = require('sweetalert2')
-     const loaderRef = useRef(null)
     const dispatch = useDispatch()
     const SignupSchema = yup.object().shape({
         Org_Name: yup.string().trim().min(2, "Organisation Name must have at least 2 characters").max(50, "Organisation Name can have max 50 characters").required("Organisation Name is required"),
@@ -39,6 +38,10 @@ const CloneOrganization = (props) => {
     const { register, errors, handleSubmit, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(SignupSchema) })
     const onSubmit = data => {
 
+        // dispatch({
+        //     type: 'ADD_USER',
+        //     data: null
+        // })
         const obj = new Object()
         obj.CompanyName = data.Org_Name
         obj.FirstName = data.first_name
@@ -58,11 +61,10 @@ const CloneOrganization = (props) => {
         obj.render_limit = Number(data.render_limit)
         obj.download_limit = Number(data.download_limit)
         obj.model_limit = Number(data.model_limit)
-        obj.is_not_saasuser = true
         axios.post(`./Organization/SaveSaasConfigurations`, obj)
-            .then(response => { 
-                const Isave = response.data === null ? null : JSON.parse(response.data).issave
-                if (Isave !== null && Isave === 'true' && Isave !== undefined) {
+            .then(response => {
+                const Isave = response.data === null ? null : JSON.parse(response.data).Issave
+                if (Isave !== null && Isave !== false) {
                     Swal.fire(
                         'Success!',
                         'Organization Saved Successfully!!',

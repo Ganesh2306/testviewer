@@ -14,7 +14,7 @@ namespace ARCHIVE_DASHBOARD
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
-        } 
+        }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
@@ -28,11 +28,9 @@ namespace ARCHIVE_DASHBOARD
                     //webBuilder.UseUrls("http://0.0.0.0:7001", "http://0.0.0.0:7002"); //Ramraj
                     //webBuilder.UseUrls("http://0.0.0.0:7003", "http://0.0.0.0:7004"); //Nil
                     //webBuilder.UseUrls("http://0.0.0.0:7005", "http://0.0.0.0:7006"); //Raymond
-                    //webBuilder.UseUrls("http://0.0.0.0:8008", "http://0.0.0.0:8009"); //(admin.dam3d.in)
-                    webBuilder.UseUrls("http://0.0.0.0:7007", "http://0.0.0.0:7008");//q3dlite(tadmin.dam3d.in)
-                    //webBuilder.UseUrls("http://0.0.0.0:8000");
-                    //webBuilder.UseUrls("http://0.0.0.0:3016");   //sass(sadmin.dam3d.in)
-                    //webBuilder.UseUrls("http://0.0.0.0:8013"); //(cadmin.dam3d.in)
-                }); 
+                    webBuilder.UseUrls("http://0.0.0.0:8008", "http://0.0.0.0:8009"); //(admin.dam3d.in)
+                    //webBuilder.UseUrls("http://0.0.0.0:7007", "http://0.0.0.0:7008");//q3dlite(tadmin.dam3d.in)
+                    //webBuilder.UseUrls("http://0.0.0.0:3016");   //sass
+                });
     }
 }

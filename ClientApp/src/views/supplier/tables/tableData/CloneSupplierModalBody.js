@@ -328,25 +328,6 @@ return (
                 {errors && errors.password_hash && <FormFeedback>{errors.password_hash.message}</FormFeedback>}
             </div>
         </Col>
-
-         <Col className="row form-group">
-                <Label className="col-form-Label col-sm-12 col-md-4 col-lg-2 mt-1">Fabric Upload Limit <span style={{ color: 'red' }}>*</span></Label>
-
-                <div className="col-sm-12 col-md-8 col-lg-4 p-0 mt-1">
-                    <Input
-                        type="text"
-                        autocomplete="none"
-                        className="form-control"
-                        id="fabric upload limit"
-                        placeholder="fabric upload limit"
-                        innerRef={register({ required: true })}
-                        invalid={errors.fabric_upload_limit && true}
-                        name="fabric_upload_limit"
-                    />
-                    {errors && errors.fabric_upload_limit && <FormFeedback>{errors.fabric_upload_limit.message}</FormFeedback>}
-                </div>
-            </Col>
-
     </ModalBody >
 )
 }

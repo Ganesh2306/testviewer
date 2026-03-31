@@ -31,6 +31,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
         }
         public IActionResult GetDesignConfigurationByOrganisationID()
         {
+
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             string url = "api/Configuration/GetDesignConfigurationByOrganisationID?OrganisationId=" + myComplexObject.OrganisationId;
             var response = ApiHelper.GetDataNewQS(baseAddress, url, myComplexObject.AccessToken);
@@ -53,6 +54,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
                 return Json(new ConfigureRoot());
 
         }
+
+
         public IActionResult GetDesignTypeByOrgId()
         {
 
@@ -74,6 +77,8 @@ namespace ARCHIVE_DASHBOARD.Controllers
                 return Json(new RootTypeID());
 
         }
+
+
         public IActionResult GetDesignGroupByOrgId([FromBody] inputid inputid)
         {
 
@@ -136,6 +141,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             return result.allDesignTypeList;
 
         }
+
         public IActionResult GetDesignGroupList()
         {
 
@@ -173,6 +179,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             else
                 return Json(new RootDesignFeaturesList());
         }
+
         public IActionResult DesignFeautreSearch([FromBody] Paging paging)
         {
 
@@ -242,6 +249,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             return result;
 
         }
+
         public IActionResult SaveFeature([FromBody] List<SaveFeatureRequestDto> root)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");

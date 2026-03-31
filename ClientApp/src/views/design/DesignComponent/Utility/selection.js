@@ -61,9 +61,10 @@ export var selection = {
 
     setSelected({ id, name, imgUrl, features, designSize, designCode }) {
         //creating url for z image from t 
+        //imgUrl = imgUrl.replace('//t//', '//z//')
+        //imgUrl = imgUrl.replace('/t/', '/z/')
         imgUrl = imgUrl.replace('/t/', '/z/').replace('//t//', '//z//')
-        // imgUrl = imgUrl.replace("t.", "z.")
-        imgUrl = imgUrl.replace(/t\.jpg/, "z.jpg")
+        imgUrl = imgUrl.replace("t.", "z.")
         //console.log(imageUrl)
         this.slected[id] = { name, imgUrl, id, features, designSize, designCode }
         this.selected2.push({ name, imgUrl, id, features, designSize, designCode })
@@ -159,7 +160,14 @@ export var selection = {
                     ele.innerText = this.selected2.length
                 }
             }
-        
+            // else {
+            //     /* this.hideSelectedAll()
+            //     this.reMoveAll()
+            //     element.classList.add('thumbselectDesign')
+            //     this.setSelected({id, name, imgUrl, features, designSize}) */
+            //     //document.querySelector(`#design-thum-${id} input`).checked = true
+            // }
+
             //ToDo : ShowSelected  // reMoveSelected Working 
         } catch (error) {
             console.error(error)
@@ -177,6 +185,13 @@ export var selection = {
                 const ele = document.getElementById('count')
                 ele.innerText = this.selected2.length
             }
+            // else {
+            //     /* this.hideSelectedAll()
+            //     this.reMoveAll()
+            //     element.classList.add('thumbselectDesign')
+            //     this.setSelected({id, name, imgUrl, features, designSize}) */
+            //     //document.querySelector(`#design-thum-${id} input`).checked = true
+            // }
 
             //ToDo : ShowSelected  // reMoveSelected Working 
         } catch (error) {
@@ -206,10 +221,9 @@ export var selection = {
     getQrLink(getQ3dUrl, fabName) {
         const str = Object.values(this.selected2).map(e => e.name).join() ? Object.values(this.selected2).map(e => e.name).join() : fabName
         if (getQ3dUrl) {
-            // if ((JSON.parse(localStorage.getItem('profile'))?.org_type_id) !== null && (JSON.parse(localStorage.getItem('profile'))?.org_type_id)) {
-            //     return encodeURI(`${this.Q3dURL}?k=${(JSON.parse(localStorage.getItem('profile'))?.org_type_id).toString(16)}&t=${str}`)
-            // }
-          return  window.location.host === 'getznertech-admin.q3d.in' ? encodeURI(`${this.Q3dURL}?k=${(JSON.parse(localStorage.getItem('profile'))?.org_type_id).toString(16)}&t=${str}&p=ecom`) : encodeURI(`${this.Q3dURL}?k=${(JSON.parse(localStorage.getItem('profile'))?.org_type_id).toString(16)}&t=${str}`)
+            if ((JSON.parse(localStorage.getItem('profile'))?.org_type_id) !== null && (JSON.parse(localStorage.getItem('profile'))?.org_type_id)) {
+                return encodeURI(`${this.Q3dURL}?k=${(JSON.parse(localStorage.getItem('profile'))?.org_type_id).toString(16)}&t=${str}`)
+            }
 
         } else {
             return str

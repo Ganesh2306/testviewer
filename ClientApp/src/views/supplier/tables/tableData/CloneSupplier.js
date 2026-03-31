@@ -7,7 +7,7 @@ import { ModalFooterUISaveCancel, ModalFooterUI } from '../../../modal/ModalFoot
 import axios from 'axios'
 import * as yup from 'yup'
 import "yup-phone"
-import { useDispatch } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -27,12 +27,11 @@ const CloneSupplier = (props) => {
         Org_Website: yup.string().max(48, "Website  Name can have max 48 characters").required("Website is required").matches(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g, "Please enter valid website"),
         first_name: yup.string().trim().min(2, "First Name must have at least 2 characters").max(32, "First Name can have max 32 characters").matches(/^\S*$/, "please enter valid first Name").required().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for Firstname "),
         last_name: yup.string().trim().min(2, "Last Name must have at least 2 characters").max(32, "Last Name can have max 32 characters").matches(/^\S*$/, "please enter valid last Name").required().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for Lastname "),
-        password_hash: yup.string().trim().min(8, "Password must be at least 8 characters").max(15, "Password can be upto 15 characters").required('Password is required'),
-        fabric_upload_limit: yup.string().required("please enter upload fabric limit")
-    })
+        password_hash: yup.string().trim().min(8, "Password must be at least 8 characters").max(15, "Password can be upto 15 characters").required('Password is required')
+        })
     const { register, errors, handleSubmit, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(SignupSchema) })
     const onSubmit = data => {
-
+    
         const obj = new Object()
         obj.CompanyName = data.Org_Name
         obj.FirstName = data.first_name
@@ -48,12 +47,10 @@ const CloneSupplier = (props) => {
         obj.Password = data.password_hash
         obj.SupplierId = props.id
         obj.OrganisationId = JSON.parse(localStorage.userData).organisationId
-        obj.fabric_upload_limit = Number(data.fabric_upload_limit)
-        obj.is_not_saasuser = true
         axios.post(`./Organization/SaveCloneSupplier`, obj)
             .then(response => {
-                const Isave = response.data === null ? null : JSON.parse(response.data).issave
-                  if (Isave !== null && Isave === 'true' && Isave !== undefined) {
+                const Isave = response.data === null ? null : JSON.parse(response.data).Issave 
+                if (Isave !== null && Isave !== false) {
                     Swal.fire(
                         'Success!',
                         'Supplier Saved Successfully!!',
@@ -65,8 +62,8 @@ const CloneSupplier = (props) => {
                     dispatch(getData(obj))
                     if (props.isOpen) props.setOpen(false)
                     else setis_open(false)
-
-
+                       
+                   
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -83,13 +80,13 @@ const CloneSupplier = (props) => {
     }
     return (
         <div>
-            <Modal backdrop={'static'} isOpen={props.isOpen} toggle={() => props.setOpen(false)} className='modal-lg'>
-                <ModalHeaderUI setis_open={props.setOpen} headerName="Clone Supplier" />
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                    <ModalBodyUI bodyFor="clone" register={register} errors={errors} />
-                    <ModalFooterUISaveCancel setis_open={props.setOpen} FirstBtnName="Clone" SecondBtnName="Cancel" />
-                </Form>
-            </Modal>
+             <Modal backdrop={'static'} isOpen={props.isOpen} toggle={() => props.setOpen(false)} className='modal-lg'>
+                            <ModalHeaderUI setis_open={props.setOpen} headerName="Clone Supplier" />
+                            <Form onSubmit={handleSubmit(onSubmit)}>
+                                <ModalBodyUI bodyFor="clone" register={register} errors={errors} />
+                                <ModalFooterUISaveCancel setis_open={props.setOpen} FirstBtnName="Clone" SecondBtnName="Cancel" />
+                            </Form>
+                        </Modal>
         </div>
     )
 }

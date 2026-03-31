@@ -38,7 +38,7 @@ const CreateObject = (id, info, type) => {
     TdShowroomConfiguration.td_Order_No = info.tdImages[0].isCreditMinus ? 0 : 1
     TdShowroomConfiguration.Td_Credit = info.tdImages[0].td_credit
     TdShowroomConfiguration.Is_Credit_Minus = true//info.tdImages[0].IsCreditMinus || type === 'add'
-
+                                             
     return TdShowroomConfiguration
   } else {
     const TdQvImageConfiguration = new Object()
@@ -66,7 +66,7 @@ const CreateObject2 = (id, info, type) => {
     TdShowroomConfiguration.td_Order_No = 0
     TdShowroomConfiguration.Td_Credit = info.tdImages[0].td_credit
     TdShowroomConfiguration.Is_Credit_Minus = info.tdImages[0].isCreditMinus
-
+                                             
     return TdShowroomConfiguration
   } else {
     const TdQvImageConfiguration = new Object()
@@ -81,7 +81,7 @@ const CreateObject2 = (id, info, type) => {
     return TdQvImageConfiguration
   }
 }
-
+    
 const operation = (type, id, obj, ref) => {
   if (type === 'add') {
     saveConfgi[id] = CreateObject(id, obj, type)
@@ -206,8 +206,8 @@ const OnHoverOption = ({ ability, modal, toggle, id, info, uid, select, forceRer
               checked={check}
               onChange={
                 (e) => {
-                  const crd = parseInt(newselctionref.current?.getAttribute('count'))
-                  if (check) {
+                   const crd = parseInt(newselctionref.current?.getAttribute('count'))
+                   if (check) {
                     newselctionref.current?.setAttribute('count', crd - parseInt(credits))
                     newselctionref.current.textContent = `[selection ${crd - parseInt(credits)}]`
                     operation('remove', info.tdImages[0].td_threed_image_id,
@@ -215,7 +215,7 @@ const OnHoverOption = ({ ability, modal, toggle, id, info, uid, select, forceRer
                       rConfigid(info.td_Qv_Image_Configurations_Id, info.td_showroom_configuration_id)) //! remove this -> from saveConfig Obj
                   } else {
                     if (crd + credits + credit > creditlimit) {
-                        return alert('Not Enough credit balance for configure 3D Image')
+                      return alert('Hey You Have exceeds creditLimit')
                     }
                     newselctionref.current?.setAttribute('count', crd + parseInt(credits))
                     newselctionref.current.textContent = `[selection ${crd + parseInt(credits)}]`
@@ -426,7 +426,7 @@ const ImgBox = ({ id, src, name, imgname, ability, toggle, modal, e, k, select, 
             <div>
               {Combo && <div className="combo">combo</div>}
             </div>
-            <div>
+              <div>
               {isCreditMinus && <div className="paid">paid</div>}
             </div>
           </div>
@@ -563,12 +563,10 @@ const ImgGrid = (p) => {
     }
     await axios.post(`./ThreeD/ConfigureTdImageSearchByOrgId`, obj).then(res => {
       const finalAppendFabrics = (tempresult, type = `t`) => {
-        //const path = tempresult.imageUrl
-        const path = tempresult.localUrl ? tempresult.localUrl : tempresult.imageUrl
+        const path = tempresult.imageUrl
         return {
           totalRecords: tempresult.totalRecords,
-          //creditLimit: tempresult.creditLimit,
-          creditlimit: used_credit,
+          creditLimit: tempresult.creditLimit,
           totalCredit: tempresult.totalCredit,
           fullViewImageConfigurationDtoList: tempresult.fullViewImageConfigurationDtoList ? tempresult.fullViewImageConfigurationDtoList.map((e) => {
             return {
@@ -634,7 +632,7 @@ const ImgGrid = (p) => {
             'grid-view': activeView === 'grid',
             'list-view': activeView === 'list'
           })}>
-            <ImgLooped credit={credit} creditlimit={used_credit} newselctionref={newselctionref}
+            <ImgLooped credit={credit} creditlimit={creditlimit} newselctionref={newselctionref}
               select={p.select} toggle={toggle} modal={modal} imgData={imgData} ability={ability} forceRerender={forceRerender}
               newcheckedref={newcheckedref} PrOrList={PrOrList} showTdsConfiguration={showTdsConfiguration} applicationref={applicationref}
               used_credit={used_credit} setused_credit={setused_credit} saastoken={saastoken} />
