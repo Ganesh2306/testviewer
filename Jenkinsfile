@@ -13,7 +13,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: 'master',
                     url: 'https://github.com/Ganesh2306/testviewer.git',
                     credentialsId: 'github-token'
 
