@@ -1,6 +1,6 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -30,7 +30,6 @@ import { useNavbarColor } from '@hooks/useNavbarColor'
 
 // ** Styles
 import '@styles/base/core/menu/menu-types/horizontal-menu.scss'
-import clientLogo from '../../assets/images/logo/pentaloons.jpg'
 
 const HorizontalLayout = props => {
   // ** Props
@@ -104,26 +103,12 @@ const HorizontalLayout = props => {
   if (!isMounted) {
     return null
   }
-  const history = useHistory()
-  const logoSrc = (() => {
-    const userDataString = localStorage.userData
 
-    if (!userDataString) {
-      history.push('/login')
-      location.reload()
-    }
-
-    try {
-      const userData = JSON.parse(userDataString)
-      return (userData.organisationId === 757782875) ? clientLogo : themeConfig.app.appLogoImage
-    } catch (error) {
-      console.error("Error parsing userData:", error)
-    }
-  })()
   return (
     <div
       className={classnames(
-        `wrapper horizontal-layout horizontal-menu ${navbarWrapperClasses[navbarType] || 'navbar-floating'} ${footerClasses[footerType] || 'footer-static'
+        `wrapper horizontal-layout horizontal-menu ${navbarWrapperClasses[navbarType] || 'navbar-floating'} ${
+          footerClasses[footerType] || 'footer-static'
         } menu-expanded`
       )}
       {...(isHidden ? { 'data-col': '1-column' } : {})}
@@ -135,19 +120,15 @@ const HorizontalLayout = props => {
         })}
       >
         {!navbar && (
-          <div className='navbar-header d-xl-block'>
+          <div className='navbar-header d-xl-block d-none'>
             <ul className='nav navbar-nav'>
               <NavItem>
-
-                <div className='navbar-brand'>
-                  <span className='brand-logo '>
-                    {/* <img className="login-logo-viewer text-lg-center hidden-xs hidden-sm p-50" src={clientLogo}
-          alt="Logo" /> */}
-                    <img className="login-logo-viewer text-lg-center hidden-xs hidden-sm p-50" src={logoSrc} alt="Logo" />
-                    {/* <img src={themeConfig.app.appLogoImage} alt='logo' /> */}
+                <Link to='/' className='navbar-brand'>
+                  <span className='brand-logo'>
+                    <img src={themeConfig.app.appLogoImage} alt='logo' />
                   </span>
-                </div>
-
+                  <h2 className='brand-text mb-0'>{themeConfig.app.appName}</h2>
+                </Link>
               </NavItem>
             </ul>
           </div>
@@ -173,7 +154,7 @@ const HorizontalLayout = props => {
           </Navbar>
         </div>
       ) : null}
-   
+
       {children}
       {themeConfig.layout.customizer === true ? (
         <Customizer
@@ -208,7 +189,7 @@ const HorizontalLayout = props => {
 
       {themeConfig.layout.scrollTop === true ? (
         <div className='scroll-to-top'>
-          <ScrollToTop showUnder={300} style={{ bottom: '5%', zindex: '9' }}>
+          <ScrollToTop showUnder={300} style={{ bottom: '5%' }}>
             <Button className='btn-icon' color='primary'>
               <ArrowUp size={14} />
             </Button>

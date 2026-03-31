@@ -1,67 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <!-- Favicon -->
+    <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-
-    <!-- Viewport settings for mobile optimization -->
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
     <meta name="theme-color" content="#000000" />
-
-    <!-- Web app manifest -->
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!-- Preload and reduced font load -->
-    <!-- <link href="https://fonts.gstatic.com/s/montserrat/v15/Jt7fZ6mMw9weKzVg5K2OaLfS_eJfJ7H8xu9k.woff2" rel="preload" as="font" type="font/woff2" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet"> -->
-
-    <!-- Inline critical CSS -->
     <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+      #suit1 {
+          width: 800px;
+          height: 800px;
+          border: 1px solid black;
+      }
+  </style>
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
 
-    <!-- Responsive CSS (adjusted for critical screen sizes) -->
-    <!--<link rel="stylesheet" media="media= only screen and (max-width: 767px)"  href="./ResponsiveCss/p_mobile.css" />--> 
-    <!-- <link rel="stylesheet" href="./ResponsiveCss/p_totem.css" /> -->
-    <link rel="stylesheet" href="./ResponsiveCss/jquery-ui.css"/> 
-
-    <!-- Preconnect to external resources -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://plugin.dam3d.in" crossorigin>
-
-    <!-- Defer and async for non-critical JavaScript -->
-    <!-- <script src="https://plugin.dam3d.in/q3d/v1/Tds.min.js?v1.1" defer></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script> commented ManishaD called in Design.js-->
-    <!-- <script src="https://plugin.dam3d.in/q3d/v1/Tds.min.js?v3.2" defer></script> commented ManishaD called in Design.js-->
-    <script src="./js/jquery.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-    <!-- <script src="./js/JsBarcodeNew.all.min.js" defer></script> -->
-    <!-- <script src="./js/qrious.js" defer></script> -->
-    <!-- <script src="./js/watermark.js" defer></script>
-    <script src="./js/getWatermarkImg.js" defer></script>
-    <script src="./js/jspdf.debug.js" defer></script>
-    <script src="./js/slick.js" defer></script> -->
-
-    <!-- Bootstrap JS from CDN -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" defer></script> 
-    <title>Textronics - Design Archive Viewer</title>
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" crossorigin="" />
+    <link rel="stylesheet" href="customsweetalert.css" crossorigin="" />
+    <link rel="stylesheet" href="./MainCSS/archivestyle.css" crossorigin="" />
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <title>Textronics - Design Archive Admin Dashboard</title>
 </head>
 <body>
-    <!-- Your content here -->
     <div id="root"></div>
-    <div id="setDPI"></div>
-    <!-- Lazy load non-critical JavaScript when needed -->
-     <!-- Example: Lazy load script when user interacts (e.g., clicks a button)-->
-    <!-- <script>       
-        document.getElementById("loadScriptButton").addEventListener("click", function() {
-            var script = document.createElement("script");
-            script.src = "./js/someLargeScript.js";
-            document.body.appendChild(script);
-        });
-    </script> -->
+    <div id="suit1" style="display:none;"></div>
+    <!--<div id="cropper-container"></div>-->
+    <!--<button id="ok" style="display:none;"></button>-->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="./js/q3d-lite.js"></script>
+    <script src="./js/q3d-tds.js"></script>
+    <!--<script src="js/TdsFabric.min.js"></script>-->
+    <script src="js/TdsFabric.min.js"></script>
+    <!--<script src="js/domAppend.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/Utils.js"></script>
+    <script src="js/qriousWrapper.min.js"></script>
+    <script src="js/qrious.min.js"></script>
+    <script src="js/operations.js"></script>-->
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
 </body>
 </html>

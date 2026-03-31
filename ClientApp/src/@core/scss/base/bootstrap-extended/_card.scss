@@ -272,7 +272,8 @@
         padding: 0.5rem;
         border-radius: 50%;
         background-color: $white;
-        box-shadow: 0 0 8px 0 rgba($black, 0.14);
+        // box-shadow: 0 0 8px 0 rgba($black, 0.14);
+        box-shadow: none;
         margin-bottom: 1.15rem;
 
         img {

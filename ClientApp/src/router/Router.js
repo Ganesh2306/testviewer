@@ -1,11 +1,12 @@
 // ** React Imports
-import { Suspense, useContext, lazy, useEffect } from 'react'
+import { Suspense, useContext, lazy } from 'react'
 
 // ** Utils
 import { isUserLoggedIn } from '@utils'
 import { useLayout } from '@hooks/useLayout'
 import { AbilityContext } from '@src/utility/context/Can'
 import { useRouterTransition } from '@hooks/useRouterTransition'
+import {isMobile} from 'react-device-detect'
 
 // ** Custom Components
 // import Spinner from '@components/spinner/Loading-spinner' // Uncomment if your require content fallback
@@ -15,16 +16,12 @@ import LayoutWrapper from '@layouts/components/layout-wrapper'
 import { BrowserRouter as AppRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 // ** Routes & Default Routes
-import { DefaultRoute, Routes } from './routes'
+import { DefaultRoute, Routes, MobileRoutes } from './routes'
 
 // ** Layouts
 import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
-import HeaderFixLayout from '@layouts/HeaderFixLayout'
-import HeaderSeason from '@layouts/HeaderSeason'
-import HeaderHomeLayout from '@layouts/HeaderHomeLayout'
-//import IdleTimeOutHandler from '../views/SessionComponent/IdleTimeOutHandler'
 
 const Router = () => {
     // ** Hooks
@@ -38,7 +35,7 @@ const Router = () => {
     const DefaultLayout = layout === 'horizontal' ? 'HorizontalLayout' : 'VerticalLayout'
 
     // ** All of the available layouts
-    const Layouts = { BlankLayout, VerticalLayout, HorizontalLayout, HeaderFixLayout, HeaderSeason, HeaderHomeLayout  }
+    const Layouts = { BlankLayout, VerticalLayout, HorizontalLayout }
 
     // ** Current Active Item
     const currentActiveItem = null
@@ -47,19 +44,31 @@ const Router = () => {
     const LayoutRoutesAndPaths = layout => {
         const LayoutRoutes = []
         const LayoutPaths = []
-
-        if (Routes) {
-            Routes.filter(route => {
-
-                // ** Checks if Route layout or Default layout matches current layout
-                if (route.layout === layout || (route.layout === undefined && DefaultLayout === layout)) {
-                    LayoutRoutes.push(route)
-                    LayoutPaths.push(route.path)
+        // if (Routes) {
+            if (!isMobile) {
+        
+                if (Routes) {
+                    Routes.filter(route => {
+                        // ** Checks if Route layout or Default layout matches current layout
+                        if (route.layout === layout || (route.layout === undefined && DefaultLayout === layout)) {
+                            LayoutRoutes.push(route)
+                            LayoutPaths.push(route.path)
+                        }
+                    })
                 }
-            })
-        }
-
+            } else {
+                if (MobileRoutes) {
+                    MobileRoutes.filter(route => {
+                        // ** Checks if Route layout or Default layout matches current layout
+                        if (route.layout === layout || (route.layout === undefined && DefaultLayout === layout)) {
+                            LayoutRoutes.push(route)
+                            LayoutPaths.push(route.path)
+                        }
+                    })
+                }
+            }
         return { LayoutRoutes, LayoutPaths }
+
     }
 
     const NotAuthorized = lazy(() => import('@src/views/NotAuthorized'))
@@ -73,7 +82,6 @@ const Router = () => {
     const FinalRoute = props => {
         const route = props.route
         let action, resource
-        //props.ForAurth = route.meta
         // ** Assign vars based on route meta
         if (route.meta) {
             action = route.meta.action ? route.meta.action : null
@@ -81,7 +89,6 @@ const Router = () => {
         }
 
         if (
-     
             (!isUserLoggedIn() && route.meta === undefined) ||
             (!isUserLoggedIn() && route.meta && !route.meta.authRoute && !route.meta.publicRoute)
         ) {
@@ -95,21 +102,20 @@ const Router = () => {
             return <Redirect to='/login' />
         } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
             // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
+           //commented by manisha to remove dashboard as first page as per sanjeev sir said// return <Redirect to='/dashboard' />
             return <Redirect to='/design' />
+        } else if (isUserLoggedIn() && !ability.can(action || 'read', resource)) {
+            // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
+            return <Redirect to='/not-authorized' />
         } else {
             // ** If none of the above render component
             return <route.component {...props} />
         }
-        //} else if (isUserLoggedIn() && !ability.can(action || 'read', resource)) {
-        //    // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
-        //    return <Redirect to='/misc/not-authorized' />
-        //}
     }
 
     // ** Return Route to Render
     const ResolveRoutes = () => {
         return Object.keys(Layouts).map((layout, index) => {
-           
             // ** Convert Layout parameter to Layout Component
             // ? Note: make sure to keep layout and component name equal
 
@@ -190,23 +196,23 @@ const Router = () => {
             )
         })
     }
-    
+
     return (
         <AppRouter basename={process.env.REACT_APP_BASENAME}>
-            
+            {/* <AppRouter basename={`/ARCHIVE_DASHBOARD/`}>  */}
             <Switch>
                 {/* If user is logged in Redirect user to DefaultRoute else to login */}
                 <Route
                     exact
                     path='/'
                     render={() => {
-                        return isUserLoggedIn() ? <Redirect to={DefaultRoute} /> : <Redirect to='/login' />
+                        return isUserLoggedIn() ? <Redirect to={DefaultRoute} /> : <Redirect to={process.env.REACT_APP_LANDING_PAGE} />
                     }}
                 />
                 {/* Not Auth Route */}
                 <Route
                     exact
-                    path='/misc/not-authorized'
+                    path='/not-authorized'
                     render={props => (
                         <Layouts.BlankLayout>
                             <NotAuthorized />
@@ -214,45 +220,6 @@ const Router = () => {
                     )}
                 />
                 {ResolveRoutes()}
-
-                {/* NotFound Error page */}
-                <Route path='*' component={Error} />
-                <Route
-                    exact
-                    path='/misc/not-authorized'
-                    render={props => (
-                        <Layouts.HeaderFixLayout>
-                            <NotAuthorized />
-                        </Layouts.HeaderFixLayout>
-                    )}
-                />
-                {ResolveRoutes()}
-
-                {/* NotFound Error page */}
-                <Route path='*' component={Error} />
-                <Route
-                    exact
-                    path='/misc/not-authorized'
-                    render={props => (
-                        <Layouts.HeaderSeason>
-                            <NotAuthorized />
-                        </Layouts.HeaderSeason>
-                    )}
-                />
-                {ResolveRoutes()}
-                {/* NotFound Error page */}
-                <Route path='*' component={Error} />
-                <Route
-                    exact
-                    path='/misc/not-authorized'
-                    render={props => (
-                        <Layouts.HeaderHomeLayout>
-                            <NotAuthorized />
-                        </Layouts.HeaderHomeLayout>
-                    )}
-                />
-                {ResolveRoutes()}
-
 
                 {/* NotFound Error page */}
                 <Route path='*' component={Error} />

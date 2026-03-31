@@ -1,0 +1,14 @@
+{
+  "Dm_Design_Code": "sand-covi-2019v1",
+  "Dm_Article": "sand",
+  "Dm_Design": "covi",
+  "Dm_Variant": "2019v1",
+  "State": 2,
+  "Dm_Design_Id": 3793869846,
+  "ProductType": "726240916",
+  "ProductGroup": "663894422",
+  "ProductFeatures": [
+    "{\"dd_details_id\":0,\"dd_dm_id\":0,\"dd_feature_id\":\"1514087375\",\"dd_feature_type_id\":0,\"dd_feature_type_name\":\"item2\",\"dd_design_configuration_id\":2450378361}",
+    "{\"dd_details_id\":0,\"dd_dm_id\":0,\"dd_feature_id\":\"3968969122\",\"dd_feature_type_id\":0,\"dd_feature_type_name\":\"item1\"}"
+  ]
+}

@@ -1,0 +1,14 @@
+@media only screen and (max-width: 767px){
+.col-form-Label {
+    padding-left: 0!important;
+     margin-top: 0.875rem;
+}
+.control-Label {
+    padding-left: 0!important;
+     margin-top: 0.875rem;
+}
+#addOrgMob .row{
+	margin-left: 0;
+}
+}
+

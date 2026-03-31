@@ -1,0 +1,443 @@
+.sareePopup .upload-btn {
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.sareePopup .upload-btn:hover {
+    background-color: #732d91;
+    transform: translateY(-2px);
+}
+
+.sareePopup .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+
+.sareePopup .saree-item {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    /* cursor: pointer; */
+    position: relative;
+}
+
+.saree-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.saree-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.saree-item p {
+    padding: 15px;
+    text-align: center;
+    font-weight: 600;
+    color: #8e44ad;
+}
+
+.saree-item .type-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(142, 68, 173, 0.8);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+
+.sareePopup .popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.sareePopup .popup-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    overflow-y: auto;
+}
+
+
+.sareePopup .popup-content img {
+    max-width: 100%;
+    max-height: 80vh;
+    display: block;
+    margin: 0 auto;
+}
+
+
+.sareePopup .popup-content p {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: #333;
+}
+
+.sareePopup .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+
+.sareePopup .close-btn:hover {
+    color: #8e44ad;
+}
+
+
+.sareePopup .upload-content {
+    width: 100%;
+    max-width: 100%;
+    padding: 30px;
+   
+}
+
+
+.sareePopup .upload-content h2 {
+    color: #8e44ad;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* .form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input[type="text"],
+.form-group select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 10px;
+} */
+
+
+.sareePopup .upload-areas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+
+.sareePopup .upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* .upload-area:hover {
+    border-color: #8e44ad;
+    background-color: #f9f3ff;
+} */
+
+
+.sareePopup .upload-area i {
+    font-size: 2rem;
+    color: #8e44ad;
+    margin-bottom: 10px;
+}
+
+.sareePopup .upload-area p {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+
+.sareePopup .upload-area input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.sareePopup .submit-btn {
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 35%;
+    margin-top: 5px;
+    transition: all 0.3s;
+}
+
+.sareePopup .submit-btn:hover {
+    background-color: #732d91;
+}
+
+.upload-area.has-file {
+    border-color: #8e44ad;
+    background-color: #f0e6f6;
+}
+
+@media (max-width: 768px) {
+    .sareePopup .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .sareePopup h1 {
+        font-size: 1.8rem;
+    }
+
+    .sareePopup .upload-areas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .upload-areas {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sareePopup .unit-selector {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.sareePopup .unit-selector select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.sareePopup .size-inputs {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.sareePopup .size-width,
+.sareePopup .size-height {
+    width: 50%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.sareePopup .size-inputs input::placeholder {
+    color: #999;
+    font-size: 0.8rem;
+}
+
+#thumbnailArea {
+    width: 45%;
+}
+/* 
+.form-group-box {
+    border: 2px solid #ddd;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 28%;
+} */
+
+.sareePopup .size-box {
+    width: 30%;
+}
+
+.upload-box {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+}
+.sareePopup .upload-box:hover{
+    background-color: #f9f3ff;
+}
+#upload-box-name {
+    margin-top: 0;
+    margin-left: 14px;
+}
+
+.sareePopup .upload-area-solid {
+    border: 2px solid #ccc;
+}
+
+.sareePopup .scroll-container {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 8px;
+    border: 2px solid #ddd;
+    margin: 10px auto;
+}
+
+.sareePopup .single-upload-area {
+    width: 40%;
+    margin: 0 auto;
+    display: block;
+}
+.sareePopup input {
+  background-color: transparent !important;
+  color: #000; 
+  border: 1px solid #ccc; 
+}
+.sareePopup .input-box{
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.sareePopup.unit-selector label {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* spacing between label and toggle */
+}
+
+.sareePopup .unit-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+.sareePopup .switch {
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 34px;
+}
+
+/* Hide the checkbox */
+.sareePopup .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider container */
+.sareePopup .slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.4s;
+}
+
+/* The knob */
+.sareePopup .slider::before {
+  content: "";
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.4s;
+  z-index: 2;
+}
+
+/* Checked state */
+.sareePopup input:checked + .slider {
+  background-color: #4caf50;
+}
+
+.sareePopup input:checked + .sareePopup .slider::before {
+  transform: translateX(36px);
+}
+
+/* Text styles */
+.sareePopup .on-text,
+.sareePopup .off-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ON text on left */
+.sareePopup .on-text {
+  left: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* OFF text on right */
+.sareePopup .off-text {
+  right: 10px;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Show ON when checked */
+.sareePopup input:checked + .slider .on-text {
+  opacity: 1;
+}
+
+/* Hide OFF when checked */
+.sareePopup input:checked + .sareePopup .slider .off-text {
+  opacity: 0;
+}
+.sareePopup .dropDown{
+    background-color: white;
+    color: #555;
+    border: 1px solid #ccc; 
+    width: 120px;
+}
+

@@ -1,0 +1,29 @@
+DesignTypeIdGroupId: "1392960970 - 1630077328"
+IsName: false
+IsRating: false
+createdBy: "string"
+designName: "string"
+end: 20
+filterSearchRequestDto: {folderId: 0, features: {}, isAnd: true}
+features: {}
+folderId: 0
+isAnd: true
+folderId: "0"
+isText: false
+isUserAdmin: false
+start: 0
+
+DesignTypeIdGroupId: "1392960970 - 1630077328"
+IsName: false
+IsRating: false
+createdBy: "string"
+designName: ""
+end: 20
+filterSearchRequestDto: {folderId: 0, features: {}, isAnd: true}
+features: {}
+folderId: 0
+isAnd: true
+folderId: "0"
+isText: true
+isUserAdmin: false
+start: 0

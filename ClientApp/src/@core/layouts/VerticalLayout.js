@@ -1,6 +1,6 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -10,8 +10,7 @@ import { handleMenuCollapsed, handleContentWidth, handleMenuHidden } from '@stor
 import classnames from 'classnames'
 import { ArrowUp } from 'react-feather'
 import ScrollToTop from 'react-scroll-up'
-import { Navbar, NavItem, Button } from 'reactstrap'
-import clientLogo from '../../assets/images/logo/pentaloons.jpg'
+import { Navbar, Button } from 'reactstrap'
 
 // ** Configs
 import themeConfig from '@configs/themeConfig'
@@ -32,7 +31,6 @@ import { useNavbarColor } from '@hooks/useNavbarColor'
 // ** Styles
 import '@styles/base/core/menu/menu-types/vertical-menu.scss'
 import '@styles/base/core/menu/menu-types/vertical-overlay-menu.scss'
-
 
 const VerticalLayout = props => {
   // ** Props
@@ -162,31 +160,6 @@ const VerticalLayout = props => {
           `header-navbar navbar align-items-center ${navbarClasses[navbarType] || 'floating-nav'} navbar-shadow`
         )}
       >
-    {!navbar && (
-          <div className='navbar-header d-xl-block d-md-block ttt'>
-            <ul className='nav navbar-nav'>
-              {/* <NavItem>
-                <Link to='brandingpage' className='navbar-brand'>
-                  <span className='brand-logo'>
-                    <img src={themeConfig.app.appLogoImage} alt='logo' />
-                  </span>
-                </Link>
-              </NavItem> */}
-                        <NavItem>
-
-        <div className='navbar-brand'>
-          <span className='brand-logo '>
-          {/* <img className="login-logo-viewer text-lg-center hidden-xs hidden-sm p-50" src={clientLogo}
-        alt="Logo" /> */}
-        <img className="login-logo-viewer text-lg-center hidden-xs hidden-sm p-50"  src={(JSON.parse(localStorage.userData).organisationId === 757782875) ? clientLogo : themeConfig.app.appLogoImage} alt="Logo" />
-            {/* <img src={themeConfig.app.appLogoImage} alt='logo' /> */}
-          </span>
-        </div>
-
-        </NavItem>
-            </ul>
-          </div>
-        )}
         <div className='navbar-container d-flex content'>
           {navbar ? navbar : <NavbarComponent setMenuVisibility={setMenuVisibility} skin={skin} setSkin={setSkin} />}
         </div>
@@ -237,7 +210,7 @@ const VerticalLayout = props => {
 
       {themeConfig.layout.scrollTop === true ? (
         <div className='scroll-to-top'>
-          <ScrollToTop showUnder={300} style={{ bottom: '5%', zindex:'9' }}>
+          <ScrollToTop showUnder={300} style={{ bottom: '5%' }}>
             <Button className='btn-icon' color='primary'>
               <ArrowUp size={14} />
             </Button>

@@ -3,8 +3,8 @@ import logo from '@src/assets/images/logo/logo.png'
 
 const SpinnerComponent = () => {
   return (
-    <div className='fallback-spinner vh-100'>
-      <img className='fallback-logo' src={logo} alt='logo' />
+    <div className='fallback-spinner vh-100'  >
+      {/* <img className='fallback-logo' src={logo} alt='logo' />  */}  {/* abhishek new */}
       <div className='loading'>
         <div className='effect-1 effects'></div>
         <div className='effect-2 effects'></div>
@@ -14,4 +14,16 @@ const SpinnerComponent = () => {
   )
 }
 
+export const SpinnerComponentRef = ({loaderRef}) => {
+  return (
+    <div id="main-loader-ref" className='fallback-spinner vh-100 vw-100' style={{display:'none', zIndex:'9999 '}} ref={loaderRef} >
+      {/* <img className='fallback-logo' src={logo} alt='logo' />  */}  {/* abhishek new */}
+      <div className='loading'>
+        <div className='effect-1 effects'></div>
+        <div className='effect-2 effects'></div>
+        <div className='effect-3 effects'></div>
+      </div>
+    </div>
+  )
+}
 export default SpinnerComponent

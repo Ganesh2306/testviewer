@@ -1,0 +1,237 @@
+.main-design-div .ecommerce-application .grid-view{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 2rem;
+}
+.card-img-top {
+    border-radius: 0;
+}
+.fab-Card {
+    width: auto;
+    width: auto;
+    margin-bottom: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+}
+
+.fab-Card img {
+    border-bottom: 3px solid transparent;
+}
+.grid-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 2rem;    
+    margin-top: 1rem!important;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+}
+
+.position-static .react-dataTable{
+    overflow-x:scroll;
+}
+
+.iconstop{ 
+    z-index: 9 !important;
+    position: absolute;
+    bottom: 78px;
+    display: flex;
+    bottom: 60px;   
+    display: none;
+    top: 5px;
+    right: 5px;
+}
+.ecommerce-card:hover .iconstop{
+    display: flex;
+flex-direction: column;
+cursor: pointer;
+}
+.ecommerce-application .grid-view .ecommerce-card{
+    padding: 0rem;
+    cursor:pointer;
+    position: relative !important; 
+}
+.ecommerce-card .custom-checkbox.custom-control{
+position: absolute!important;
+left: 1.5rem; 
+top: .5rem;
+}
+.thumb-bg.ecommerce-card:hover {
+    border: none !important;
+  }
+.fab-Card {
+    width: auto;
+    width: auto;
+    margin-bottom: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+}
+.fab-Card img {
+    border-bottom: 3px solid transparent;
+}
+.grid-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 2rem;    
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+}
+
+.position-static .react-dataTable{
+/*    width:calc(100vw - 372px);*/
+    overflow-x:scroll;
+}
+.add_my_design .modal-content {
+    height: 100%;
+    box-shadow: none;
+}
+
+.bg-primary.text-white.input-group-text {
+    height: auto;
+}
+.iconthumb .fa {
+    font-size: 16px;
+    font-weight: 400px;
+    /* color: #2a2e30;*/
+    /* color: #000000; */ 
+}
+
+.color-ways {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    column-gap: .5rem;
+    padding: 4px;
+    bottom: 0;
+    background-color: #fff;
+    border-bottom: 1px solid #e1e1e1;
+    padding-bottom: 0;
+
+}
+.designSwatch {
+    margin-bottom: .4rem;
+}
+.colorbox {
+    position: absolute;
+    bottom: 0px;
+    z-index: 9;
+    display: none;
+}
+.ecommerce-card:hover .colorbox{
+    display: block;
+}
+/* .ecommerce-card.thumbselectDesign {
+    border: 1px solid #000 !important;
+} */
+
+[dir] .ecommerce-card.thumbselectDesign {
+    /* border: 1px solid #000 !important; */
+    /* height: 99.9%; */
+    /* position: absolute;
+    z-index: 9;
+    width: 100%;
+    left: 0;
+    top: 0; */
+    position: absolute;
+  }
+.mobile_group_show {
+    text-align: right;
+}
+[dir] .ecommerce-application .grid-view .ecommerce-card{
+    background:none;
+}
+.designthumbview .form-check-input {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    z-index: 999999;
+  }
+  #delete_design_btn span:hover{
+    background: #e71b1bbd;
+    color: #ffff;
+    padding: 2px;
+  }
+  .clear_desigen:hover{
+    background: #e71b1bbd;
+    color: #ffff;
+  }
+  .fields{
+    visibility: hidden;
+  }
+  .rdrDefinedRangesWrapper{
+    min-width: 220px;
+  }
+@media (max-width: 768px) {
+    .grid-view {        
+        grid-template-columns: 1fr 1fr;
+        display: grid; 
+        column-gap: 1rem;       
+    }
+
+    .position-static .react-dataTable {
+        width: 100%;
+        overflow-x: scroll;
+    }
+  }
+
+
+  @media (max-width: 600px){
+    .grid-view {        
+        grid-template-columns: 1fr;
+        display: grid; 
+        column-gap: 1rem;       
+    }
+  }
+  @media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
+    .position-static .react-dataTable{
+        width:calc(100vw - 100px);
+        overflow-x:scroll;
+    }
+    .iconstop{
+        display: flex !important;
+        flex-direction: column;
+    }
+    .colorbox{
+        display: block;
+    }
+  }
+
+@media (max-width: 768px){
+    .grid-view {        
+        grid-template-columns: 1fr 1fr;
+        display: grid; 
+        column-gap: 1rem;       
+    }
+    .iconstop {
+        display: flex !important;
+        flex-direction: column;
+    }
+  }
+
+  @media (max-width: 600px){
+    .grid-view {        
+        grid-template-columns: 1fr;
+        display: grid; 
+        column-gap: 1rem;       
+    }
+/*    .rdt_TableCell img {
+        width: 50px !important;
+        height: 50px !important;
+    }*/
+  }
+

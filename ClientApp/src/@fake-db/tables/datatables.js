@@ -1412,7 +1412,7 @@ mock.onGet('/api/datatables/data').reply(config => {
   // eslint-disable-next-line object-curly-newline
   const { q = '', perPage = 10, page = 1 } = config
   /* eslint-enable */
-  //console.log(config);
+  console.log(config);
   const queryLowered = q.toLowerCase()
   const filteredData = data.filter(
     item =>

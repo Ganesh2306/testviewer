@@ -1,94 +1,56 @@
-
 /*eslint-disable */
-import { useState, useContext, Fragment, Suspense } from 'react'
-import { useSkin } from '@hooks/useSkin'
-import { useDispatch } from 'react-redux'
-import { useForm } from 'react-hook-form'
+// <reference path="../../utility/context/can.js" />
+// import { Link } from 'react-router-dom'
+import { useState, useContext, useEffect, Fragment, useRef } from 'react'
 import { AbilityContext } from '@src/utility/context/Can'
-import { loginContext } from '@src/utility/context/LoginUserData'
-import { isObjEmpty } from '@utils'
+import { useDispatch } from 'react-redux'
+import classnames from 'classnames'
+import { Link, useHistory } from 'react-router-dom'
+import { useSkin } from '@hooks/useSkin'
 import { validateLogin } from './store/action'
+import { useForm } from 'react-hook-form'
+import { handleLogin } from '@store/actions/auth'
 import Avatar from '@components/avatar'
 import { toast, Slide } from 'react-toastify'
-import { handleLogin } from '@store/actions/auth'
-import { Coffee } from 'react-feather'
-import { useHistory } from 'react-router-dom'
-import { Card, CardBody } from 'reactstrap'
+import { getHomeRouteForLoggedInUser, isObjEmpty } from '@utils'
+import { Facebook, Twitter, Mail, GitHub, Coffee } from 'react-feather'
+import { ShowLoader } from '../../redux/actions/loader/index'
+import InputPasswordToggle from '@components/input-password-toggle'
+import { Card, CardBody, CardTitle, CardText, Form, FormGroup, Label, Input, CustomInput, Button } from 'reactstrap'
 import '@styles/base/pages/page-auth.scss'
-import '../../views/auth/login-style.css'
-import ConfirmEmail from './loginComponent/ConfirmEmail'
-import LoginView from './loginComponent/LoginView'
-import ForgetView from './loginComponent/ForgetView'
+import { N_Loader, R_Loader } from '../../views/loader/loader'   
 import ThankuRecoverPw from './loginComponent/ThankuRecoverPw'
+import ConfirmEmail from './loginComponent/ConfirmEmail'
+import ForgetView from './loginComponent/ForgetView'
+import archivelogo from './img/design_archive_logo.png'
 import axios from 'axios'
+import { ProfileContext } from "../context/ProfileContext"
 import DeviceDetector from "device-detector-js"
-import { ProfileContext } from "../context/profileContext"
-import { accessContext } from "../context/accessContext";
-import { getCollectionList, sendrq } from "../../utility/_boardutils/utils"
 
-export const LoginUserData = {
-    who: null,
-    data: null
-}
+const LoginV1 = ({ setshow, setUserName }) => {
+    const [skin, setSkin] = useSkin()
+    const LoginCookieName = 'Login'
+    // ** Create Context
+    //const AbilityContext = createContext()
 
-export const info = {
-    orgid: null
-}
-
-const SwitchingComponent = (props) => {
-
-    if (props.showView === 1) {
-        return <LoginView
-            onSubmit={props.onSubmit}
-            setDisabled={props.setDisabled}
-            disabled={props.disabled}
-            handleSubmit={props.handleSubmit}
-            register={props.register}
-            errors={props.errors}
-            setcview={props.setcview}
-        />
-    } else if (props.showView === 2) {
-        return <ConfirmEmail setemail={props.setemail} setcview={props.setcview} />
-    } else if (props.showView === 3) {
-        return <ForgetView setforget={props.setforget} setcview={props.setcview} />
-    } else if (props.showView === 4) {
-        return <ThankuRecoverPw setrecover={props.setrecover} setcview={props.setcview} />
-    }
-}
-
-const FilterData = (data) => {
-
-    let b = {}
-    data.forEach((e) => {
-        let f = {}
-        e.getOperationIdOperationNameRoleTaskIdResponseDtos.forEach((t) => {
-            f[t.operation_Id] = true
-
-        })
-        b[e.task_Id] = f
-    })
-    return b
-}
-const LoginV2 = () => {
+    // ** Init Can Context
+    // const Can = createContextualCan(AbilityContext.Consumer)
+    const { ctxprofile, setctxProfile } = useContext(ProfileContext)
     const ability = useContext(AbilityContext)
-    const { setloginData } = useContext(loginContext)
-    const { setctxProfile } = useContext(ProfileContext)
-    const { setaccess, setboard, setis_boarduser, setlgnuser, setorgtype, setlgncust, setSelectesUser, setSelectesUseraccess, access } = useContext(accessContext)
-
     const dispatch = useDispatch()
     const history = useHistory()
-
-    const [recover, setrecover] = useState(true)
-    const [forget, setforget] = useState(true)
-    const [email, setemail] = useState(true)
-    const [disabled, setDisabled] = useState(false)
+    const [userName, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [isLoader, setLoader] = useState(false)  /* abhishek new*/
     const Swal = require('sweetalert2')
     const { register, errors, handleSubmit } = useForm()
-    const [skin, setSkin] = useSkin()
+    const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
+        source = require(`@src/assets/images/pages/${illustration}`).default
 
-    const [cview, setcview] = useState(1)
-    const [isLoading, setIsLoading] = useState(false)
-
+    const loaderRef = useRef(null)
+    const logindiv = useRef(null)
+    const [saastoken, setsaastoken] = useState(null)
+    const [issaasuser, setsaasuser] = useState(0)
     const ToastContent = ({ name, role }) => (
         <Fragment>
             <div className='toastify-header'>
@@ -98,7 +60,7 @@ const LoginV2 = () => {
                 </div>
             </div>
             <div className='toastify-body'>
-                <span>You have successfully logged in as an {role} user to Design Archive. Now you can start to explore. Enjoy!</span>
+                <span>You have successfully logged in as an {role} to Design Archive. Now you can start to explore. Enjoy!</span>
             </div>
         </Fragment>
     )
@@ -129,29 +91,40 @@ const LoginV2 = () => {
             .toString(16)
             .toUpperCase();
     }
+    const showloader = () => {
+        loaderRef.current.style.display = 'block'
+        //logindiv.current.style.display = 'none'
+    }
 
-    const onSubmit = (data) => {
 
-        setDisabled(true)
-        setIsLoading(true)
+    const hideloader = () => {
+        loaderRef.current.style.display = 'none'
+        logindiv.current.style.display = ''
+    }
 
+    const onSubmit = data => {
+        //dispatch(ShowLoader(true))
         const deviceDetector = new DeviceDetector()
         const userAgent = navigator.userAgent
         const device = deviceDetector.parse(userAgent)
 
+
+        setLoader(true)      //abhishek new
         if (isObjEmpty(errors)) {
+            showloader()
             const _LoginUsersDto = new Object()
             const DeviceDeatils = new Object()
             const DPIDetailsDto = new Object()
             const username = data['login-email']
             const password = data['login-password']
-
             _LoginUsersDto.username = username
             _LoginUsersDto.password = password
             DeviceDeatils.Device_Login_Id = get()
             DeviceDeatils.Device_Browser = device.client.name
             DeviceDeatils.Device_Type = device.device.type
             DeviceDeatils.Os_Name = device.os.name
+            DeviceDeatils.user_id = 0
+            //device details 
             DPIDetailsDto.Screen_X_Resolution = screen.width
             DPIDetailsDto.Screen_Y_Resolution = screen.height
             DPIDetailsDto.Screen_X_DPI = 100
@@ -161,147 +134,176 @@ const LoginV2 = () => {
 
             _LoginUsersDto.fingureprint = DeviceDeatils
             _LoginUsersDto.saveDeviceDetailsRequestDto = DPIDetailsDto
-            let rl = null
+
             validateLogin(_LoginUsersDto)
                 .then(async res => {
-                    setDisabled(false)
-                    setIsLoading(true)
-                    setlgnuser(res.supplier?.supplierListDto ? res.supplier?.supplierListDto : "")
-                    setlgncust(res.customerList?.customerListDto ? res.customerList?.customerListDto : "")
-                    setorgtype(res.org_type)
-                    if (res !== null && res.message === "") {
-                        let isRedirectBrandPg = res.supplier && !(res.supplier?.supplierListDto[0]?.customer_Name) && res.supplier?.totalRecords <= 1
-                        axios.get(`./Login/GetEditOrgUser`).then(e => {
-                            axios.get(`./DesignSearch/RoleAccessToElement`).then(async eee => {
-                                const ft = FilterData(JSON.parse(eee.data).allDetails)
-                                localStorage.setItem("accessinfo", JSON.stringify(ft)) 
-                                setaccess(ft)
-                                sessionStorage.setItem("login", "true")
-                                if (!res.is_otherlogin) {
-                                    let role = res.role
-                                    localStorage.setItem('DeviceDetailsDto', JSON.stringify(res.dd))
-                                    const pattern1 = /Supplier/g
-                                    if (res.role !== "PlatformAdmin") {
-                                        switch (res.org_type) {
-                                            case 1:
-                                                role = 'Organisation'
-                                                break
-                                            case 2:
-                                                role = 'Supplier'
-                                                rl = [`customerList`, `customerListDto`]
-                                                setis_boarduser(pattern1.test(role))
-                                                await getCollectionList(setboard)
-                                                break
-                                            case 3:
-                                                role = 'Customer'
-                                                rl = [`supplier`, `supplierListDto`]
+                    hideloader()
+                    if (res.isLogin) {
+                        //if (res !== null && res.message !== null && res.message !== undefined && res.message === "") {
+                        document.cookie = 'shareData=' + JSON.stringify(res)
+                        document.cookie = 'deviceData=' + JSON.stringify(res.dd)
 
-                                                setis_boarduser(pattern1.test(role))
-                                                await sendrq(setboard, res)
-                                                break
-                                            case 4:
-                                                role = 'Agent'
-                                                break
-                                            default:
-                                                break
-                                        }
-                                        if (res.is_administrator) {
-                                            role = `${role} Admin`
-                                        } else {
-                                            role = `${role} User`
-                                        }
-                                    }
+                        localStorage.setItem('shareData', JSON.stringify(res));
+                        localStorage.setItem('deviceData', JSON.stringify(res.dd))
 
-                                    dispatch(handleLogin(res))
-                                    ability.update(res.ability)
-
-                                    try {
-                                        const userData = res[rl[0]][rl[1]][0]
-                                        const id = userData.customer_id === undefined ? userData.supplier_id : userData.customer_id
-                                        const name = userData.customer_Name === undefined ? userData.sup_name : userData.customer_Name
-                                        localStorage.setItem('loginuserdata', JSON.stringify(res[rl[0]][rl[1]]))
-                                        localStorage.setItem('who', role)
-                                        localStorage.setItem('id', id)
-                                        localStorage.setItem('name', name)
-                                        localStorage.setItem("userName", res.userName)
-                                        localStorage.setItem("orgtype", res.org_type)
-                                        if (role === "Customer Admin" || role === "Customer User") {
-                                            localStorage.setItem('Supcount', res.supplier.totalRecords)
-                                        } else if (role === 'Supplier Admin') {
-                                            localStorage.setItem('Supcount', res.customerList.totalRecords + 1)
-                                        }                                      
-                                        const obj = {
-                                            value: userData.supplier_id ? userData.supplier_id : userData.customer_id,
-                                            label: userData.sup_name ? userData.sup_name : userData.customer_Name,
-                                            role: userData.roleid ? userData.roleid : userData.role_Id,
-                                            user_id: userData.user_id ? userData.user_id : userData.user_id,
-                                            cus_orgtypeId: res.org_type_id ? res.org_type_id : 0,
-                                            cus_supplierId: userData.supplier_id ? userData.supplier_id : userData.customer_id
-                                        }
-                                        localStorage.setItem('selecteduser', JSON.stringify(obj))
-                                        const RoleId = obj.role
-                                        if (RoleId !== 0 && RoleId !== undefined && RoleId !== null) {
-                                            const accessResponse = await axios.get(`./DesignSearch/RoleAccessToElement?RoleId=${RoleId}`)
-                                            const ft = FilterData(JSON.parse(accessResponse.data).allDetails)
-                                            localStorage.setItem("selecteduseraccessinfo", JSON.stringify(ft))
-                                            // localStorage.setItem('warehouse', 'All')
-                                               localStorage.setItem('warehouse', "All,Stock,Noos,Sample")
-                                            setSelectesUseraccess(ft)
-                                        }
-
-                                        setSelectesUser(obj);
-                                        const newAccess = JSON.parse(localStorage.getItem('accessinfo'))
-                                        if (typeof newAccess !== undefined && typeof newAccess !== null) {
-                                            if (newAccess[111119][244449] || access[111119][244449]) {
-                                                history.push('/design')
-                                            } else {
-                                                history.push('/SupplierList')
-                                            }
-                                        } else {
-
-                                            JSON.parse(localStorage.userData).customerList.customerListDto.length === 0 ?  history.push('/design') :  history.push('/SupplierList')
-                                            localStorage.setItem('warehouse', "All,Stock,Noos,Sample")
-                                        }
-                                    } catch (error) {
-                                      const userData = JSON.parse(localStorage.getItem('userData') || '{}')
-                                      const customerList = userData.customerList
-                                     !customerList || !Array.isArray(customerList.customerListDto) || customerList.customerListDto.length === 0 ?  history.push('/design') :  history.push('/SupplierList')
-                                      localStorage.setItem('warehouse', "All,Stock,Noos,Sample")
-                                    }
-
-                                    toast.success(
-                                        <ToastContent name={res.userName} role={role || 'admin'} />,
-                                        { transition: Slide, hideProgressBar: true, autoClose: 2000 })
-                                } else {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Login',
-                                        text: "Only Customer and Supplier Can login.."
-                                    })
-                                }
-                            })
-                            localStorage.setItem("profile", JSON.stringify(e.data))
-                            setctxProfile(e.data)
-
+                        await axios.post(`./Login/GetEditOrgUser`).then(res => {
+                            localStorage.setItem("profile", JSON.stringify(res.data))
+                            setctxProfile(res.data)
                         })
+                        //    localStorage.setItem('userData', res)
+                        //saas working
+                        //if(user_type === 0)=> not_saas_user
+                        //if(user_type === 1)=> saas_org
+                        //if(user_type === 2)=> saas_trial_user
+                        if (JSON.parse(localStorage.profile).user_type !== 0) {
+                            let saasApiUrl = "http://CheckAppSeeting"
+                            try {
+                                const res = await axios.get("./Login/Getsaasapi")
+                                if (res?.data) {
+                                    saasApiUrl = res.data
+                                    localStorage.setItem("saasapi", res.data)
+                                }
+                            } catch (err) {
+                                console.error("Error fetching SaaS API URL:", err)
+                            }
+                            try {
+                                const saasobj = {
+                                    //email: JSON.parse(localStorage.profile).org_email,
+                                    organisation_id: String(JSON.parse(localStorage.profile).org_id)
+                                }
+                                if (JSON.parse(localStorage.profile).user_type === 1) {
+                                    saasobj.email = JSON.parse(localStorage.profile).org_email
+                                } else {
+                                    saasobj.email = JSON.parse(localStorage.profile).login_id
+                                }
+                                const getsaastoken = await axios.post(`${saasApiUrl}get-token`, saasobj, {
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    }
+                                })
+                                console.log(getsaastoken.data.api_token)
+                                if (getsaastoken.data.api_token) {
+                                    setsaastoken(getsaastoken.data.api_token)
+                                    saasobj.api_token = getsaastoken.data.api_token
+                                    const getcredits = await axios.post(`${saasApiUrl}check-subscription`, saasobj, {
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        }
+                                    })
+                                    if (getcredits.data !== null) {
+                                        setsaasuser(getcredits.data.status)
+                                        localStorage.setItem("saasuser", (getcredits.data.status))
+                                    }
+                                } else {
+                                    setsaastoken(null)
+                                }
+                            } catch (error) {
+                                console.error("Error fetching SaaS token:", error)
+                                setsaastoken(null)
+                            }
+                        }
 
+                        //end saas working
+                        if (localStorage?.saasuser === 'active') {
+                            sessionStorage.setItem("login", "true")
+                            let role = res.role
+                            if (res.role !== "PlatformAdmin") {
+                                switch (res.org_type) {
+                                    case 1:
+                                        role = 'Organisation'
+                                        break
+                                    case 2:
+                                        role = 'Supplier'
+                                        break
+                                    case 3:
+                                        role = 'Customer'
+                                        break
+                                    case 4:
+                                        role = 'Agent'
+                                        break
+                                    default:
+                                        break
+                                }
+                                if (res.is_administrator) {
+
+                                    role = `${role} Admin`
+                                } else {
+                                    role = `${role} User`
+                                }
+                            }
+                            dispatch(handleLogin(res))
+                            ability.update(res.ability)
+                            //if (["Organisation Admin", "PlatformAdmin", "Organisation User"].includes(role)){   // for login page 03-05-2023
+                            if (["Organisation Admin", "PlatformAdmin"].includes(role)) {
+                                history.push('/threed')
+                                // history.push('/dashboard')
+                            } else {
+                                history.push('/design')
+                            }
+                            toast.success(
+                                <ToastContent name={res.userName} role={role || 'admin'} />,
+                                { transition: Slide, hideProgressBar: true, autoClose: 2000 })
+                        } else if (localStorage?.saasuser === 'inactive') {
+                            Swal.fire({
+                                icon: 'Error',
+                                text: 'Subscription expired , please renew & activate.',
+                                allowOutsideClick: false,
+                                backdrop: true
+                            })
+                        } else {
+                            sessionStorage.setItem("login", "true")
+                            let role = res.role
+                            if (res.role !== "PlatformAdmin") {
+                                switch (res.org_type) {
+                                    case 1:
+                                        role = 'Organisation'
+                                        break
+                                    case 2:
+                                        role = 'Supplier'
+                                        break
+                                    case 3:
+                                        role = 'Customer'
+                                        break
+                                    case 4:
+                                        role = 'Agent'
+                                        break
+                                    default:
+                                        break
+                                }
+                                if (res.is_administrator) {
+
+                                    role = `${role} Admin`
+                                } else {
+                                    role = `${role} User`
+                                }
+                            }
+                            dispatch(handleLogin(res))
+                            ability.update(res.ability)
+                            //if (["Organisation Admin", "PlatformAdmin", "Organisation User"].includes(role)){   // for login page 03-05-2023
+                            if (["Organisation Admin", "PlatformAdmin"].includes(role)) {
+                                history.push('/threed')
+                                // history.push('/dashboard')
+                            } else {
+                                history.push('/design')
+                            }
+                            toast.success(
+                                <ToastContent name={res.userName} role={role || 'admin'} />,
+                                { transition: Slide, hideProgressBar: true, autoClose: 2000 })
+                        }
                     } else {
                         if (res === null) {
-
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Login',
                                 text: "Fail to login, please check server connectivity"
                             })
-                        } else if (res.message !== null && res.message !== "User is already logged into another device. Do you want to log out that user ?") {
-                            setIsLoading(false)
+                        } else if (res.message !== null) {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Login1',
-                                text: res ? res.message : "something went wrong"
+                                title: 'Login',
+                                text: res ? res.message : "some thing went wrong"
                             })
-                        }
-                        else if (res.loginMessage !== undefined) {
+                        } else if (res.loginMessage !== undefined) {
                             Swal.fire({
                                 title: 'User is already login,Do you want to continue?',
                                 showDenyButton: true,
@@ -318,127 +320,159 @@ const LoginV2 = () => {
                                 if (result.isConfirmed) {
                                     axios.get(`./Login/LogOutOtherUser`).then(e => {
                                         validateLogin(_LoginUsersDto).then(async res => {
-                                            setDisabled(false)
-                                            setIsLoading(true)
-                                            setlgnuser(res.supplier?.supplierListDto ? res.supplier?.supplierListDto : "")
-                                            setlgncust(res.customerList?.customerListDto ? res.customerList?.customerListDto : "")
-                                            setorgtype(res.org_type)
-                                            if (res !== null && res.message === "") {
-                                                let isRedirectBrandPg = res.supplier && !(res.supplier?.supplierListDto[0]?.customer_Name) && res.supplier?.totalRecords <= 1 
-                                                axios.get(`./Login/GetEditOrgUser`).then(async e => {
-                                                    await axios.get(`./DesignSearch/RoleAccessToElement`).then(eee => {
-                                                        const ft = FilterData(JSON.parse(eee.data).allDetails)
-                                                        localStorage.setItem("accessinfo", JSON.stringify(ft)) 
-                                                        setaccess(ft)
-                                                        isRedirectBrandPg && history.push(`/BrandingPage`) 
-                                                    })
+                                            document.cookie = 'shareData=' + JSON.stringify(res);
+                                            document.cookie = 'deviceData=' + JSON.stringify(res.dd);
 
-                                                    localStorage.setItem("profile", JSON.stringify(e.data))
-                                                    setctxProfile(e.data)
-                                                })
-                                                sessionStorage.setItem("login", "true")
-                                                if (!res.is_otherlogin) {
-                                                    let role = res.role
-                                                    localStorage.setItem('DeviceDetailsDto', JSON.stringify(res.dd))
-                                                    const pattern1 = /Supplier/g
-                                                    if (res.role !== "PlatformAdmin") {
-                                                        switch (res.org_type) {
-                                                            case 1:
-                                                                role = 'Organisation'
-                                                                break
-                                                            case 2:
-                                                                role = 'Supplier'
-                                                                rl = [`customerList`, `customerListDto`]
-                                                                setis_boarduser(pattern1.test(role))
-                                                                await getCollectionList(setboard)
-                                                                break
-                                                            case 3:
-                                                                role = 'Customer'
-                                                                rl = [`supplier`, `supplierListDto`]
-                
-                                                                setis_boarduser(pattern1.test(role))
-                                                                await sendrq(setboard, res)
-                                                                break
-                                                            case 4:
-                                                                role = 'Agent'
-                                                                break
-                                                            default:
-                                                                break
-                                                        }
-                                                        if (res.is_administrator) {
-                                                            role = `${role} Admin`
-                                                        } else {
-                                                            role = `${role} User`
-                                                        }
-                                                    }
-                
-                                                    dispatch(handleLogin(res))
-                                                    ability.update(res.ability)
-                
+                                            localStorage.setItem('shareData', JSON.stringify(res));
+                                            localStorage.setItem('deviceData', JSON.stringify(res.dd));
+
+                                            await axios.post(`./Login/GetEditOrgUser`).then(res => {
+                                                localStorage.setItem("profile", JSON.stringify(res.data))
+                                                setctxProfile(res.data)
+                                            })
+                                            //    localStorage.setItem('userData', res)
+                                            //saas working
+                                            if (JSON.parse(localStorage.profile).user_type !== 0) {
+                                                try {
+                                                    let saasApiUrl = "http://CheckAppSeeting"
                                                     try {
-                                                        const userData = res[rl[0]][rl[1]][0]
-                                                        const id = userData.customer_id === undefined ? userData.supplier_id : userData.customer_id
-                                                        const name = userData.customer_Name === undefined ? userData.sup_name : userData.customer_Name
-                                                        localStorage.setItem('loginuserdata', JSON.stringify(res[rl[0]][rl[1]]))
-                                                        localStorage.setItem('who', role)
-                                                        localStorage.setItem('id', id)
-                                                        localStorage.setItem('name', name)
-                                                        localStorage.setItem("userName", res.userName)
-                                                        localStorage.setItem("orgtype", res.org_type) 
-                                                        if (role === "Customer Admin" || role === "Customer User") {
-                                                            localStorage.setItem('Supcount', res.supplier.totalRecords)
-                                                        } else if (role === 'Supplier Admin') {
-                                                            localStorage.setItem('Supcount', res.customerList.totalRecords + 1)
+                                                        const res = await axios.get("./Login/Getsaasapi")
+                                                        if (res?.data) {
+                                                            saasApiUrl = res.data
+                                                            localStorage.setItem("saasapi", res.data)
                                                         }
-                                                        const obj = {
-                                                            value: userData.supplier_id ? userData.supplier_id : res.org_type_id,
-                                                            label: userData.sup_name ? userData.sup_name : userData.customer_Name,
-                                                            role: userData.roleid ? userData.roleid : userData.role_Id,
-                                                            user_id: userData.user_id ? userData.user_id : userData.user_id,
-                                                            cus_orgtypeId: res.org_type_id ? res.org_type_id : 0,
-                                                            cus_supplierId: userData.supplier_id ? userData.supplier_id : userData.customer_id
-                                                        }
-                
-                                                        localStorage.setItem('selecteduser', JSON.stringify(obj))
-                                                        const RoleId = obj.role
-                                                        if (RoleId !== 0 && RoleId !== undefined && RoleId !== null) {
-                                                            const accessResponse = await axios.get(`./DesignSearch/RoleAccessToElement?RoleId=${RoleId}`)
-                                                            const ft = FilterData(JSON.parse(accessResponse.data).allDetails)
-                                                            localStorage.setItem("selecteduseraccessinfo", JSON.stringify(ft))
-                                                            localStorage.setItem('warehouse', 'All')
-                                                            setSelectesUseraccess(ft)
-                                                        }
-                
-                                                        setSelectesUser(obj);
-                                                        const newAccess = JSON.parse(localStorage.getItem('accessinfo'))
-                                                        if (typeof newAccess !== undefined && typeof newAccess !== null) {
-                                                            if (newAccess[111119][244449]) {
-                                                                history.push('/design')
-                                                            } else {
-                                                                history.push('/SupplierList')
-                                                            }
-                                                        } else {
-                
-                                                            history.push('/SupplierList')
-                
-                                                        }
-                                                    } catch (error) {
-                                                        history.push('/design')
+                                                    } catch (err) {
+                                                        console.error("Error fetching SaaS API URL:", err)
                                                     }
-                
-                                                    toast.success(
-                                                        <ToastContent name={res.userName} role={role || 'admin'} />,
-                                                        { transition: Slide, hideProgressBar: true, autoClose: 2000 })
-                                                }  else {
-                                                    Swal.fire({
-                                                        icon: 'error',
-                                                        title: 'Login',
-                                                        text: "Only Customer and Supplier Can login.."
+                                                    const saasobj = {
+                                                        //email: JSON.parse(localStorage.profile).org_email,
+                                                        organisation_id: String(JSON.parse(localStorage.profile).org_id)
+                                                    }
+                                                    if (JSON.parse(localStorage.profile).user_type === 1) {
+                                                        saasobj.email = JSON.parse(localStorage.profile).org_email
+                                                    } else {
+                                                        saasobj.email = JSON.parse(localStorage.profile).login_id
+                                                    }
+                                                    const getsaastoken = await axios.post(`${saasApiUrl}get-token`, saasobj, {
+                                                        headers: {
+                                                            "Content-Type": "application/json"
+                                                        }
                                                     })
+                                                    console.log(getsaastoken.data.api_token)
+                                                    if (getsaastoken.data.api_token) {
+                                                        setsaastoken(getsaastoken.data.api_token)
+                                                        saasobj.api_token = getsaastoken.data.api_token
+                                                        const getcredits = await axios.post(`${saasApiUrl}check-subscription`, saasobj, {
+                                                            headers: {
+                                                                "Content-Type": "application/json"
+                                                            }
+                                                        })
+                                                        if (getcredits.data !== null) {
+                                                            setsaasuser(getcredits.data.status)
+                                                            localStorage.setItem("saasuser", (getcredits.data.status))
+                                                        }
+                                                    } else {
+                                                        setsaastoken(null)
+                                                    }
+                                                } catch (error) {
+                                                    console.error("Error fetching SaaS token:", error)
+                                                    setsaastoken(null)
                                                 }
                                             }
+
+                                            //end saas working
+                                            if (localStorage.saasuser === 'active') {
+                                                sessionStorage.setItem("login", "true")
+                                                let role = res.role
+                                                if (res.role !== "PlatformAdmin") {
+                                                    switch (res.org_type) {
+                                                        case 1:
+                                                            role = 'Organisation'
+                                                            break
+                                                        case 2:
+                                                            role = 'Supplier'
+                                                            break
+                                                        case 3:
+                                                            role = 'Customer'
+                                                            break
+                                                        case 4:
+                                                            role = 'Agent'
+                                                            break
+                                                        default:
+                                                            break
+                                                    }
+                                                    if (res.is_administrator) {
+
+                                                        role = `${role} Admin`
+                                                    } else {
+                                                        role = `${role} User`
+                                                    }
+                                                }
+                                                dispatch(handleLogin(res))
+                                                ability.update(res.ability)
+                                                // if (["Organisation Admin", "PlatformAdmin", "Organisation User"].includes(role)){   // for login page 03-05-2023 // Updated
+                                                if (["Organisation Admin", "PlatformAdmin"].includes(role)) {
+                                                    history.push('/threed')
+                                                    // history.push('/dashboard')
+                                                } else {
+                                                    history.push('/design')
+                                                }
+                                                toast.success(
+                                                    <ToastContent name={res.userName} role={role || 'admin'} />,
+                                                    { transition: Slide, hideProgressBar: true, autoClose: 2000 })
+                                            } else if (localStorage.saasuser === 'inactive') {
+                                                Swal.fire({
+                                                    icon: 'Error',
+                                                    text: 'Subscription expired , please renew & activate.',
+                                                    allowOutsideClick: false,
+                                                    backdrop: true
+                                                })
+                                            } else {
+                                                sessionStorage.setItem("login", "true")
+                                                let role = res.role
+                                                if (res.role !== "PlatformAdmin") {
+                                                    switch (res.org_type) {
+                                                        case 1:
+                                                            role = 'Organisation'
+                                                            break
+                                                        case 2:
+                                                            role = 'Supplier'
+                                                            break
+                                                        case 3:
+                                                            role = 'Customer'
+                                                            break
+                                                        case 4:
+                                                            role = 'Agent'
+                                                            break
+                                                        default:
+                                                            break
+                                                    }
+                                                    if (res.is_administrator) {
+
+                                                        role = `${role} Admin`
+                                                    } else {
+                                                        role = `${role} User`
+                                                    }
+                                                }
+                                                dispatch(handleLogin(res))
+                                                ability.update(res.ability)
+                                                //if (["Organisation Admin", "PlatformAdmin", "Organisation User"].includes(role)){   // for login page 03-05-2023
+                                                if (["Organisation Admin", "PlatformAdmin"].includes(role)) {
+                                                    history.push('/threed')
+                                                    // history.push('/dashboard')
+                                                } else {
+                                                    history.push('/design')
+                                                }
+                                                toast.success(
+                                                    <ToastContent name={res.userName} role={role || 'admin'} />,
+                                                    { transition: Slide, hideProgressBar: true, autoClose: 2000 })
+                                            }
                                         })
+
+                                        /*Swal.fire(JSON.parse(e.data).message, '', 'success')*/
                                     })
+
+
                                 } else if (result.isDenied) {
 
                                 }
@@ -450,52 +484,100 @@ const LoginV2 = () => {
                                 text: "Something went Wrong... Please Check API Connection .."
                             })
                         }
-
                     }
+                    //setLoader(false)  //abhishek 21/03
                 })
                 .catch(err => {
-                    setDisabled(false)
-                    setIsLoading(false)
                     console.log(err)
+                    hideloader()
                 })
         }
     }
     return (
-        <Suspense fallback={<div>Loading login...</div>}>
-        <>    
-            <div className='auth-wrapperMain'>
-                <div className='left-banner'>
-                    <img className="login-logo-viewer text-lg-center mb-1 hidden-xs hidden-sm" src="https://s3.ap-south-1.amazonaws.com/aws.tds/dam/archive/images/archive-logo.png" alt="Logo" />
-                    <div className='heroImage'>
-                        <div className='image_cover'>
-                        <img src='https://s3.ap-south-1.amazonaws.com/aws.tds/dam/archive/images/login.svg'></img>
-                        </div>                       
-                    </div>
+        <>
+            <R_Loader loaderRef={loaderRef} />
 
+            <div className='auth-wrapper auth-v1 px-2' ref={logindiv} >
+                <div className='auth-inner py-2'>
+                    <Card className='mb-0'>
+                        <CardBody>
+                            <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
+                                <img className="Header-logo" src={archivelogo} alt="Logo" />
+
+                            </Link>
+                            <CardTitle tag='h4' className='mb-1'>
+                                Welcome to Design Archive! 👋
+                            </CardTitle>
+                            <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
+                            <Form className='auth-login-form mt-2' autocomplete="off" onSubmit={handleSubmit(onSubmit)}>
+                                <FormGroup>
+                                    <Label className='form-label' for='login-email'>
+                                        User Name
+                                    </Label>
+                                    <Input autoComplete='off'       // abhishek 14 02
+                                        autoFocus
+                                        tabindex='1'
+                                        type='text'
+                                        value={userName}
+                                        id='login-email'
+                                        name='login-email'
+                                        placeholder='username'
+                                        onChange={e => {
+                                            setEmail(e.target.value)
+                                            setUserName(e.target.value)
+                                        }}
+                                        className={classnames({ 'is-invalid': errors['login-email'] })}
+                                        innerRef={register({ required: true, validate: value => value !== '' })}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <div className='d-flex justify-content-between'>
+                                        <Label className='form-label' for='login-password' >
+                                            Password
+                                        </Label>
+                                        <Link>
+                                            <small onClick={() => setshow(1)}>Forgot Password?</small>
+                                        </Link>
+                                    </div>
+                                    <InputPasswordToggle
+                                        value={password}
+                                        tabindex='2'
+                                        id='login-password'
+                                        name='login-password'
+                                        className='input-group-merge'
+                                        autocomplete="off"
+                                        onChange={e => setPassword(e.target.value)}
+                                        //className={classnames({ 'is-invalid': errors['login-password'] })}
+                                        innerRef={register({ required: true, validate: value => value !== '' })}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    {/* <CustomInput type='checkbox' className='custom-control-Primary' id='remember-me' label='Remember Me' tabindex='3' defaultChecked={getCookie(LoginCookieName) ? true : false} /> */}
+                                </FormGroup>
+                                <Button.Ripple type='submit' color='primary' block>
+                                    Sign in
+                                </Button.Ripple>
+                            </Form>
+                        </CardBody>
+                    </Card>
                 </div>
-                <div className='auth-wrapper auth-v1' >
-                    <div className='mobile_logo'>
-                        <img className="d-md-none d-sm-block" src="https://s3.ap-south-1.amazonaws.com/aws.tds/dam/archive/images/archive-logo.png" alt="Logo" /></div>
-                    <div className='auth-inner'>
-                        <Card className='mb-0 rounded-0'>
-                            <CardBody className="m-0 p-0">
-                                <SwitchingComponent showView={cview} setcview={setcview}
-                                    onSubmit={onSubmit} handleSubmit={handleSubmit}
-                                    register={register} errors={errors}
-                                    email={email} setemail={setemail}
-                                    forget={forget} setforget={setforget}
-                                    recover={recover} setrecover={setrecover}
-                                    disabled={disabled} setDisabled={setDisabled}
-                                />
-                            </CardBody>
-                        </Card>
-                    </div>
-                </div >
-
             </div>
-
         </>
-        </Suspense>
     )
 }
-export default LoginV2
+
+const Switch = () => {
+    const [show, setshow] = useState(0)
+    const [username, setUserName] = useState(null)
+    if (show === 0) {
+        return <LoginV1 setshow={setshow} setUserName={setUserName} />
+    } else if (show === 1) {
+        return <ConfirmEmail username={username} setshow={setshow} />
+    } else if (show === 2) {
+        return <ForgetView setshow={setshow} />
+    } else if (show === 3) {
+        return <ThankuRecoverPw setshow={setshow} />
+    }
+}
+
+export default Switch

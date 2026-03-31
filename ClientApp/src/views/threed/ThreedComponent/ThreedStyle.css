@@ -1,0 +1,869 @@
+#threedTable thead,
+#threedTable tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+/* table#threedTable th:nth-child(-n+14), table#threedTable td:nth-child(-n+14){
+    width: 4%; 
+    padding: 0.5rem 0.2rem;
+} */
+table#threedTable th,
+table#threedTable td {
+    padding: 0.5rem 0.2rem;
+    font-size: .8rem;
+    text-transform: capitalize;
+    width: auto;
+    vertical-align: top !important;
+}
+
+table.ContentInner {
+    width: 100%;
+}
+
+table#threedTable td:nth-child(11) .custom-control {
+    transform: translate(0, 4%);
+    left: 42%;
+}
+
+table#threedTable th:nth-child(1),
+table#threedTable td:nth-child(1) {
+    width: 45px;
+    padding: 0.5rem 0.2rem;
+}
+
+table#threedTable th:nth-child(2),
+table#threedTable td:nth-child(2) {
+    width: 150px;
+    padding: 0.5rem 0.2rem;
+    vertical-align: middle;
+}
+
+table#threedTable th:nth-child(3),
+table#threedTable td:nth-child(3) {
+    width: 250px;
+    padding: 0.5rem 0.2rem;
+}
+
+table#threedTable th:nth-child(4),
+table#threedTable td:nth-child(4) {
+    width: 250px;
+    padding: 0.5rem 0.2rem;
+}
+
+table#threedTable th:nth-child(5),
+table#threedTable td:nth-child(5) {
+    width: 100px;
+    padding: 0.5rem 0.2rem;
+}
+
+table#threedTable th:nth-child(6),
+table#threedTable td:nth-child(6) {
+    width: 80px;
+    padding: 0.5rem 0.2rem;
+}
+
+table#threedTable th:nth-child(7),
+table#threedTable td:nth-child(7) {
+    width: 120px;
+    padding: 0.5rem 0.2rem;
+}
+
+
+table#threedTable th:nth-child(8),
+table#threedTable td:nth-child(8) {
+    width: 120px;
+    padding: 0.5rem 0.2rem;
+}
+
+table#threedTable th:nth-child(9),
+table#threedTable td:nth-child(9) {
+    width: 100px;
+    padding: 0.5rem 0.2rem;
+}
+
+table#threedTable th:nth-child(10),
+table#threedTable td:nth-child(10) {
+    width: 100px;
+    padding: 0.5rem 0.2rem;
+}
+
+table#threedTable th:nth-child(11),
+table#threedTable td:nth-child(11) {
+    width: 120px;
+    padding: 0.5rem 0.2rem;
+}
+
+table#threedTable th:nth-child(12),
+table#threedTable td:nth-child(12) {
+    padding: 0.5rem 0.2rem;
+    width: 120px;
+}
+
+table#threedTable th:nth-child(13),
+table#threedTable td:nth-child(13) {
+    padding: 0.5rem 0.2rem;
+    width: 250px;
+}
+
+table#threedTable th:nth-child(14),
+table#threedTable td:nth-child(14) {
+    padding: 0.5rem 0.2rem;
+    width: 150px;
+}
+
+table#threedTable th:nth-child(15),
+table#threedTable td:nth-child(15) {
+    padding: 0.5rem 0.2rem;
+    width: 250px;
+}
+
+table#threedTable th:nth-child(16),
+table#threedTable td:nth-child(16) {
+    padding: 0.5rem 0.2rem;
+    width: 250px;
+}
+
+table#threedTable th:nth-child(17),
+table#threedTable td:nth-child(17) {
+    padding: 0.5rem 0.2rem;
+    width: 250px;
+}
+
+table#threedTable th:nth-child(18),
+table#threedTable td:nth-child(18) {
+    padding: 0.5rem 0.2rem;
+    width: 250px;
+}
+
+table.ContentInner td input {
+    margin-bottom: 50px;
+    margin-top: 0;
+}
+
+.ContentInner .multiselect-demo .card {
+    margin-bottom: 53px;
+}
+
+[dir] table#threedTable td:nth-child(6) .custom-checkbox,
+[dir] table#threedTable td:nth-child(7) .custom-checkbox {
+    transform: translate(40%, 0);
+}
+
+tbody#fabricList img {
+    width: 35px;
+    height: 35px;
+}
+
+tbody#fabricList .form-group {
+    margin-bottom: 0;
+    padding: -2.562rem 0.5rem;
+}
+
+.FormAutoComplete {
+    position: relative;
+}
+
+.FormAutoComplete svg {
+    position: absolute;
+    right: 0;
+    top: 32%;
+    right: 4%;
+    background: #fff;
+}
+
+.autocomplete-container .suggestions-list {
+    z-index: 998;
+    list-style: none;
+    max-height: 450px;
+    height: auto;
+    width: 110px !important;
+    position: absolute;
+    list-style-type: none;
+    text-align: left;
+    overflow-x: hidden !important;
+}
+
+.modal-dialog.add_my_design .form-control {
+    font-size: .8rem;
+}
+
+#threedTable span.align-middle {
+    inline-size: 50px !important;
+    overflow: hidden;
+    min-height: 20px !important;
+    height: 20px;
+}
+
+tbody#fabricList {
+    height: calc(100vh - 240px);
+    display: block;
+}
+
+[dir] .autocomplete-container .autocomplete-search {
+    background-size: 9px;
+    background-position: 50px 10px;
+    background-repeat: no-repeat;
+}
+
+.css-1pahdxg-control:hover {
+    box-shadow: none;
+    border-color: #7367f0;
+}
+
+.css-1pahdxg-control {
+    border-color: #7367f0;
+}
+
+.css-yk16xz-control {
+    /* border-radius: 0px; */
+    height: 32px;
+    min-height: 32px;
+}
+
+/* for select Menu */
+[dir] .table thead th {
+    border-bottom: 1px solid #ebe9f1;
+    text-align: center;
+}
+
+[dir] .table td {
+    text-align: center;
+}
+
+.select-editable {
+    position: relative;
+    background-color: white;
+    border: solid grey 1px;
+    width: 120px;
+    height: 28px;
+}
+
+.select-editable select {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    font-size: 14px;
+    border: none;
+    width: 120px;
+    margin: 0;
+}
+
+.select-editable input {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100px;
+    padding: 1px;
+    font-size: 12px;
+    border: none;
+}
+
+.select-editable select:focus,
+.select-editable input:focus {
+    outline: none;
+}
+
+table#threedTable {
+    height: calc(100vh - 125px);
+    margin-bottom: 0;
+}
+
+table#threedTable tbody {
+    display: block;
+}
+
+table.ContentInner tr td {
+    border: none !important;
+}
+
+.modal-dialog.add_threedesign .form-control {
+    font-size: .8rem;
+    padding: 0.2rem 0.2rem;
+    height: 28px !important;
+    /* border-radius: 0;   */
+}
+
+input#basicInput {
+    text-align: center;
+    height: 28px !important;
+}
+
+.css-2b097c-container {
+    text-align: left;
+}
+
+table.ContentInner td:nth-child(1),
+table.ContentInner th:nth-child(1) {
+    width: 100% !important;
+}
+
+div#gallery_3d .top>img {
+    height: 100%;
+    height: 200px !important;
+}
+
+table#threedTable img {
+    width: auto;
+    /* height: 30px;*/
+    height: 75px;
+}
+
+.css-1eyvi4t-control {
+    border-color: hsl(0, 0%, 80%);
+    /* border-radius: 0px; */
+}
+
+[dir] .modal .modal-content {
+    box-shadow: none;
+}
+
+#deletepopup {
+    border-radius: 0 !important;
+    background: #fff !important;
+    width: auto !important;
+    max-width: 26em;
+    position: relative;
+    margin: auto;
+    top: 40%;
+    /* width: 70px;
+        height: 70px;
+        z-index: 99999; */
+}
+
+#deletepopup svg {
+    width: 60px;
+    height: 75px;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+#deletepopup h1 {
+    font-size: 1.3em;
+    font-weight: 700;
+    margin: 0 0 0.4em;
+    padding: 0;
+    text-align: center;
+}
+
+#deletepopup h5 {
+    text-align: center;
+}
+
+#deletepopup .modal-body {
+    justify-content: center;
+    display: flex;
+    padding: 0rem 1.4rem 0.6rem 1.4rem;
+}
+
+#deletepopup .btn-success {
+    background-color: #0a66c2 !important;
+}
+
+.swal2-title {
+    font-size: 0.9rem !important;
+    font-weight: normal !important;
+}
+
+table#threedTable tbody {
+    height: calc(100vh - 12rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+}
+
+.img_title {
+    float: left;
+    width: 60%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: 600;
+    color: #010101 !important
+}
+
+.img_title1 {
+    float: left;
+    width: 60%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #0a66c2;
+}
+
+td.thumb-cardbody .img_title {
+    text-align: left;
+}
+
+td.thumb-cardbody .img_title1 {
+    text-align: left;
+}
+
+.credit_score {
+    /* position: relative; */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background: #dddddd5c; */
+    padding: 4px;
+}
+
+.credit_score div {
+    font-size: 0.7rem;
+    font-weight: 600;
+    float: left;
+
+}
+
+.credit_score span {
+    /* position: absolute;
+    transform: translate(-50%, -50%);
+    left: 37%;
+    top: 52%; */
+    font-size: .7rem;
+    color: #000;
+    font-weight: 600;
+    padding: 0 1px;
+    color: #000;
+
+}
+
+.excl {
+    background: #4dab7f;
+    display: inline-block;
+    position: absolute;
+    bottom: -2px;
+    left: -5px;
+    text-transform: uppercase;
+    color: #ffff;
+    font-size: .6rem;
+    font-weight: bold;
+    line-height: 18px;
+    padding: 0px 5px;
+    z-index: 2;
+}
+
+.excl:after {
+    content: "";
+    position: absolute;
+    border-color: #68986e87 transparent #68986e87 #4dab7f;
+    border-style: solid;
+    border-width: 9px;
+    line-height: 21px;
+    left: 100%;
+    width: 0;
+    height: 0;
+    top: 0;
+}
+
+/* Added for show product name, paid, iscombo and tryon flag*/
+.product {
+    background: #b4aeff;
+    display: inline-block;
+    position: absolute;
+    bottom: -2px;
+    right: -4px;
+    text-transform: uppercase;
+    color: #040303;
+    font-size: .6rem;
+    font-weight: bold;
+    line-height: 18px;
+    padding: 0px 5px;
+    z-index: 2;
+}
+
+.product:after {
+    content: "";
+    position: absolute;
+    border-color: #b4aeff87 #b4aeff #b4aeff87 transparent;
+    border-style: solid;
+    border-width: 9px;
+    line-height: 21px;
+    right: 100%;
+    width: 0;
+    height: 0;
+    top: 0;
+}
+
+.tryon {
+    background: #707076;
+    display: inline-block;
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: .6rem;
+    font-weight: bold;
+    line-height: 18px;
+    padding: 0px 5px;
+    z-index: 2;
+}
+
+.tryon:after {
+    content: "";
+    position: absolute;
+    border-color: #95939d87 #707076 #95939d87 transparent;
+    border-style: solid;
+    border-width: 9px;
+    line-height: 21px;
+    right: 100%;
+    width: 0;
+    height: 0;
+    top: 0;
+}
+
+.combo {
+    background: #dc7bc4;
+    display: inline-block;
+    position: absolute;
+    top: 30px;
+    right: -4px;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: bold;
+    line-height: 18px;
+    padding: 0px 5px;
+    z-index: 2;
+    /* transform: translateY(-50%);  */
+}
+
+.combo:after {
+    content: "";
+    position: absolute;
+    border-color: #be7ec387 #dc7bc4 #be7ec387 transparent;
+    border-style: solid;
+    border-width: 9px;
+    line-height: 21px;
+    right: 100%;
+    width: 0;
+    height: 0;
+    top: 0;
+}
+.paid {
+    background: #82bac6;
+    display: inline-block;
+    position: absolute;
+    top: 60px;
+    right: -1px;
+    text-transform: uppercase;
+    color: #060606;
+    font-size: 0.6rem;
+    font-weight: bold;
+    line-height: 18px;
+    padding: 0px 5px;
+    z-index: 2;
+    /* transform: translateY(-50%);  */
+}
+
+.paid:after {
+    content: "";
+    position: absolute;
+    border-color: #a4cacd87 #82bac6 #a4cacd87 transparent;
+    border-style: solid;
+    border-width: 9px;
+    line-height: 21px;
+    right: 100%;
+    width: 0;
+    height: 0;
+    top: 0;
+}
+
+.credit_score svg {
+    fill: #0a66c2;
+    border: #fff;
+    stroke: #fff;
+    display: none;
+}
+
+.wallet_title {
+    font-weight: 600;
+    font-size: .8rem;
+}
+
+.credit_balance {
+    font-size: -0.1rem;
+    font-weight: 600;
+    color: #000;
+    background: #cfffe4;
+    text-align: center;
+    padding: 2px 12px;
+}
+
+.creditwallet {
+    border-left: 1px solid #cfcfcf;
+    padding-left: 16px;
+    margin-left: 1rem;
+    /* position: absolute;
+    left: 150px; */
+}
+
+.credit_balance small {
+    font-size: .7rem;
+}
+
+[dir] .performed_action .ecommerce-card {
+    background: #cdcdcd !important;
+    transform: translateY(-5px) !important;
+    box-shadow: 0 4px 25px 0 rgb(34 41 47 / 25%) !important;
+    border: #cdcdcd !important;
+
+}
+
+.grid-view .ac_perform {
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 27px;
+    z-index: 9;
+    font-size: .7rem;
+    padding: 0 6px;
+    font-style: italic;
+    color: red;
+}
+
+.list-view .ac_perform {
+    position: absolute;
+    right: 117px !important;
+    top: 19px;
+    font-size: .7rem;
+    padding: 0 6px;
+    font-style: italic;
+    color: red;
+}
+
+.performed_action .ac_perform {
+    display: block;
+}
+
+td.thumb-bg {
+    background: #fff;
+    padding: 0;
+    width: 100%;
+}
+
+td.thumb-cardbody {
+    padding: 0.72rem 0.5rem !important;
+}
+
+[dir] td.thumb-cardbody .card-body {
+    padding: 0 !important;
+    height: auto !important;
+}
+
+.list-view #gallery_3d .top>img {
+    height: 50px !important;
+    width: auto !important;
+}
+
+[dir] .ecommerce-application .ecommerce-card:hover {
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.threedthumbview .list-view {
+    display: table-row !important;
+}
+
+.ecommerce-application .list-view .ecommerce-card {
+    margin-bottom: 0 !important;
+    border-bottom: 0 !important;
+    display: block !important;
+}
+
+.list-view .iconstop {
+    display: flex;
+    bottom: 60px;
+    display: flex;
+    right: 28px;
+    top: 9px;
+}
+
+.thumb-cardbody .credit_score {
+    right: 150px;
+}
+
+.grid-view .custom-checkbox {
+    position: absolute;
+    top: 0;
+    left: 30px;
+}
+
+[dir=ltr] .list-view .custom-checkbox {
+    left: 0;
+    position: absolute;
+    left: 30px;
+    top: 10px;
+}
+
+[dir] .ecommerce-application .grid-view .ecommerce-card td:first-child {
+    display: none;
+}
+
+.grid-view .thumb-checkbox-wrap .iconstop {
+    position: absolute;
+    top: 8px;
+    display: none;
+    flex-direction: column;
+}
+
+td.credit_box {
+    position: absolute;
+    bottom: 14px;
+    right: 10px;
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+[dir=ltr] .list-view td.credit_box {
+    position: static !important;
+}
+
+.grid-view td.thumb-checkbox-wrap {
+    border: none;
+    padding: 0 !important;
+}
+
+.contain1 .ecommerce-application .list-view {
+    display: table-row !important;
+
+}
+
+tr.ecommerce-card.card.performed_action {
+    box-shadow: 0 4px 25px 0 rgb(34 41 47 / 25%) !important;
+    background: #cdcdcd !important;
+    border: 1px solid #cdcdcd !important;
+}
+
+.threedthumbview .list-view td:first-child {
+    /* width: 20%;   */
+    width: 200px;
+    padding-left: 4rem !important;
+}
+
+.threedthumbview .list-view td:nth-child(2) {
+    /* width: 25%;   */
+    width: 200px;
+}
+
+.threedthumbview .list-view td:nth-child(3) {
+    width: 200px;
+    /* width: 25%;    */
+}
+
+.threedthumbview .list-view td:nth-child(4) {
+    width: 160px;
+    /* width: 20%;    */
+}
+
+.threedthumbview .list-view td:nth-child(5) {
+    width: auto;
+}
+
+thead.list-view th:first-child {
+    width: 200px;
+    padding-left: 4rem !important;
+}
+
+thead.list-view th:nth-child(2) {
+    width: 256px;
+}
+
+thead.list-view th:nth-child(3) {
+    width: 200px;
+}
+
+thead.list-view th:nth-child(4) {
+    width: 200px;
+}
+
+thead.list-view th:nth-child(5) {
+    width: calc(100vw - 958px);
+}
+
+.list-view td.thumb-checkbox-wrap {
+    padding: 0 !important;
+}
+
+[dir=ltr] .ecommerce-application .list-view .ecommerce-card .card-body {
+    border-right: 0 !important;
+    text-align: center;
+}
+
+.list-view button.iconthumb {
+    border: none;
+    color: #000;
+}
+
+.list-view .ecommerce-card:hover .iconstop {
+    flex-direction: row;
+}
+
+/* .list-view .ecommerce-card:hover .iconstop .iconthumb{
+    background: none!important;
+    cursor: pointer;
+    color: #000!important;
+} */
+.threedthumbview .grid-view {
+    margin-top: 0 !important;
+}
+
+thead.list-view tr {
+    width: 100%;
+    display: block !important;
+}
+
+.list-view .img_title .img_title1 {
+    width: 100%;
+    text-align: center !important;
+}
+
+thead.grid-view {
+    display: none !important;
+}
+
+tr.checkactiondone {
+    border: 1px solid #000 !important;
+}
+
+.main-design-div .p-multiselect {
+    height: auto !important;
+    padding: 0.35rem 1rem !important;
+}
+
+@media only screen and (min-device-width:768px) and (max-device-width:1024px) {
+    .leftpanel {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .rightpanel {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 1rem;
+    }
+
+    .rightpanel .form-group {
+        text-align: left;
+    }
+}
+
+.custom-modal .modal-header .close:not(.custom-close) {
+    display: none;
+}
+
+/*#threed_element .custom-modal .modal-header .close:not(.custom-close) {
+    display: none; 
+}
+ .close {
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #fff;
+    opacity: .5;
+    right: 10px;
+    top: 4px;
+  } */

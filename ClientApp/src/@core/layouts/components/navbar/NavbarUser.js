@@ -1,71 +1,63 @@
 // ** Dropdowns Imports
+import { Fragment } from 'react'
+
 import UserDropdown from './UserDropdown'
-import BoardsMenu from './BoardsMenu'
-import CollectionsMenu from './CollectionsMenu'
-import { useContext, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { accessContext } from '../../../../views/context/accessContext'
 
-import { useSkin } from '@hooks/useSkin'
 // ** Third Party Components
-import { Sun, Moon, FileText } from 'react-feather'
-
-import OrderRequestMenu from './OrderRequestMenu'
-import Swal from 'sweetalert2'
+import { Sun, Moon, Menu } from 'react-feather'
+import { NavItem, NavLink } from 'reactstrap'
+import SelectSupplierList from "../navbar/SelectSupplierList"
 const NavbarUser = props => {
-    const {
-        layout
-    } = props
-    const { is_boarduser, selectedUser } = useContext(accessContext)
-    const [skin, setSkin] = useSkin()
-    const [size, setSize] = useSkin()
+  // ** Props
+  const { skin, setSkin, setMenuVisibility } = props
 
-    const ThemeToggler = () => {
-        if (skin === 'dark') {
-            return <Sun className='ficon' onClick={() => setSkin('bordered')} />
-        } else {
-            return <Moon className='ficon' onClick={() => setSkin('dark')} />
-        }
+  // ** Function to toggle Theme (Light/Dark)
+  const ThemeToggler = () => {
+    if (skin === 'dark') {
+      return <Sun className='ficon' onClick={() => setSkin('light')} />
+    } else {
+      return <Moon className='ficon' onClick={() => setSkin('dark')} />
     }
-    const sizeToggler = () => {
-        if (size === 'normal') {
-            return <div className='ficon' onClick={() => setSize('normal')} >A</div>
-        } else {
-            return <div className='ficon' onClick={() => setSize('normalPlus')} >A+</div>
-        }
-    }
-    const [designCount, setdesignCount] = useState(0)
-    const history = useHistory()
-    return (
-        <>
-        <sizeToggler/>
-            <ul className='nav navbar-nav align-items-center ml-auto flex-row boardsmenu' id='boardsmenu'>
+  }
 
-                {/* <div className='topIcon'><ThemeToggler className='topIcon' /></div> */}
-                { !is_boarduser || (is_boarduser && selectedUser) ? <div className="position-relative topIcon customtooltip" onClick={() => {
-                    if (!sessionStorage.designMaster || sessionStorage.designMaster === '[]') {  
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Your request is empty. Please add some items to proceed.",
-                            showConfirmButton: true
-                          })
-                    } else history.push({ pathname: "/Cart" }) 
-                    }}>
-              <span className="tooltip">Request Form</span>   <FileText  size={20} className='primary' />
-                    {/* <ShoppingCart size={18} className='primary' /> */}
-                    {/* <Badge pill color='success' className='badge-up'>{value}</Badge> */}
-                        <span class='circle'></span>
-                    {/*  <Badge pill color='info' className='badge-up'>
-                      {designCount}
-                  </Badge>*/}
-
-                </div> : <></>}
-                <div id='notificationMenu' className='position-relative topIcon customtooltip' > <span className="tooltip">Request List</span><OrderRequestMenu /></div>
-                {/* <div className='mx-50'><ShoppingCart/></div>     */}
-                {!is_boarduser ? <BoardsMenu /> : <CollectionsMenu />}
-                <UserDropdown />
-            </ul >
-        </>
-    )
+  return (
+    <Fragment>
+    
+      <ul className='navbar-nav d-xl-none d-flex align-items-center'> 
+        <NavItem className='mobile-menu mr-auto'>
+          <NavLink className='nav-menu-main menu-toggle hidden-xs is-active' onClick={() => setMenuVisibility(true)}>
+            <Menu className='ficon' />
+          </NavLink>
+        </NavItem>
+      </ul>
+      {/* <SelectSupplierList/> */}
+      <ul className='nav navbar-nav align-items-center ml-auto' style={{position:'relative'}}>
+        <UserDropdown />
+      </ul>
+    </Fragment>
+  )
 }
 export default NavbarUser
+
+
+// <Fragment>
+//       <ul className='navbar-nav d-xl-none d-flex align-items-center'>
+//         <NavItem className='mobile-menu mr-auto'>
+//           <NavLink className='nav-menu-main menu-toggle hidden-xs is-active' onClick={() => setMenuVisibility(true)}>
+//             <Menu className='ficon' />
+//           </NavLink>
+//         </NavItem>
+//       </ul>
+
+//       <div className='bookmark-wrapper d-flex align-items-center'>
+//         <NavItem className='d-none d-lg-block'>
+//           <NavLink className='nav-link-style'>
+//             <ThemeToggler />
+//           </NavLink>
+//         </NavItem>
+//       </div>
+      
+//       <ul className='nav navbar-nav align-items-center ml-auto'>
+//         <UserDropdown />
+//       </ul>
+//     </Fragment>

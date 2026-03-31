@@ -26,9 +26,9 @@ module.exports = {
     'no-useless-concat': 'error',
     'no-useless-return': 'error',
 
-    // Variable
+    // riable
     // 'init-declarations': 'error',
-    'no-use-before-define': 'error',
+   // 'no-use-before-define': 'error',
 
     // Stylistic Issues
     'array-bracket-newline': ['error', { multiline: true, minItems: null }],
@@ -72,11 +72,11 @@ module.exports = {
     'prefer-template': 'error'
   }
 
-  /*  rules: {
-     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-     'no-': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-     semi: ['error', 'never'],
-     'max-len': 'off',
-     camelcase: ['error', { properties: 'never', ignoreDestructuring: true, ignoreImports: true }]
-   } */
+  // rules: {
+  //   'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+  //   'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+  //   semi: ['error', 'never'],
+  //   'max-len': 'off',
+  //   camelcase: ['error', { properties: 'never', ignoreDestructuring: true, ignoreImports: true }]
+  // }
 }

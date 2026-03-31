@@ -1,0 +1,197 @@
+// import  {  useEffect } from 'react'
+// import { Bar } from 'react-chartjs-2'
+
+// function Chartgraph() {
+     
+//     useEffect(() => {
+//         const fetchData = async() => {
+//          const url = 'https://analytics.dam3d.in/getdata'
+//         await fetch(url).then((data) => {
+//                 console.log(data)
+//             }).then(e => {
+//                 console.log(e)
+//             })
+//         }
+//         fetchData()
+//     }, [])
+
+// const data = {
+//     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'jun', 'jul', 'Aug', 'sep'],
+//   datasets: [
+//     {
+//       label: 'My Bar Chart',
+//       backgroundColor: 'rgba(75,192,192,0.2)',
+//       borderColor: 'rgba(75,192,192,1)',
+//       borderWidth: 1,
+//       hoverBackgroundColor: 'rgba(75,192,192,0.4)',
+//       hoverBorderColor: 'rgba(75,192,192,1)',
+//       data: [3, 6, 9, 10, 30, 12, 14, 20, 45, 50, 10, 20]
+//     }
+//   ]
+//   }
+  
+//   const options = {
+//     legend: {
+//       display: false // Set to false to hide the legend
+//     }
+//   }
+//   return (
+//     <>
+//       <div className='app'>
+//         {/* <h1> Bar Chart</h1> */}
+//         <div className='chart' style={{borderBottom:'1px solid', marginTop:'10px'}}>
+//         <Bar data={data} options={options} />
+//         </div>
+//       </div>
+//     </>
+//   )
+// }
+
+// export default Chartgraph
+
+import { useEffect, useState } from 'react'
+import { Bar } from 'react-chartjs-2'
+import axios from 'axios'
+
+const Chartgraph = (props) => {
+  const [chartData, setChartData] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const gaResponse = await axios('https://analytics.dam3d.in/getdata', {
+            method:"POST",
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            },
+            data: {
+              start_date: "2023-12-01",
+              end_date: "2023-12-04"
+            }
+          })
+
+          const gaData = gaResponse.data
+          
+            const labels = Object.keys(gaData)
+            const values = Object.values(gaData)
+            const chartData = {
+              labels,
+              datasets: [
+                {
+                  label: 'My Bar Chart',
+                  backgroundColor: 'rgba(75,192,192,0.2)',
+                  borderColor: 'rgba(75,192,192,1)',
+                  borderWidth: 1,
+                  hoverBackgroundColor: 'rgba(75,192,192,0.4)',
+                  hoverBorderColor: 'rgba(75,192,192,1)',
+                  data: values
+                }
+              ]
+            }
+  
+            setChartData(chartData)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  const options = {
+    legend: {
+      display: false
+    }
+  }
+
+  return (
+    <>
+      <div className='app'>
+        <div className='chart' style={{ borderBottom: '1px solid', marginTop: '10px' }}>
+          <Bar data={props.chartData?.labels?.length > 0 && props.chartData ? props.chartData : chartData} options={options} />
+        </div>
+      </div>
+    </>
+  )
+
+}
+
+export default Chartgraph
+
+// import { useEffect, useState } from 'react'
+// import { Bar } from 'react-chartjs-2'
+// import axios from 'axios'
+
+// function Chartgraph() {
+//   const [chartData, setChartData] = useState([])
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const gaResponse = await axios('https://analytics.dam3d.in/getdata', {
+//           method: 'POST',
+//           headers: {
+//             'Content-Type': 'application/json',
+//             'Access-Control-Allow-Origin': '*'
+//           },
+//           data: {
+//             start_date: '2023-11-29',
+//             end_date: '2023-11-30'
+//           }
+//         })
+
+//         const gaData = gaResponse.data
+
+//         // Check if the condition is true before setting the chart data
+//         if (gaData.fabric_render) {
+//           // Filter labels and values for fabric_render
+//           const labels = ['fabric_render']
+//           const values = [gaData.fabric_render]
+
+//           const chartData = {
+//             labels,
+//             datasets: [
+//               {
+//                 label: 'My Bar Chart',
+//                 backgroundColor: 'rgba(75,192,192,0.2)',
+//                 borderColor: 'rgba(75,192,192,1)',
+//                 borderWidth: 1,
+//                 hoverBackgroundColor: 'rgba(75,192,192,0.4)',
+//                 hoverBorderColor: 'rgba(75,192,192,1)',
+//                 data: values
+//               }
+//             ]
+//           }
+
+//           setChartData(chartData)
+//         }
+//       } catch (error) {
+//         console.error('Error fetching data:', error)
+//       }
+//     }
+
+//     fetchData()
+//   }, [])
+
+//   const options = {
+//     legend: {
+//       display: false
+//     }
+//   }
+
+//   return (
+//     <>
+//       <div className='app'>
+//         <div className='chart' style={{ borderBottom: '1px solid', marginTop: '10px' }}>
+//           {/* Render the Bar component only if chartData is not empty */}
+//           {chartData.labels && chartData.labels.length > 0 && (
+//             <Bar data={chartData} options={options} />
+//           )}
+//         </div>
+//       </div>
+//     </>
+//   )
+// }
+
+// export default Chartgraph

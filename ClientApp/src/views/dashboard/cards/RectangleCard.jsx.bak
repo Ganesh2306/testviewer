@@ -1,0 +1,753 @@
+import Chart from 'react-apexcharts'
+import { Card, CardTitle, CardText, CardBody, Row, Col, Input, CardHeader  } from 'reactstrap'
+import { useState, useEffect, useRef, useContext } from "react"
+import { Heart, MapPin, Eye, ShoppingCart, Layers, Image, Filter } from 'react-feather'
+import axios from 'axios'
+import { Bar } from 'react-chartjs-2'
+import { AbilityContext } from '@src/utility/context/Can'
+import {Icon} from '@iconify/react'
+import Avatar from '@components/avatar'
+import Swal from 'sweetalert2'
+import DateRangUi from './DateRangeUi'
+import { DateRangePicker } from 'react-date-range'
+import { addDays } from 'date-fns'
+import 'react-date-range/dist/styles.css' // main style file
+import 'react-date-range/dist/theme/default.css' // theme css file
+import Chartgraph from './Chartgraph'
+
+const RectangleCard = ({ success }) => {
+  const [showCalendar, setShowCalendar] = useState(false)
+  const [count, setcount] = useState(0)
+  const StartDate = useRef(null)
+  const EndDate = useRef(null)
+  const StartDateErrorRef = useRef(null)
+  const EndDateErrorRef = useRef(null)
+  const validatedateErrorRef = useRef(null)
+  const [PrOrList, setPrOrList] = useState(null)
+  const ability = useContext(AbilityContext)
+  const [isLoading, setLoading] = useState(true)
+  const orgidref = useRef(null)
+  const DateRangePickerRef = useRef(null)
+  const chartRef = useRef(null)
+  const [chartData, setChartData] = useState([])
+  let PrOr = [null, null]
+  const [selectedValue, setSelectedValue] = useState('')
+  const handleSelectChange = (e) => {
+    console.log(e.target.value)
+    setSelectedValue(e.target.value)
+  }
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: 'selection'
+    }
+  ])
+  const [activerange, setactiverange] = useState('day')
+  const [selectedOption, setSelectedOption] = useState("option1")
+  const handleButtonClick = (option) => {
+    setSelectedOption(option)
+    console.log(`${option} + clicked`)
+  }
+
+  const [chartType, setChartType] = useState('bar')
+  const [Googledata, setData] = useState({})
+  const fetchData = async (startdate, enddate) => {
+    try {
+      const gaResponse = await axios('https://analytics.dam3d.in/getdata', {
+          method:"POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          },
+          data: {
+            start_date: formatDateString(startdate),
+            end_date: formatDateString(enddate)
+          }
+        })
+
+        const gaData = gaResponse.data
+        
+          const labels = Object.keys(gaData)
+          const values = Object.values(gaData)
+          const chartData = {
+            labels,
+            datasets: [
+              {
+                label: 'My Bar Chart',
+                backgroundColor: 'rgba(75,192,192,0.2)',
+                borderColor: 'rgba(75,192,192,1)',
+                borderWidth: 1,
+                hoverBackgroundColor: 'rgba(75,192,192,0.4)',
+                hoverBorderColor: 'rgba(75,192,192,1)',
+                data: values
+              }
+            ]
+          }
+
+          setChartData(chartData)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
+
+  const handleChartTypeChange = (event) => {
+    setChartType(event.target.value)
+    // console.log(event.target.value)
+  }
+
+  useEffect(() => {
+    const handleBodyClick = (event) => {
+      console.log('Body clicked!', event.target)
+      setShowCalendar(false)
+    }
+    document.body.addEventListener('click', handleBodyClick)
+
+    return () => {
+      document.body.removeEventListener('click', handleBodyClick)
+    }
+  }, [])
+  // const GenerateBar = (data) => {
+    // Ensure that the chart is only created once, on initial mount
+    // if (chartRef.current) {
+    //   const ctx = chartRef.current.getContext('2d')
+
+    //   const labelss = Object.keys(data)
+    //   const values = Object.values(data)
+
+    //   new Chart(ctx, {
+    //     type: 'bar',
+    //     data: {
+    //       labels: labelss,
+    //       datasets: [
+    //         {
+    //           label: 'Event Count',
+    //           data: values,
+    //           backgroundColor: 'rgba(75, 192, 192, 0.2)',
+    //           borderColor: 'rgba(75, 192, 192, 1)',
+    //           borderWidth: 1
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       scales: {
+    //         y: {
+    //           beginAtZero: true
+    //         }
+    //       }
+    //     }
+    //   })
+    // }
+// return <canvas ref={chartRef} id="myChart" />
+// }
+
+//   let selectionRange = [
+//     {
+//     startDate: new Date(),
+//     endDate: addDays(new Date(), 7),
+//     key: 'selection'
+//   }
+// ]
+  
+  //Function for Formatting of Date 
+  const formatDateString = (da) => {
+    let newDateObj = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}` 
+    if (da.getMonth() + 1 < 10 && da.getDate() < 10) {
+      newDateObj = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate()}`
+      }
+      if (da.getMonth() + 1 > 10 && da.getDate() >= 10) {
+        newDateObj = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+      }
+      if (da.getMonth() + 1 < 10 && da.getDate() >= 10) {
+        newDateObj = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate()}`
+      }
+      if (da.getMonth() + 1 > 10 && da.getDate() < 10) {
+        newDateObj = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+      }
+      if (da.getMonth() + 1 === 10 && da.getDate() === 10) {
+        newDateObj = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+       }
+       if (da.getMonth() + 1 === 10 && da.getDate() > 10) {
+        newDateObj = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+       }
+       if (da.getMonth() + 1 === 10 && da.getDate() < 10) {
+        newDateObj = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+       }
+    return newDateObj
+  }
+  //Function for Filter Organisation list in Ascending Order
+  const FilterList = (Data) => {
+      if (Data === null || Data === undefined || Data instanceof Error || Data === false || Data === "") {
+          return []
+      }
+      const orgnizationlist = Data?.allOrgList.sort(function(a, b) {
+       
+        const nameA = a.organization_Name.toLowerCase() 
+        const nameB = b.organization_Name.toLowerCase() 
+        if (nameA < nameB) {
+          return -1
+        }
+        if (nameA > nameB) {
+          return 1
+        }
+        return 0
+      })
+      return orgnizationlist 
+  }
+  //Function for set Default Count of Year
+  const Yearly = async () => {
+    const da = new Date()
+    let cdate = ""
+    let fdate = ""
+   
+    if (da.getMonth() + 1 < 10 && da.getDate() < 10) {
+    cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-0${da.getDate()}`
+    }
+    if (da.getMonth() + 1 > 10 && da.getDate() >= 10) {
+     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+    }
+    if (da.getMonth() + 1 < 10 && da.getDate() >= 10) {
+    cdate = `${da.getFullYear()}-0${da.getMonth() + 1}-${da.getDate()}`
+    }
+    if (da.getMonth() + 1 > 10 && da.getDate() < 10) {
+     cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+    }
+    if (da.getMonth() + 1 === 10 && da.getDate() === 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+     }
+     if (da.getMonth() + 1 === 10 && da.getDate() > 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-${da.getDate()}`
+     }
+     if (da.getMonth() + 1 === 10 && da.getDate() < 10) {
+      cdate = `${da.getFullYear()}-${da.getMonth() + 1}-0${da.getDate()}`
+     }
+    fdate = `${da.getFullYear()}-0${1}-0${1}`
+    const obj = {
+      StartDate : fdate,
+      EndDate : cdate
+    }
+    obj.OrganisationId = orgidref.current?.value ? orgidref.current.value : 0
+    setDateRange([
+      {
+        startDate:  new Date(da.getFullYear(), 0, 1),
+        endDate: da,
+        key: 'selection'
+      }
+    ])
+  //   selectionRange = [
+  //     {
+  //     startDate:  new Date(da.getFullYear(), 0, 1),
+  //     endDate: da,
+  //     key: 'selection'
+  //   }
+  // ]
+    const obj2 = {
+      startDate : fdate,
+      endDate : cdate
+    }
+    obj2.organisationId = orgidref.current?.value ? orgidref.current.value : 0
+
+    if (orgidref?.current !== undefined && orgidref?.current !== null) {
+      await axios.post(`./Design/GetOrgRenderCount`, obj2).then(response => {
+        const data = JSON.parse(response.data).value.totalDrapeCount 
+        setcount(data)
+     }) 
+    } else {
+  await axios.post(`./Design/GetRenderCount`, obj).then(response => {
+      const data = JSON.parse(response.data).totalDrapeCount 
+      setcount(data)
+   }) 
+  } 
+  }
+  useEffect(async () => {
+    try {
+       //await axios.get(`./ThreeD/GetProductList`).then(async(productList) => {
+         await axios.get(`./ThreeD/GetOrganisationList`).then((orgList) => {
+            
+            setPrOrList({
+              //ProductList: JSON.parse(productList.data),
+              OrgList:FilterList(orgList.data && JSON.parse(orgList.data))
+          })
+          setLoading(false)
+          
+          })
+
+        // }).catch((e) => {
+        //   console.log(e)
+        // })
+
+       /*  console.log({
+          ProductList: PrOr[0] && JSON.parse(PrOr[0].data)
+      }, 'from root') */
+   
+    } catch (error) {
+        PrOr = [null, null]
+    }
+   await Yearly()
+   fetchData()
+}, [])
+
+if (isLoading) {
+  return <div className="App">Loading...</div>
+}
+  const style = {
+    height:'100%',
+    minHeight:'550px',
+    position:'relative'
+    //margin:'10px 10px 10px 40px ',
+   // padding: '0px 10px 0px 0px'
+   
+  }
+  const style1 = {
+    display:'none'
+  }
+  // const buttonAQ = {
+    // paddingBottom:"10px",
+    // paddingTop:'10px',
+    // paddingRight:'35px',
+    // paddingLeft:'35px',
+  //   border: '1px solid #d8d6de',
+  //   borderRadius :'10px'
+  //  }
+
+   const buttonAQ = {
+    paddingBottom:"8px",
+    paddingTop:'8px',
+    paddingRight:'30px',
+    paddingLeft:'30px',
+    border: '1px solid rgb(216, 214, 222)'
+   }
+   const buttonAQ1 = {
+    paddingBottom:"8px",
+    paddingTop:'8px',
+    paddingRight:'30px',
+    paddingLeft:'30px',
+    border: '1px solid rgb(216, 214, 222)',
+    borderLeft: '0px'
+   }
+   //const colval = 'rectangle-card col-3'
+   const colval = 'rectangle-card col-sm-12 float-left h-100  p-0 col-md-12 col-lg-6'
+
+  const pstyle = {
+    margin : '0px 0px 15px 0px'
+  }
+  
+  const sideViewStyle = {
+   // margin : '0px px 0px 120px'
+  }
+    const handleDateRangeChange = async (ranges) => {
+      setDateRange([ranges.selection])
+      //selectionRange = ranges.selection
+    }
+
+    const rangeoptions = async(startDate, endDate) => {
+      const obj = {
+        StartDate : formatDateString(startDate),
+        EndDate : formatDateString(endDate) 
+      }
+      obj.OrganisationId = orgidref.current?.value ? orgidref.current.value : 0
+      const obj2 = {
+        StartDate : formatDateString(startDate),
+        EndDate : formatDateString(endDate) 
+      }
+      obj2.organisationId = orgidref.current?.value ? orgidref.current.value : 0
+      if (orgidref?.current !== undefined && orgidref?.current !== null) {
+        await axios.post(`./Design/GetOrgRenderCount`, obj2).then(response => {
+          const data = JSON.parse(response.data).value.totalDrapeCount  
+          setcount(data)
+       }) 
+      } else {
+    await axios.post(`./Design/GetRenderCount`, obj).then(response => {
+        const data = JSON.parse(response.data).totalDrapeCount 
+        setcount(data)
+     }) 
+    }
+      // const currentDate = new Date()
+      // const year = currentDate.getFullYear()
+      // const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+      // const day = String(currentDate.getDate()).padStart(2, '0')
+      // const formattedDate = `${year % 100}-${month}-${day}`
+      // const daydate = {
+      //   startDate: formattedDate, // Corrected variable name
+      //   endDate: formattedDate
+      // }
+      // console.log(daydate)
+      // return daydate
+
+    }
+
+    const Daydate = async() => {
+         const D_startDate = new Date()
+         const D_endDate = new Date()
+         rangeoptions(D_startDate, D_endDate)
+         fetchData(D_startDate, D_endDate)
+    }
+
+    const lastweek = async() => {
+      const currentDate = new Date()
+      const sevenDaysAgo = new Date(currentDate)
+      sevenDaysAgo.setDate(currentDate.getDate() - 6)
+      rangeoptions(currentDate, sevenDaysAgo)
+      fetchData(sevenDaysAgo, currentDate)
+    } 
+
+    const lastmonth = async() => {
+      const currentDate = new Date()
+      const monthago = new Date(currentDate)
+      monthago.setDate(currentDate.getDate() - 29)
+      rangeoptions(currentDate, monthago)
+      fetchData(monthago, currentDate)
+    }
+
+   const lastyear = async() => {
+      const currentDate = new Date()
+      const yearago = new Date(currentDate)
+      yearago.setDate(currentDate.getDate() - 364)
+      rangeoptions(currentDate, yearago)
+      fetchData(yearago, currentDate)
+   }
+        
+  return (
+    <>
+    <div className={colval}>
+
+    <Card style={style} className="mb-1 col-md-12 col-sm-12 home">
+          <CardHeader className="pb-1" tyle={{ paddingLeft: "1rem", paddingBottom: "1rem"}}>
+            {/* <Row className ="pl-1 w-100 "> */}
+            <div classname="col-md-6 col-sm-6 col-lg-6 flex-column-reverse" style={{ display: "flex", flexDirection: 'column' }}>
+              <h3>Render Report</h3>
+              <h4 style={{ fontWeight: "bold", marginTop: '2px' }} className="">
+                {" "}
+                Count : <span className="text-success"> {count}</span>{" "}
+              </h4>
+            </div>
+            <div classname="col-md-6 d-flex flex-row-reverse col-sm-12">
+                 <form className="form-inline flex-wrap selec col-md-12 col-lg-12 pr-0"  style={{justifyContent:'end'}}>
+        <label for="graphType" style={{marginRight: '0.4rem'}}>Graph:</label>
+        <select id="graphType" name="graphType"  className="col-md-8 col-lg-8 col-md-6 col-sm-4 form-control float-left">
+            <option value="">Select a graph </option>
+            <option value="bar">Bar</option>
+            <option value="line">Line</option>
+            <option value="pie">Pie</option>
+        </select>
+    </form>
+            </div>
+            {/* </Row> */}
+          </CardHeader>
+          <CardBody style={{ padding: "1rem", paddingTop:'0rem' }}>
+            <Row>
+              <div id="S_buttons" className="col-md-6 col-sm-12 d-grid gap-2 d-md-block">
+                <button className="btn-light " style={buttonAQ} type="button">
+                  ALL
+                </button>
+                <button className="btn-light" style={buttonAQ1} type="button" >
+                  QR
+                </button>
+              </div>
+              <div className='col-md-6 col-sm-12 d-flex flex-row-reverse'>
+              <div className="btn-group " role="group" style={{ border: '1px solid #d8d6de'}}>
+                <button type="button" className="btn btn-light" style={{padding: "0rem 0.5rem 0rem 0.5rem "}} onClick={Daydate}>
+                  Day
+                </button>
+                <button type="button" className="btn btn-light" style={{padding: "0rem 0.5rem 0rem 0.5rem "}} onClick={lastweek}>
+                  Week
+                </button>
+                <button type="button" className="btn btn-light" style={{padding: "0rem 0.5rem 0rem 0.5rem "}} onClick={lastmonth}>
+                  Month
+                </button>
+                <button type="button" className="btn btn-light" style={{padding: "0rem 0.5rem 0rem 0.5rem "}} onClick={lastyear}>
+                  Year
+                </button>
+                <button type="button" className="btn btn-light" style={{padding: "0rem 0.5rem 0rem 0.5rem "}} onClick={() => setShowCalendar(!showCalendar)} >
+                  Date
+                </button>
+              </div>
+              <div className='position-absolute' style={{zIndex:'99999', right:'0', background:'#fff', top: '41px'}}> 
+                        {/* { showCalendar && <DateRangUi/>} */}
+                        { showCalendar && 
+                       <div className='showcalendar' >
+                        <DateRangePicker 
+                         ref={DateRangePickerRef}
+                         style={{border:'1px'}}       
+                         onChange={handleDateRangeChange}
+                         showSelectionPreview={true}
+                         moveRangeOnFirstSelection={false}
+                         months={1}
+                         ranges={dateRange}
+                         direction="vertical"
+                       />
+                       <button type="button" role="button" class="bg-light text-white px-3 btn btn-secondary show"
+                          onClick ={async () => {
+                            const obj = {
+                              StartDate : formatDateString(dateRange[0].startDate),
+                              EndDate : formatDateString(dateRange[0].endDate) 
+                            }
+                            obj.OrganisationId = orgidref.current?.value ? orgidref.current.value : 0
+                            const obj2 = {
+                              StartDate : formatDateString(dateRange[0].startDate),
+                              EndDate : formatDateString(dateRange[0].endDate) 
+                            }
+                            obj2.organisationId = orgidref.current?.value ? orgidref.current.value : 0
+
+                            if (orgidref?.current !== undefined && orgidref?.current !== null) {
+                              await axios.post(`./Design/GetOrgRenderCount`, obj2).then(response => {
+                                const data = JSON.parse(response.data).value.totalDrapeCount  
+                                setcount(data)
+                             }) 
+                            } else {
+                          await axios.post(`./Design/GetRenderCount`, obj).then(response => {
+                              const data = JSON.parse(response.data).totalDrapeCount 
+                              setcount(data)
+                           }) 
+                          }
+                          setShowCalendar(!showCalendar)
+                          fetchData(dateRange[0].startDate, dateRange[0].endDate)
+                          }}
+                       >SHOW</button>  
+                       </div>
+                       }
+                 
+      </div>
+              </div>
+              <div className='col-md-12 col-sm-12 mt-1'>
+                <Chartgraph chartData={chartData}/>
+              </div>
+            </Row>
+          </CardBody>
+        </Card>
+
+
+    <div style={{textAlign:'right', display:'none'}}><button  className="btn btn-sm btn-success" onClick={() => setShowCalendar(showCalendar)} >
+    Filter by Date</button></div>
+    <Card  style={style1} className='mb-1'>
+    <div className='position-absolute' style={{zIndex:'999', right:'0'}}>
+                        {/* { showCalendar && <DateRangUi/>} */}
+                        { showCalendar && 
+                       <div className='showcalendar' >
+                        <DateRangePicker 
+                         ref={DateRangePickerRef}
+                         style={{border:'1px'}}       
+                         onChange={handleDateRangeChange}
+                         showSelectionPreview={true}
+                         moveRangeOnFirstSelection={false}
+                         months={1}
+                         ranges={dateRange}
+                         direction="vertical"
+                       />
+                       <button type="button" role="button" class="bg-light text-white px-3 btn btn-secondary show"
+                          onClick ={async () => {
+                            const obj = {
+                              StartDate : formatDateString(dateRange[0].startDate),
+                              EndDate : formatDateString(dateRange[0].endDate) 
+                            }
+                            obj.OrganisationId = orgidref.current?.value ? orgidref.current.value : 0
+                            const obj2 = {
+                              StartDate : formatDateString(dateRange[0].startDate),
+                              EndDate : formatDateString(dateRange[0].endDate) 
+                            }
+                            obj2.organisationId = orgidref.current?.value ? orgidref.current.value : 0
+
+                            if (orgidref?.current !== undefined && orgidref?.current !== null) {
+                              await axios.post(`./Design/GetOrgRenderCount`, obj2).then(response => {
+                                const data = JSON.parse(response.data).value.totalDrapeCount  
+                                setcount(data)
+                             }) 
+                            } else {
+                          await axios.post(`./Design/GetRenderCount`, obj).then(response => {
+                              const data = JSON.parse(response.data).totalDrapeCount 
+                              setcount(data)
+                           }) 
+                          }
+                          setShowCalendar(showCalendar)
+                          }}
+                       >SHOW</button>  
+                       </div>
+                       }
+                 
+      </div>
+      {/* <div>
+         <p style={{ color: 'red' }} className="error-message" ref={validatedateErrorRef}></p>                     
+      </div> */}
+    <CardHeader>
+                        <div className='d-flex col-md-8 pl-0'>                       
+                            <CardTitle tag='h4' className='pl-0'>Activity Report</CardTitle>
+                            {ability.can('Display', '3DImages') && <> <form class="form-inline flex-wrap select pl-2 pr-50"> <span className="float-left mr-1">Orgnization</span> 
+                           <select
+                           id="collection3DLibrary"
+                           className="form-control float-left mr-1"
+                           ref={orgidref}
+                          //  onChange={() => {
+                          //  }}
+                                 >    
+                                        {
+                                            PrOrList?.OrgList && PrOrList?.OrgList.map((e, k) => {
+                                              //organization_Name  //PrOrList.OrgList[e]
+                                                return <option value={e.organisation_id}>{e.organization_Name}</option>
+                                                
+                                            })}
+                                </select>
+                                </form> </>
+                        }
+                        </div>
+                        {/* <div> */}
+                        <div className='d-flex col-md-4'>
+                       
+                          {/* <Input className ='mt-2 pl-0' type='date' style={sideViewStyle}  innerRef={StartDate} onChange={handleStartDate} />
+                          <Input className ='ml-50 mt-2' type='date' style={sideViewStyle} innerRef={EndDate} onChange={handleEndDate} /> */}
+                          {/* </div> */}
+                          {/* <button type="button" role="button" class="bg-light text-white px-3 btn btn-secondary ml-2 show"
+                          onClick ={async () => {
+                            const obj = {
+                              StartDate : formatDateString(dateRange[0].startDate),
+                              EndDate : formatDateString(dateRange[0].endDate) 
+                            }
+                            obj.OrganisationId = orgidref.current?.value ? orgidref.current.value : 0
+                            const obj2 = {
+                              StartDate : formatDateString(dateRange[0].startDate),
+                              EndDate : formatDateString(dateRange[0].endDate) 
+                            }
+                            obj2.organisationId = orgidref.current?.value ? orgidref.current.value : 0
+
+                            if (orgidref?.current !== undefined && orgidref?.current !== null) {
+                              await axios.post(`./Design/GetOrgRenderCount`, obj2).then(response => {
+                                const data = JSON.parse(response.data).value.totalDrapeCount  
+                                setcount(data)
+                             }) 
+                            } else {
+                          await axios.post(`./Design/GetRenderCount`, obj).then(response => {
+                              const data = JSON.parse(response.data).totalDrapeCount 
+                              setcount(data)
+                           }) 
+                          }
+                          }}
+                          >SHOW</button>
+                        */}
+                      </div>  
+       </CardHeader>  
+      <CardBody>
+        <Row>      
+          <Col xs='6'>  
+            <h6 >Render Count</h6> 
+            <CardTitle className='mb-1 text-success' >{count}</CardTitle> 
+          </Col>  
+        
+          {/* <Col xs='6'> 
+          <h6 >Downloads</h6> 
+            <CardTitle className='mb-1 text-primary ' color='primary'>300</CardTitle>    
+          </Col>  
+        */}
+        </Row>
+        <canvas ref={chartRef} id="myChart" />
+        {/* <div>
+    <h1>Google Analytics Dashboard</h1>
+    <Bar
+      Googledata={{
+        labels: Object.keys(Googledata),
+        datasets: [
+          {
+            label: 'Event Count',
+            data: Object.values(Googledata),
+            backgroundColor: 'rgba(75,192,192,0.2)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderWidth: 1
+          }
+        ]
+      }}
+      options={{
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }}
+    />
+    <p>Additional information or components can be added here.</p>
+  </div> */}
+
+      </CardBody>
+      
+    </Card>
+    {/* <Card className='mt-4 p-2'>
+   <Row>
+    <Col xs='12'>
+    <h1 className='mb-2'>Google Analytics</h1>
+    <Bar
+      Googledata={{
+        labels: Object.keys(Googledata),
+        datasets: [
+          {
+            label: 'Event Count',
+            data: Object.values(Googledata),
+            backgroundColor: 'rgba(75,192,192,0.2)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderWidth: 1
+          }
+        ]
+      }}
+      options={{
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }}
+    />
+    
+    </Col>
+   </Row>
+    </Card> */}
+    </div>
+    <div className={colval}>
+    {/* <Card  style={style} className='mb-1'>
+    <CardHeader>
+                        <div className='d-flex'>                       
+                            <CardTitle tag='h4' >Project Status</CardTitle>
+                        </div>
+                        <div className='d-flex'>
+                          <Input type='date' style={sideViewStyle} />
+                        
+                        </div>
+                        
+                        
+       </CardHeader>  
+      <CardBody>
+     
+        <Row>      
+          <Col xs='6'className='d-flex align-items-center' >  
+             <Avatar className='mr-1' color='primary' variant='rounded'  size='lg' style ={{borderRadius:'50%'}} icon={<Layers  />}>  
+            </Avatar>
+            <div>
+            <h6>3D Models</h6> 
+            <CardTitle className=''>1025</CardTitle>    
+            </div>
+          </Col>  
+        
+          <Col xs='6'className='d-flex align-items-center' >  
+             <Avatar className='mr-1' color='success' variant='rounded'  size='lg' style ={{borderRadius:'50%'}} icon={<Image  />}>  
+            </Avatar>
+            <div>
+            <h6>Fabrics</h6> 
+            <CardTitle className=''>10,000</CardTitle>    
+            </div>
+          </Col>  
+         
+        </Row>
+      </CardBody>
+      
+    </Card> */}
+    </div>
+   
+    <div>
+
+
+  </div>
+  <div>
+    
+  </div>
+ 
+    </>
+    
+  )
+}
+
+export default RectangleCard

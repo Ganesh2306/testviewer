@@ -1,28 +1,16 @@
-import { Mail, Menu, Briefcase, Grid, Circle } from 'react-feather'
+import { Mail, Home } from 'react-feather'
 
 export default [
-  {
-    id: 'home',
-    title: '',
-    icon: <Menu size={20} />,
-    navLink: '/home'
+    {
+        id: 'home',
+        title: 'Home',
+        icon: <Home size={20} />,
+        navLink: '/dashboard'
     },
     {
-        id: 'category',
-        title: 'category',
-        icon: <Grid size={20} />,
-        navLink: '/brandingpage'
-    },
-  {
-    id: 'design',
-    title: 'Designss',
-    icon: <Grid size={20} />,
-    navLink: '/design'
-  },
-  {
-    id: 'collection',
-    title: 'Collection',
-    icon: <Briefcase size={20} />,
-    navLink: '/collection'
-  }
+        id: 'secondPage',
+        title: 'Second Page',
+        icon: <Mail size={20} />,
+        navLink: '/second-page'
+    }
 ]

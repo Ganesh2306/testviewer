@@ -34,7 +34,8 @@ namespace ARCHIVE_DASHBOARD.CustomFilter
             LoggedUserData myComplexObject = context.HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             //var time = myComplexObject.AccessExpiryTime;
             //var expiryTime = time - new TimeSpan(0, 0, 29, 0);
-                
+             
+            
             if (DateTime.Now.AddMinutes(10) > myComplexObject.AccessExpiryTime)
             {
                 RefreshToken refreshToken = new RefreshToken();
@@ -49,6 +50,7 @@ namespace ARCHIVE_DASHBOARD.CustomFilter
                     myComplexObject.RefreshToken = _LoggedUserData.RefreshToken;
                     context.HttpContext.Session.SetObjectAsJson("Auth", myComplexObject);
                 }
+
             }
         }
         public void OnActionExecuted(ActionExecutedContext context)

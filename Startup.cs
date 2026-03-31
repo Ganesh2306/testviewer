@@ -2,13 +2,13 @@ using ARCHIVE_DASHBOARD.Model.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
-namespace ARCHIVE_VIEWER
+namespace ARCHIVE_DASHBOARD
 {
     public class Startup
     {
@@ -16,21 +16,20 @@ namespace ARCHIVE_VIEWER
         {
             Configuration = configuration;
         }
-        //this is class to added the service configuration and DI
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
-            //services.AddScoped<AppConfiguration>(); DI Injected but not any dependancy Use but it IMP
             services.AddSession();
             services.Configure<AppConfiguration>(Configuration.GetSection("AppConfiguration"));
             services.AddControllersWithViews();
 
             services.AddSession(options =>
             {
-                options.IdleTimeout = System.TimeSpan.FromMinutes(30);
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

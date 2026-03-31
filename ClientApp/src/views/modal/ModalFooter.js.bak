@@ -1,0 +1,13 @@
+import { ModalFooter, Button } from 'reactstrap'
+
+const ModalFooterUI = (data) => {
+  return (
+    <ModalFooter>
+      <Button color='primary' onClick={() => data.setis_open(false)}>
+        {data.FooterBtnName}
+      </Button>
+    </ModalFooter>
+  )
+}
+
+export default ModalFooterUI

@@ -7,7 +7,6 @@ import classnames from 'classnames'
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
 import { handleContentWidth, handleMenuCollapsed, handleMenuHidden } from '@store/actions/layout'
-import useZoomLevel from '../../../../views/customHooks/useZoomLevel'
 
 // ** Styles
 import 'animate.css/animate.css'
@@ -55,21 +54,12 @@ const LayoutWrapper = props => {
     }
     return () => cleanUp()
   }, [])
-    const zoomLevel = useZoomLevel()
-    const isZoomed = zoomLevel >= 1.5
-    useEffect(() => {
-        if (isZoomed) {
-            document.documentElement.classList.add('zoomedBody')
-        } else {
-            document.documentElement.classList.remove('zoomedBody')
-        }
-    }, [isZoomed])
+
   return (
     <div
-      className={classnames('app-content content overflow-hidden', {
+      className={classnames('app-content content ', {
         [wrapperClass]: wrapperClass,
-          'show-overlay': navbarStore.query.length,
-           zoomed: isZoomed
+        'show-overlay': navbarStore.query.length
       })}
     >
       <div className='content-overlay'></div>
@@ -88,8 +78,7 @@ const LayoutWrapper = props => {
             ? { className: classnames({ 'content-body': !appLayout }) }
             : {})}
           /*eslint-enable */
-              >
-          
+        >
           {children}
         </Tag>
       </div>

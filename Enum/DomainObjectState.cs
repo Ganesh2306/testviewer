@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ARCHIVE_VIEWER.Enum
+namespace ARCHIVE_DASHBOARD.Enum
 {
     public enum DomainObjectState
     {

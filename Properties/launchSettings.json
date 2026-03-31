@@ -1,10 +1,10 @@
-{
+﻿{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:57972",
-      "sslPort": 44387
+      "applicationUrl": "http://localhost:59304",
+      "sslPort": 44389
     }
   },
   "profiles": {
@@ -13,27 +13,15 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "sqlDebugging": false,
-      "jsWebView2Debugging": false
+      }
     },
-    "ARCHIVE_VIEWER": {
+    "ARCHIVE_DASHBOARD": {
       "commandName": "Project",
       "launchBrowser": true,
+      "applicationUrl": "https://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:5003"
-    },
-    "WSL": {
-      "commandName": "WSL2",
-      "launchBrowser": true,
-      "launchUrl": "https://localhost:5003",
-      "environmentVariables": {
-        "ASPNETCORE_URLS": "https://localhost:5003",
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "distributionName": ""
+      }
     }
   }
 }

@@ -19,7 +19,7 @@ export const IdleTimeOutModal = ({ showModal, handleContinue, handleLogout, Hand
             <Modal.Header closeButton>
                 <Modal.Title>You Have Been Idle!</Modal.Title>
             </Modal.Header>
-            <Modal.Body>You have been idle for a few minutes. Your session will expire in a few seconds. To continue your session, please select ‘Continue session.</Modal.Body>
+            <Modal.Body>Your session is Timed Out. You want to stay?</Modal.Body>
             <Modal.Footer>
                 
                 <Button variant="primary" onClick={() => {

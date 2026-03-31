@@ -1,0 +1,56 @@
+.item {
+    display: block;
+    padding: 1rem;
+  }
+  .item > .children {
+    padding: 0 0 0 40px;
+    padding: 1rem;
+  }
+  .item > .toggler {
+    display: inline-block;
+    width: auto;
+    cursor: pointer;
+    margin-left:20px;
+  }
+  
+  .item::before {  
+    padding: 0 5px 0 0;
+    left: 10px;
+    padding-right:4px;
+    position: absolute;
+  }
+  .toggler svg {
+    position: absolute;
+    right: 0;
+    top: 12px;
+    right: 12px;
+    z-index: 9;
+    padding: 4px;
+}
+.arrows {
+  position: absolute;
+  left: 0;
+  text-align: left;
+  margin-left: 4px;
+  transform: rotate(-90deg);
+  background-image: url('../images/plus_icon.svg');
+  background-size: 18px;
+  background-repeat: no-repeat;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-position: center center;
+}
+.arrows.openlist {
+  position: absolute;
+  left: 0;
+  text-align: left;
+  margin-left: 4px;
+  transform: rotate(0deg);
+  background-image: url('../images/minus_icon.svg');
+  background-position: center center;
+background-size: 14px;
+background-repeat: no-repeat;
+width: 24px;
+height: 24px;
+}

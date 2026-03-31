@@ -1,0 +1,337 @@
+﻿.multiselect-demo .card {
+    margin-bottom: 0;
+    border: none;
+    margin-bottom: 0.2rem;
+}
+
+[dir] .p-multiselect {
+    border-radius: 0 !important;
+    border: 1px solid #d8d6de !important;
+    /* padding: 0.35rem; */
+    padding: 0.2rem;
+    height: 28px;
+}
+
+[dir] .p-multiselect .p-multiselect-label {
+    padding: 5px 4px !important;
+    height: 26px !important;
+    width: 100%;
+    text-align: left;
+}
+
+[dir] .p-multiselect-panel .p-multiselect-header {
+    padding: 2px 5px !important;
+    border-radius: 0 !important;
+}
+
+[dir] .p-inputwrapper-filled.p-multiselect.p-multiselect-chip .p-multiselect-label {
+    padding: 0.2rem 0.2rem !important;
+}
+
+#threedTable .p-multiselect-label {
+    padding: 0 !important;
+}
+
+[dir] .p-multiselect-panel .p-multiselect-items .p-multiselect-item {
+    margin: 0;
+    padding: 2px 4px !important;
+}
+
+.p-multiselect-panel .p-multiselect-header .p-multiselect-close {
+    width: 18px;
+    height: 18px !important;
+}
+
+.p-checkbox .p-checkbox-box {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 0 !important;
+}
+
+.pi-chevron-down:before {
+    font-weight: 600;
+    content: "\e902";
+    font-size: 10px !important;
+    color: #000000 !important;
+    margin-top: 0.5rem !important;
+}
+
+.p-checkbox .p-checkbox-box .p-checkbox-icon {
+    color: #ffffff;
+    font-size: 9px;
+}
+
+[dir] .p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
+    font-size: .8rem !important;
+}
+
+.p-component,
+.p-component * {
+    box-sizing: border-box;
+    font-size: .8rem !important;
+    border-radius: 0 !important;
+}
+
+.ContentInner .multiselect-demo {
+    /* width: 250px; */
+    width: auto !important;
+    max-width: 244px;
+    min-width: 244px;
+}
+
+[dir] .p-multiselect.p-multiselect-chip .p-multiselect-token {
+    padding: 2px 2px !important;
+}
+
+[dir] .p-multiselect-panel {
+    z-index: 9999 !important;
+}
+
+.p-dropdown-panel {
+    z-index: 9999 !important;
+}
+
+[dir=ltr] .p-dropdown.p-dropdown-clearable .p-dropdown-label {
+    font-size: .8rem !important;
+    color: #c1c3c5 !important
+}
+
+[dir] .p-dropdown {
+    font-size: .8rem !important;
+    border-radius: 0 !important;
+    padding: 2px 4px !important;
+    border: 1px solid #d8d6de !important;
+    height: 28px;
+    width: 75px !important;
+    /* width: 60px!important; */
+    margin-right: 0.75rem !important;
+    display: inline-flex !important;
+}
+
+.p-dropdown .pi {
+    font-size: .5rem;
+    right: 24px !important;
+    background: #fff;
+    padding: 2px;
+}
+
+.p-dropdown .p-dropdown-trigger {
+    color: #6c757d !important;
+    width: 0 !important;
+    padding-right: 0.5rem !important;
+}
+
+.p-inputtext {
+    padding: 0.25rem 0rem !important;
+    margin: 0 !important;
+}
+
+[dir] .p-dropdown-panel .p-dropdown-header {
+    padding: 0.2rem 0.2rem;
+}
+
+[dir] .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    margin: 0;
+    padding: 0.5rem 0.5rem;
+    border: 0 none;
+    background: transparent;
+    border-radius: 0;
+    font-size: .8rem;
+}
+
+.p-multiselect .p-multiselect-trigger {
+    color: #6c757d;
+    width: 2rem !important;
+}
+
+.p-dropdown .p-dropdown-label.p-placeholder {
+    color: #6c757d;
+    font-size: .8rem;
+}
+
+.p-checkbox {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+[dir] .custom-checkbox .custom-control-label::before {
+    border-radius: 0;
+    border-color: #fff;
+    width: 25px;
+    height: 25px;
+    box-shadow: none !important;
+    border: 1px solid;
+}
+
+[dir] .custom-checkbox .custom-control-label::after {
+    border-radius: 0;
+    width: 18px !important;
+    height: 18px !important;
+    border-color: #fff;
+}
+
+.custom-checkbox .custom-control-label::before {
+    border-radius: 2px !important;
+    border-color: #fff;
+    width: 18px !important;
+    height: 18px !important;
+    box-shadow: none !important;
+    border: 1px solid;
+}
+
+.thumb-bg .custom-checkbox {
+    display: none;
+}
+
+.thumb-bg:hover .custom-checkbox {
+    display: block;
+}
+
+[dir] .designthumbview .list-view .thumb-bg .custom-checkbox {
+    display: flex;
+}
+
+
+.thumbselectDesign .custom-checkbox {
+    display: block;
+}
+
+[dir] .designthumbview .list-view .thumbselectDesign .custom-checkbox {
+    display: flex;
+}
+
+[dir] .custom-checkbox .custom-control-label::after {
+    border-radius: 0;
+    width: 25px;
+    height: 25px;
+    border-color: #fff;
+}
+
+table.ContentInner tr {
+    margin-bottom: 0.2rem;
+}
+
+table.ContentInner tr td {
+    padding: 0px !important;
+}
+
+/* above manisha */
+
+/* select menu changes above */
+
+.form-control {
+    font-size: .875rem;
+}
+
+
+[dir] .p-multiselect-panel {
+    z-index: 9999 !important;
+}
+
+.p-dropdown-panel {
+    z-index: 9999 !important;
+}
+
+[dir=ltr] .p-dropdown.p-dropdown-clearable .p-dropdown-label {
+    font-size: .8rem !important;
+    color: #c1c3c5 !important
+}
+
+[dir] .p-dropdown {
+    font-size: .8rem !important;
+    border-radius: 0 !important;
+    padding: 2px 4px !important;
+    border: 1px solid #d8d6de !important;
+    height: 28px;
+    width: 75px !important;
+    margin-right: 0 !important;
+    display: inline-flex !important;
+}
+
+.p-dropdown .p-dropdown-trigger {
+    color: #6c757d !important;
+    width: 0 !important;
+    padding-right: 0.5rem !important;
+}
+
+.p-inputtext {
+    padding: 0.25rem 0rem !important;
+}
+
+[dir] .p-dropdown-panel .p-dropdown-header {
+    padding: 0.2rem 0.2rem !important;
+}
+
+[dir] .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    margin: 0;
+    padding: 2px 4px !important;
+    border: 0 none;
+    background: transparent;
+    border-radius: 0;
+    font-size: .8rem;
+}
+
+[dir] .p-multiselect-panel .p-multiselect-header .p-multiselect-close {
+    border: 0 none;
+    background: transparent;
+    border-radius: 0 !important;
+}
+
+.select-editable select {
+    cursor: pointer;
+}
+
+.form-check-input {
+    cursor: pointer;
+}
+
+.thumb-checkbox-wrap .form-check-input {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+tbody #fabricList tr td input.form-check-input {
+    position: relative;
+}
+
+.ContentInner input[type="radio"] {
+    margin: 0 !important;
+    padding: 10px;
+    margin-top: 36px !important;
+    margin-bottom: 30px !important;
+}
+
+[dir] table.ContentInner td input {
+    margin: 0 !important;
+    padding: 10px;
+    margin-top: 25px !important;
+    margin-bottom: 30px !important;
+}
+
+[dir] .ContentInner .multiselect-demo .card {
+    margin-top: 25px !important;
+    margin-bottom: 58px !important;
+}
+
+table#threedTable td:nth-child(3) .multiselect-demo .card {
+    margin-bottom: 0.2rem !important;
+    margin-top: auto !important;
+}
+
+/* vaibhavi & Manisha */
+button.Add_Option {
+    position: absolute;
+    right: 0;
+    z-index: 99999;
+    top: 0;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-01 {
+    position: relative;
+    padding-right: 40px;
+    padding-bottom: 2px;
+}

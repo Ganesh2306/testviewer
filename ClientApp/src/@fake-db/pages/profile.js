@@ -16,7 +16,7 @@ const data = {
     },
     suggestedPages: [
       {
-        avatar: require('@src/assets/images/avatars/12-small.png').default,
+        avatar: userData.org_userImg_url,
         username: 'Peter Reed',
         subtitle: 'Company',
         favorite: false

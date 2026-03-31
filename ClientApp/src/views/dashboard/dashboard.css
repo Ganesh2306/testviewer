@@ -1,0 +1,49 @@
+.apexcharts-legend-text {
+    margin-left: 0.5rem;
+}
+
+.viewbox {
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+}
+
+
+@media (min-width:1600px) {
+    .viewbox {
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+    }
+}
+@media (min-width: 992px) {
+    .viewbox {
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+    }
+}
+@media (min-width: 1200px) {
+    .viewbox {
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+    }
+}
+@media only screen and (min-device-width:768px) and (max-device-width:1024px) and (orientation:landscape) {
+    .viewbox {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (device-width: 768px) {
+    .viewbox {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+/*ipad portrait*/
+@media (max-width: 991.98px) {
+
+    .viewbox {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}

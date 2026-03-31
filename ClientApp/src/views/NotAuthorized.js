@@ -1,14 +1,47 @@
 import { Button } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import notAuthImg from '@src/assets/images/pages/not-authorized.svg'
-
+import textronicLogo from '../assets/images/logo/textronic_logo.png'
+import { useEffect, useState } from 'react'
 import '@styles/base/pages/page-misc.scss'
-
+import { isUserLoggedIn } from '@utils'
+import { useDispatch } from 'react-redux'
+import { logoutUser } from './auth/store/action'
 const NotAuthorized = () => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const [userData, setUserData] = useState(null)
+
+  useEffect(() => {
+    if (isUserLoggedIn() !== null) {
+        setUserData(JSON.parse(localStorage.getItem('userData')))
+    }
+}, [])
+
+const onSubmit = data => {
+  const role = ''
+  localStorage.clear()
+      logoutUser({ role })
+          .then(res => {
+              if (res) {
+                 
+                  dispatch(handleLogout)
+                  history.push('/dashboard')
+                  
+              } 
+          })
+          .catch(err => console.log(err))
+  
+}
+
   return (
     <div className='misc-wrapper'>
-      <a className='brand-logo' href='/'>
-        <svg viewBox='0 0 139 95' version='1.1' height='28'>
+         <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
+                            <img className="Header-logo" src={textronicLogo} alt="Logo" />  
+                            <h2 className='brand-text text-primary ml-1 ' style={{marginTop:'0.9rem'}} >Textronics</h2>                         
+         </Link>
+      {/* <a className='brand-logo' href='/'> */}
+        {/* <svg viewBox='0 0 139 95' version='1.1' height='28'>
           <defs>
             <linearGradient x1='100%' y1='10.5120544%' x2='50%' y2='89.4879456%' id='linearGradient-1'>
               <stop stopColor='#000000' offset='0%'></stop>
@@ -55,9 +88,9 @@ const NotAuthorized = () => {
               </g>
             </g>
           </g>
-        </svg>
-        <h2 className='brand-text text-primary ml-1'>Vuexy</h2>
-      </a>
+        </svg> */}
+        {/* <h2 className='brand-text text-primary ml-1'>Vuexy</h2>
+      </a> */}
       <div className='misc-inner p-2 p-sm-3'>
         <div className='w-100 text-center'>
           <h2 className='mb-1'>You are not authorized! 🔐</h2>
@@ -65,7 +98,10 @@ const NotAuthorized = () => {
             The Webtrends Marketing Lab website in IIS uses the default IUSR account credentials to access the web pages
             it serves.
           </p>
-          <Button.Ripple tag={Link} to='/pages/login-v2' color='primary' className='btn-sm-block mb-1'>
+          {/* <Button.Ripple color='primary' className='btn-sm-block mb-1' onClick = {() => { history.goBack() }}>
+            Back to login
+          </Button.Ripple> */}
+           <Button.Ripple color='primary' className='btn-sm-block mb-1' tag={Link} to={(userData && userData.role) === 'Organization' ? '/login' : process.env.REACT_APP_LANDING_PAGE } onClick={onSubmit}>
             Back to login
           </Button.Ripple>
           <img className='img-fluid' src={notAuthImg} alt='Not authorized page' />

@@ -1,18 +1,12 @@
 ﻿using ARCHIVE_DASHBOARD.CustomFilter;
 using ARCHIVE_DASHBOARD.Helper;
+using ARCHIVE_DASHBOARD.Model.Organization;
 using ARCHIVE_DASHBOARD.Session;
-using ARCHIVE_VIEWER.Models.DesignSearch;
-using ARCHIVE_VIEWER.Models.login;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Asp.netCoreReactDemo.Controllers
 {
@@ -26,11 +20,16 @@ namespace Asp.netCoreReactDemo.Controllers
     {
         public string userName { get; set; }
         public string password { get; set; }
+        public bool IsLogin { get; set; }
         public SaveFingurePrintDetailsRequestDto fingureprint { get; set; }
         public SaveDeviceDetailsRequestDto saveDeviceDetailsRequestDto { get; set; }
     }
 
-    public class SaveDeviceDetailsRequestDto 
+    public class LogoutUsersDto
+    {
+        public string role { get; set; }
+    }
+    public class SaveDeviceDetailsRequestDto
     {
         public long device_detail_id { get; set; }
         public long System_User_Id { get; set; }
@@ -59,31 +58,99 @@ namespace Asp.netCoreReactDemo.Controllers
         public string Color_Profile_Name { get; set; }
 
     }
+    public class SaveFingurePrintDetailsRequestDto
+    {
+        public long Device_Fingure_Print_Id { get; set; }
+        public string Device_Login_Id { get; set; }
+
+        public long User_id { get; set; }
+
+
+        public string Device_Type { get; set; }
+
+
+        public string Device_Description { get; set; }
+
+        public string Device_Browser { get; set; }
+
+        public string Device_Ip { get; set; }
+
+        public string Device_Location { get; set; }
+
+
+        public bool Is_Device_Active { get; set; }
+
+        public SaveFingurePrintDetailsRequestDto fingureprint { get; set; }
+    }
 
     public class Device_DetailsDto
     {
-        
+
         public int state { get; set; }
         public long device_detail_id { get; set; }
+
         public long System_User_Id { get; set; }
+
+
         public string Device_Fingure_Print_Id { get; set; }
+
+
+
         public string Mac_Address { get; set; }
+
+
         public double Screen_X_Resolution { get; set; }
+
+
         public double Screen_Y_Resolution { get; set; }
+
+
         public double Screen_X_DPI { get; set; }
+
+
         public double Screen_Y_DPI { get; set; }
+
+
         public bool Dpi_Unit { get; set; }
+
+
         public bool Is_Active { get; set; }
+
+
         public bool Is_Color_Profile { get; set; }
         public string password { get; set; }
+
         public string Color_Profile_Name { get; set; }
     }
 
-    public class LogoutUsersDto
+    public class LoggedUserData
     {
-        public string role { get; set; }
-        public string token { get; set; }
+        //public long userid { get; set; }
+        public bool IsLogin { get; set; }
+        public string LoginMessage { get; set; }
+        public string UserName { get; set; }
+        public string organisationName { get; set; }
+        public string otp { get; set; }
+        public string Role { get; set; }
+        public string message { get; set; }
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
+        public long RoleId { get; set; }
+        public long Userid { get; set; }
+        public long OrganisationId { get; set; }
+        public int org_type { get; set; }
+        public long org_type_id { get; set; }
+        public bool is_administrator { get; set; }
+        public DateTime AccessExpiryTime { get; set; }
+        public DateTime RefreshExpiryTime { get; set; }
+        public List<Ability> ability { get; set; }
+        public byte[] org_userimg_byte { get; set; }
+        public string org_userImg_url { get; set; }
+        public bool IsFingurePrintSave { get; set; }
+        public string Password { get; set; }
+
     }
+
     public class EmailDto
     {
         public string EmailTo { get; set; }
@@ -107,53 +174,41 @@ namespace Asp.netCoreReactDemo.Controllers
         public string login_id { get; set; }
         public string password_hash { get; set; }
     }
-
-    public class LoggedUserData
+    public class logout
     {
-        public ConfiguredCustomersDto configuredCustomersDto { get; set; }
-        public ConfiguredSuppliersDto configuredSuppliersDto { get; set; }
-        public Supplier supplier { get; set; }
-        public customerList customerList { get; set; }
-        public string OrganisationName { get; set; }
-        public string LoginMessage { get; set; }
-        public string UserName { get; set; }
-        public string Role { get; set; }
-        public long RoleId { get; set; }
-        public long FolderId { get; set; }
-        public string message { get; set; }
-        public string AccessToken { get; set; }
-        public string RefreshToken { get; set; }
-        public long OrganisationId { get; set; }
-        public int org_type { get; set; }
-        public long userid { get; set; }
-        public long org_type_id { get; set; }
-        public bool is_administrator { get; set; }
-        public bool is_otherlogin { get; set; }
-        public bool IsAI { get; set; }
-        public DateTime AccessExpiryTime { get; set; }
-        public DateTime RefreshExpiryTime { get; set; }
-        public List<Ability> ability { get; set; }
-        public string org_userImg_url { get; set; }
-        public byte[] org_userimg_byte { get; set; }
-        public bool IsFingurePrintsave { get; set; }
-        public Device_DetailsDto dd { get; set; }
-        public string Password { get; set; }
-        public string oldpassword { get; set; } 
-        public string newpassword { get; set; }
+        public long UserId { get; set; }
+    }
+
+    public class EmailResponse
+    {
+        public string Message { get; set; }
     }
 
     public class LoginController : Controller
     {
         private IConfiguration configuration;
         private string baseAddress;
+
         public LoginController(IConfiguration iConfig)
         {
             configuration = iConfig;
             string host = configuration.GetSection("WebAPIConfiguration").GetSection("Host").Value;
             string path = configuration.GetSection("WebAPIConfiguration").GetSection("Path").Value;
             baseAddress = host + path;
-        }      
-        
+        }
+        public IActionResult LoginAdmin([FromBody] LoginUsersDto _LoginUsersDto)
+        {
+            var response = ApiHelper.PostData(baseAddress, "api/LicenseManager/LoginUser",
+                _LoginUsersDto, "");
+            LoggedUserData _LoggedUserData = null;
+            if (response != null)
+            {
+                _LoggedUserData = JsonConvert.DeserializeObject<LoggedUserData>((string)response);
+                _LoggedUserData.ability = GetAbilityByRoleType(0, true);
+                HttpContext.Session.SetObjectAsJson("Auth", _LoggedUserData);
+            }
+            return Json(_LoggedUserData);
+        }
         public IActionResult ValidateUser([FromBody] LoginUsersDto _LoginUsersDto)
         {
             var response = ApiHelper.PostData(baseAddress, "api/Configuration/LoginOrgUser",
@@ -162,39 +217,39 @@ namespace Asp.netCoreReactDemo.Controllers
             if (response != null)
             {
                 _LoggedUserData = JsonConvert.DeserializeObject<LoggedUserData>((string)response);
-                _LoggedUserData.ability = GetAbilityByRoleType(_LoggedUserData.org_type, _LoggedUserData.is_administrator);
-                _LoggedUserData.Password = _LoginUsersDto.password;
-                HttpContext.Session.SetObjectAsJson("Auth", _LoggedUserData);
+                var seasonalAccess = false;
                 if (_LoggedUserData.org_type == 2)
                 {
-                    _LoggedUserData.customerList = GetConfiguredCustomersList();
+                    seasonalAccess = IsSeasonalAccess(_LoggedUserData.RoleId, _LoggedUserData.AccessToken);
+                    // var n = ;
+                    //  var newdata = ;
                 }
-                else if (_LoggedUserData.org_type == 3)
-                {
-                    _LoggedUserData.supplier = GetConfiguredSuppliersList();           
-                }
-                else
-                {
-                    _LoggedUserData.is_otherlogin = true;
-                }
-            } 
-           
+                _LoggedUserData.ability = GetAbilityByRoleType(_LoggedUserData.org_type, _LoggedUserData.is_administrator, seasonalAccess);
+                _LoggedUserData.Password = _LoginUsersDto.password;
+                HttpContext.Session.SetObjectAsJson("Auth", _LoggedUserData);
+            }
             return Json(_LoggedUserData);
         }
-
-        public IActionResult SaveDeviceDetails([FromBody] Device_DetailsDto DeviceDetailsDto)
+        public IActionResult Q3durl([FromQuery] string Url)
         {
-            var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
-            var response = ApiHelper.PostData(baseAddress, "api/Configuration/SaveDeviceDetails",
-                DeviceDetailsDto, myComplexObject.AccessToken);
-          
-            return Json(response);
+            string url = configuration.GetSection("Q3dURL").GetSection(Url).Value;
+            return Json(url);
+        }
+        public IActionResult Q3drenderpluginURL()
+        {
+            string url = configuration.GetSection("Q3drenderpluginURL").GetSection("Url").Value;
+            return Json(url);
+        }
+        public IActionResult Getsaasapi()
+        {
+            string url = configuration.GetSection("saasapi").GetSection("saasurl").Value;
+            return Json(url);
         }
         public IActionResult LogOutOtherUser()
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             logout logout = new logout();
-            logout.UserId = myComplexObject.userid;
+            logout.UserId = myComplexObject.Userid;
             var response = ApiHelper.PostData(baseAddress, "api/Configuration/ForceLogoutOrgUser",
                 logout, myComplexObject.AccessToken);
             if (response != null)
@@ -204,9 +259,76 @@ namespace Asp.netCoreReactDemo.Controllers
 
             return Json(response);
         }
+        public IActionResult LogOutOtherUserAdmin()
+        {
+            var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
+            logout logout = new logout();
+            logout.UserId = myComplexObject.Userid;
+            var response = ApiHelper.PostData(baseAddress, "api/LicenseManager/ForceLogout",
+                logout, myComplexObject.AccessToken);
+            if (response != null)
+            {
+                HttpContext.Session.Remove("Auth");
+            }
 
+            return Json(response);
+        }
+        public IActionResult SendEmail([FromBody] EmailDto emaildto)
+        {
 
-        public List<Ability> GetAbilityByRoleType(int org_type, bool is_administrator)
+            var response = ApiHelper.PostData(baseAddress, "api/Configuration/Sendemail", emaildto, "");
+            OTP tP = new OTP();
+            if (response.ToString() == "Organisation is not configured")
+            {
+                tP.Message = new
+                {
+                    flag = false,
+                    Msg = "Organisation is not configured"
+                };
+                return Ok(tP.Message);
+            }
+            else if (response.ToString() == "Enter Valid Email")
+            {
+                tP.Message = new
+                {
+                    flag = false,
+                    Msg = "Enter Valid Email Address"
+                };
+                return Ok(tP.Message);
+            }
+
+            tP.otp = response.ToString();
+            tP.EmailTo = emaildto.EmailTo;
+            tP.Username = emaildto.Username;
+            HttpContext.Session.SetObjectAsJson("otp", tP);
+
+            tP.Message = new
+            {
+                flag = true,
+                Msg = "OTP"
+            };
+            return Ok(tP.Message);
+        }
+        public IActionResult VarifyOTP([FromBody] OTP otp)
+        {
+            var myComplexObject = HttpContext.Session.GetObjectFromJson<OTP>("otp");
+            var ot = myComplexObject.otp;
+            if (otp.otp == ot)
+                return Ok(true);
+            else
+                return Ok(false);
+        }
+        public IActionResult UpdateUserPassword([FromBody] UpdatePasswordDto UpdatePasswordDto)
+        {
+
+            var myComplexObject = HttpContext.Session.GetObjectFromJson<OTP>("otp");
+            UpdatePasswordDto.email = myComplexObject.EmailTo;
+            UpdatePasswordDto.login_id = myComplexObject.Username;
+            var response = ApiHelper.PostData(baseAddress, "api/Configuration/UpdatePassword", UpdatePasswordDto, "");
+            return Ok(response);
+
+        }
+        public List<Ability> GetAbilityByRoleType(int org_type, bool is_administrator, bool seasonalAccess = false)
         {
             List<Ability> abilities = new List<Ability>() {
             new Ability
@@ -257,7 +379,60 @@ namespace Asp.netCoreReactDemo.Controllers
                         subject = "threed"
                     }
             };
-
+            List<Ability> threedAbilitiesSingle = new List<Ability>() {
+            new Ability {
+                        action = "list",
+                        subject = "threed1"
+                    },
+                    new Ability {
+                        action = "create",
+                        subject = "threed1"
+                    },
+                    new Ability {
+                        action = "update",
+                        subject = "threed1"
+                    },
+                    new Ability {
+                        action = "delete",
+                        subject = "threed1"
+                    }
+            };
+            List<Ability> threedOperations = new List<Ability>() {
+            new Ability {
+                        action = "list",
+                        subject = "threedOperation"
+                    },
+                    new Ability {
+                        action = "create",
+                        subject = "threedOperation"
+                    },
+                    new Ability {
+                        action = "update",
+                        subject = "threedOperation"
+                    },
+                    new Ability {
+                        action = "delete",
+                        subject = "threedOperation"
+                    }
+            };
+            List<Ability> threedProducts = new List<Ability>() {
+            new Ability {
+                        action = "list",
+                        subject = "threedProduct"
+                    },
+                    new Ability {
+                        action = "create",
+                        subject = "threedProduct"
+                    },
+                    new Ability {
+                        action = "update",
+                        subject = "threedProduct"
+                    },
+                    new Ability {
+                        action = "delete",
+                        subject = "threedProduct"
+                    }
+            };
 
             List<Ability> supplierAbilities = new List<Ability>() {
             new Ability {
@@ -351,7 +526,12 @@ namespace Asp.netCoreReactDemo.Controllers
                     new Ability {
                         action = "delete",
                         subject = "Customer"
+                    },
+                    new Ability {
+                        action = "delete",
+                        subject = "Customer"
                     }
+
             };
 
             List<Ability> agentAbilities = new List<Ability>() {
@@ -428,6 +608,7 @@ namespace Asp.netCoreReactDemo.Controllers
                         action = "delete",
                         subject = "Design"
                     }
+
             };
 
             List<Ability> analyticsAbilities = new List<Ability>() {
@@ -532,6 +713,42 @@ namespace Asp.netCoreReactDemo.Controllers
                         subject = "RoleDesignAccess"
                     }
             };
+            List<Ability> seasonal = new List<Ability>() {
+            new Ability {
+                        action = "list",
+                        subject = "seasonal"
+                    },
+                    new Ability {
+                        action = "create",
+                        subject = "seasonal"
+                    },
+                    new Ability {
+                        action = "update",
+                        subject = "seasonal"
+                    },
+                    new Ability {
+                        action = "delete",
+                        subject = "seasonal"
+                    }
+            };
+            List<Ability> collection = new List<Ability>() {
+            new Ability {
+                        action = "list",
+                        subject = "collection"
+                    },
+                    new Ability {
+                        action = "create",
+                        subject = "collection"
+                    },
+                    new Ability {
+                        action = "update",
+                        subject = "collection"
+                    },
+                    new Ability {
+                        action = "delete",
+                        subject = "collection"
+                    }
+            };
 
             List<Ability> managementAbilities = new List<Ability>() {
             new Ability {
@@ -605,6 +822,11 @@ namespace Asp.netCoreReactDemo.Controllers
                 case 0: //Platform Admin
                     abilities.AddRange(organisationAbilities);
                     abilities.AddRange(organisationReqAbilities);
+                    abilities.Add(new Ability { action = "add", subject = "3DImages" });
+                    abilities.Add(new Ability { action = "Display", subject = "3DImages" });
+                    abilities.AddRange(threedAbilities);
+                    abilities.AddRange(threedOperations);
+                    abilities.AddRange(threedProducts);
                     //roleType = "Enterprise";
                     break;
                 case 1: //Organisation
@@ -615,48 +837,88 @@ namespace Asp.netCoreReactDemo.Controllers
                         abilities.AddRange(roleAbilities);
                         abilities.AddRange(roleConfigAbilities);
                         abilities.AddRange(roleAccessAbilities);
+                        abilities.AddRange(threedAbilities);
+                        abilities.AddRange(supplierAbilities);
+                        abilities.AddRange(supplierUserAbilities);
+                        abilities.AddRange(customerAbilities);
+                        abilities.AddRange(customerUserAbilities);
+                        abilities.AddRange(agentAbilities);
+                        abilities.AddRange(agentUserAbilities);
+                        abilities.Add(new Ability { action = "add", subject = "3DImages" });
+                        abilities.Add(new Ability { action = "configure", subject = "3DImages" });
+                        abilities.Add(new Ability { action = "show", subject = "Button" });
+                        abilities.AddRange(analyticsAbilities);
+                        abilities.AddRange(reportAbilities);
                     }
-                    abilities.AddRange(supplierAbilities);
-                    abilities.AddRange(supplierUserAbilities);
-                    abilities.AddRange(customerAbilities);
-                    abilities.AddRange(customerUserAbilities);
-                    abilities.AddRange(threedAbilities);
-                    abilities.AddRange(agentAbilities);
-                    abilities.AddRange(agentUserAbilities);
-                    //abilities.AddRange(designAbilities);
-                    abilities.AddRange(analyticsAbilities);
-                    abilities.AddRange(reportAbilities);
-                   
-                    //roleType = "Organisation";
+                    else
+                    {
+                        //Show Design,Supplier,Customer,3D images to Organisation user
+                        abilities.Add(new Ability { action = "list", subject = "Design" });
+                        abilities.Add(new Ability { action = "add", subject = "Design" });
+                        abilities.Add(new Ability { action = "show", subject = "Design" });
+                        //abilities.Add(new Ability { action = "display", subject = "Design" });
+                        // abilities.Add(new Ability { action = "add", subject = "3DImages" });
+                        //abilities.Add(new Ability { action = "configure", subject = "3DImages" });
+                        abilities.AddRange(supplierAbilities);
+                        abilities.AddRange(supplierUserAbilities);
+                        abilities.AddRange(customerAbilities);
+                        abilities.AddRange(customerUserAbilities);
+                        //abilities.AddRange(threedAbilities);
+                        //abilities.AddRange(agentAbilities);
+                        //abilities.AddRange(agentUserAbilities);
+                        abilities.AddRange(designAbilities);
+                        abilities.AddRange(analyticsAbilities);
+                        abilities.AddRange(reportAbilities);
+                        //roleType = "Organisation";
+                    }
+
                     break;
                 case 2: //Supplier
                     if (is_administrator)
                     {
-                        abilities.AddRange(customerAbilities);
-                        abilities.AddRange(agentAbilities);
-                        abilities.AddRange(supplierUserAbilities);
+                        //abilities.AddRange(customerAbilities);
+                        // abilities.AddRange(agentAbilities);
+                        //abilities.AddRange(supplierUserAbilities);
+                        //abilities.AddRange(seasonal);
+                        //abilities.AddRange(collection);
+                        //abilities.AddRange(threedAbilitiesSingle);
+                        //abilities.AddRange(threedAbilities);
+                        //abilities.Add(new Ability { action = "configure", subject = "3DImages" });
+                        abilities.Add(new Ability { action = "btn", subject = "Design" });
+                        abilities.AddRange(threedAbilities);
+                        abilities.Add(new Ability { action = "add", subject = "3DImages" });
+                        abilities.Add(new Ability { action = "configure", subject = "3DImages" });
+                        abilities.Add(new Ability { action = "show", subject = "Button" });
+                    }
+                    if (seasonalAccess)
+                    {
+                        abilities.AddRange(seasonal);
                     }
                     abilities.Add(new Ability { action = "list", subject = "Design" });
                     abilities.Add(new Ability { action = "display", subject = "Design" });
-                    abilities.Add(new Ability { action = "show", subject = "Design" });
                     //abilities.AddRange(designAbilities);
                     abilities.AddRange(analyticsAbilities);
                     abilities.AddRange(reportAbilities);
+                    abilities.AddRange(collection);
                     break;
                 case 3: //Customer
                     if (is_administrator)
-                    abilities.AddRange(customerUserAbilities);
-                    abilities.AddRange(threedAbilities);
-                   // abilities.AddRange(designAbilities);
+                    {
+                        //abilities.AddRange(customerUserAbilities);
+                        //abilities.AddRange(threedAbilities);
+                        abilities.AddRange(designAbilities);
+                    }
+                    abilities.Add(new Ability { action = "list", subject = "Design" });
+                    abilities.Add(new Ability { action = "add", subject = "Design" });
+                    //abilities.AddRange(threedAbilities);
                     abilities.AddRange(analyticsAbilities);
                     abilities.AddRange(reportAbilities);
-                    abilities.Add(new Ability { action = "show", subject = "Design" });
                     break;
                 case 4: //Agent
                     if (is_administrator)
                         abilities.AddRange(agentUserAbilities);
                     abilities.AddRange(customerAbilities);
-                  //  abilities.AddRange(designAbilities);
+                    //abilities.AddRange(designAbilities);
                     abilities.AddRange(analyticsAbilities);
                     abilities.AddRange(reportAbilities);
                     break;
@@ -665,7 +927,6 @@ namespace Asp.netCoreReactDemo.Controllers
             }
             return abilities;
         }
-        
         public IActionResult Logout([FromBody] LogoutUsersDto _LogoutUsersDto)
         {
             string logouturl = "api/Configuration/LogoutOrgUser";
@@ -674,49 +935,56 @@ namespace Asp.netCoreReactDemo.Controllers
             {
                 logouturl = "api/LicenseManager/Logout";
             }
-            string accessToken = "";
-            if (myComplexObject == null)
-                accessToken = _LogoutUsersDto.token;
-            else
-                accessToken = myComplexObject.AccessToken;
-                            var response = ApiHelper.PostData(baseAddress, logouturl,
-                "",  accessToken);
+            var response = ApiHelper.PostData(baseAddress, logouturl, "", myComplexObject == null ? "" : myComplexObject.AccessToken);
             if (response != null)
             {
                 HttpContext.Session.Remove("Auth");
             }
             return Json(response);
         }
-        [NonAction]
-        public Supplier GetConfiguredSuppliersList()
+
+        [TypeFilter(typeof(CheckExpiryTime))]
+        public IActionResult demo()
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
-            var org_id = myComplexObject.OrganisationId;
-            var customer_id = myComplexObject.org_type_id;
-            var response = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/GetConfiguredSuppliersList?OrganisationId=" + org_id + "&CustomerId=" + customer_id, myComplexObject.AccessToken);
 
-            var result = JsonConvert.DeserializeObject<Supplier>(response.ToString());
-            return result;
+            return Json("");
         }
 
-        [NonAction]
-        public customerList GetConfiguredCustomersList()
+        [TypeFilter(typeof(CheckExpiryTime))]
+        public IActionResult Getpassword()
+        {
+            var data = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
+            var result = data.Password;
+            return Json(result);
+        }
+
+        [TypeFilter(typeof(AdminExpiryTime))]
+        public IActionResult ChangePassword([FromBody] OrganisationUserListDto _Organisation)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
-            var org_id = myComplexObject.OrganisationId;
-            var Supplier_id = myComplexObject.org_type_id;
-            var response = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/GetConfiguredCustomersList?OrganisationId= " + org_id + "&SupplierId=" + Supplier_id, myComplexObject.AccessToken);
-            var result = JsonConvert.DeserializeObject<customerList>(response.ToString());
-            return result;
-
+            var data = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
+            var IsaveNotMAth = false;
+            _Organisation.org_id = myComplexObject.OrganisationId;
+            if (data.Password == _Organisation.oldpassword)
+            {
+                IsaveNotMAth = true;
+            }
+            if (IsaveNotMAth)
+            {
+                _Organisation.password_hash = _Organisation.newpassword;
+                _Organisation.user_id = myComplexObject.Userid;
+                var result = ApiHelper.PostData(baseAddress, "api/Configuration/UpdateUserPassword", _Organisation, myComplexObject.AccessToken);
+                return Json(new { IsaveNotMAth, result });
+            }
+            return Json(new { IsaveNotMAth });
         }
-
 
         [TypeFilter(typeof(AdminExpiryTime))]
         public IActionResult GetEditOrgUser()
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
-            var userid = myComplexObject.userid;
+            var userid = myComplexObject.Userid;
             var result = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/GetOrganisationUserById?id=" + userid, myComplexObject.AccessToken);
             var data = JsonConvert.DeserializeObject<OrganisationUserListDto>(result.ToString());
             return Json(data);
@@ -734,106 +1002,22 @@ namespace Asp.netCoreReactDemo.Controllers
             var result = ApiHelper.PostData(baseAddress, "api/Configuration/UpdateUserProfile", _Organisation, myComplexObject.AccessToken);
             return Json(result);
         }
-        [TypeFilter(typeof(AdminExpiryTime))]
-        public IActionResult Getpassword()
+        public bool IsSeasonalAccess(long roleId, string AccessToken)
         {
-            var data = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
-            var result = data.Password;
-            return Json(result);
-        }
-
-        [TypeFilter(typeof(AdminExpiryTime))]
-        public IActionResult ChangePassword([FromBody] OrganisationUserListDto _Organisation)
-        {
-            var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
-            var data = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
-            var IsaveNotMAth = false;
-            _Organisation.org_id = myComplexObject.OrganisationId;
-             if (data.Password == _Organisation.oldpassword)
+            var isHadAccess = false;
+            var result = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/GetRoleTaskByRoleID?RoleId=" + roleId + "", AccessToken);
+            var jsonObject = JsonConvert.DeserializeObject<RootObject>(result.ToString());
+            foreach (var detail in jsonObject.allDetails)
             {
-                IsaveNotMAth = true;
-            }
-            if(IsaveNotMAth)
-            {
-                _Organisation.password_hash = _Organisation.newpassword;
-                _Organisation.user_id = myComplexObject.userid;
-                var result = ApiHelper.PostData(baseAddress, "api/Configuration/UpdateUserPassword", _Organisation, myComplexObject.AccessToken);
-                return Json(new { IsaveNotMAth, result });
-            }
-            return Json(new { IsaveNotMAth });
-        }
-
-       // [TypeFilter(typeof(AdminExpiryTime))]
-        public IActionResult SendEmail([FromBody] EmailDto emaildto)
-        {
-            var response = ApiHelper.PostData(baseAddress, "api/Configuration/Sendemail", emaildto, "");
-            OTP tP = new OTP();
-            if (response.ToString() == "Organisation is not configured")
-            {
-                tP.Message = new
+                foreach (var operation in detail.getOperationIdOperationNameRoleTaskIdResponseDtos)
                 {
-                    flag = false,
-                    Msg = "Organisation is not configured"
-                };
-                return Ok(tP.Message);
+                    if (operation.operation_Name == "Seasonal Collection")
+                    {
+                        isHadAccess = true;
+                    }
+                }
             }
-            else if (response.ToString() == "Enter Valid Email")
-            {
-                tP.Message = new
-                {
-                    flag = false,
-                    Msg = "Enter Valid Email Address"
-                };
-                return Ok(tP.Message);
-            }
-
-            tP.otp = response.ToString();
-            tP.EmailTo = emaildto.EmailTo;
-            tP.Username = emaildto.Username;
-            HttpContext.Session.SetObjectAsJson("otp", tP);
-
-            tP.Message = new
-            {
-                flag = true,
-                Msg = "OTP"
-            };
-            return Ok(tP.Message);
+            return isHadAccess;
         }
-        public IActionResult VarifyOTP([FromBody] OTP otp)
-        {
-            var myComplexObject = HttpContext.Session.GetObjectFromJson<OTP>("otp");
-            var ot = myComplexObject.otp;
-            if (otp.otp == ot)
-                return Ok(true);
-            else
-                return Ok(false);
-        }
-
-        public IActionResult ChangeUserPassword([FromBody] UpdatePasswordDto UpdatePasswordDto)
-        {
-
-            var myComplexObject = HttpContext.Session.GetObjectFromJson<OTP>("otp");
-            UpdatePasswordDto.email = myComplexObject.EmailTo;
-            UpdatePasswordDto.login_id = myComplexObject.Username;
-            var response = ApiHelper.PostData(baseAddress, "api/Configuration/UpdatePassword", UpdatePasswordDto, "");
-            return Ok(response);
-
-        }
-        public IActionResult UpdateUserPassword([FromBody] UpdatePasswordDto UpdatePasswordDto)
-        {
-
-            var myComplexObject = HttpContext.Session.GetObjectFromJson<OTP>("otp");
-            UpdatePasswordDto.email = myComplexObject.EmailTo;
-            UpdatePasswordDto.login_id = myComplexObject.Username;
-            var response = ApiHelper.PostData(baseAddress, "api/Configuration/UpdatePassword", UpdatePasswordDto, "");
-            return Ok(response);
-
-        }
-        public IActionResult Q3durl()
-        {
-            string url = configuration.GetSection("Q3dURL").GetSection("Url").Value;
-            return Json(url);
-        }
-
     }
 }

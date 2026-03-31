@@ -57,7 +57,6 @@ const InputPasswordToggle = props => {
               }
             : {})}
           {...rest}
-       
           /*eslint-enable */
         />
         <InputGroupAddon addonType='append' onClick={() => setInputVisibility(!inputVisibility)}>

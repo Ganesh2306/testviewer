@@ -1,6 +1,8 @@
-﻿import React, { useState } from 'react'
+﻿import { icon } from 'leaflet'
+import React, { useState } from 'react'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import "react-datepicker/dist/react-datepicker.css"
 import { CheckSquare } from 'react-feather'
 import { Col, Modal, Button, ModalHeader, ModalBody, ModalFooter, Row, Form, mark } from 'reactstrap'
 import { useHistory } from 'react-router-dom'

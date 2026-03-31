@@ -21,10 +21,10 @@ const HorizontalNavMenuLink = ({
   currentActiveItem,
   isChild
 }) => {
-  
+  // ** Conditional Link Tag, if item has newTab or externalLink props use <a> tag else use NavLink
   const LinkTag = item.externalLink ? 'a' : NavLink
 
-
+  // ** URL Vars
   const location = useLocation()
   const currentURL = location.pathname
 

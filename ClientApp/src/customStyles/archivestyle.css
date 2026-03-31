@@ -1,0 +1,1252 @@
+﻿/* show hide div module  below important */
+/*akash */
+[dir] body {  
+    user-select: text;
+}
+.react-dataTable{
+    min-height:400px!important;
+}
+#D_deletepopup {
+    border-radius: 0 !important;
+    width: auto !important;
+    max-width: 26em;
+    position: relative;
+    margin: auto;
+}
+
+#D_deletepopup svg {
+    width: 60px;
+    height: 75px;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+#D_deletepopup h1 {
+    font-size: 1.3em;
+    font-weight: 700;
+    margin: 0 0 0.4em;
+    padding: 0;
+    text-align: center;
+}
+
+#D_deletepopup h5 {
+    text-align: center;
+}
+
+#D_deletepopup .modal-body {
+    justify-content: center;
+    display: flex;
+    padding: 0rem 1.4rem 0.6rem 1.4rem;
+}
+
+#D_deletepopup .btn-success {
+    background-color: #0a66c2 !important;
+}
+
+#D_deletepopup .modal-content {
+    border-radius: 0em;
+}
+
+/*akash */
+.design_content {
+    display: flex;
+}
+
+#designs_master_main .design_content {
+    display: block;
+}
+
+.seasonal_content_assign {
+    display: none;
+}
+
+.seasonal_content_viewupload {
+    display: none;
+}
+
+div#Upload_View_Seasons .seasonal_content_viewupload {
+    display: flex;
+}
+
+div#season_module_assign .design_content {
+    display: flex;
+}
+
+div#Upload_View_Seasons .design_content {
+    display: none;
+}
+
+div#Upload_View_Seasons .design_content {
+    display: none;
+}
+
+div#season_module_assign .seasonal_content_assign {
+    display: block;
+}
+
+div#Upload_View_Seasons .seasonal_content_viewupload {
+    padding-bottom: 0 !important;
+}
+
+div#season_module_assign #openQ3DQR {
+    display: none;
+}
+
+div#season_module_assign .main-design-div .dropdown {
+    display: none;
+}
+
+/* if needed add below */
+div#Upload_View_Seasons button#add_designBTN {
+    display: block !important;
+    position: absolute;
+    top: -4rem;
+}
+
+/* if needed add above */
+.list-gridview {
+    right: 0;
+    /* position: absolute;
+    top: -24px; */
+    z-index: 9;
+}
+
+/* show hide div module above very Important*/
+
+/* select menu changes above */
+html[dir] .content.app-content {
+    padding: calc(2rem + 4.45rem + 1.3rem) 2rem 2rem;
+}
+
+[dir] .card .card-header {
+    padding: 1.5rem;
+}
+
+[dir] .btn-primary:hover {
+    background-color: #08539e !important;
+    border-color: #084d92 !important;
+}
+
+.btn-success:hover {
+    background-color: #22a75d !important;
+    border-color: #1f9d57 !important;
+}
+
+.btn-secondary:hover {
+    background-color: #6f7378 !important;
+    border-color: #696d71 !important;
+}
+
+/* Custom css option*/
+[dir] .modal-title {
+    margin-bottom: 0;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+}
+
+[dir=ltr] .modal-header .close {
+    margin: -0.8rem -1rem -0.2rem auto !important;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+    padding: 0;
+}
+
+.datePick {
+    padding: 0;
+}
+
+.form-control {
+    font-size: .875rem;
+}
+
+ul.pagination {
+    width: 100%;
+    position: fixed;
+    right: 0;
+    bottom: 0px;
+    z-index: 9;
+    background: #f8f8f8;
+    /*padding: 18px 0px;
+    margin-bottom: 0;*/
+    padding: 0.5rem !important;
+    /*abhishek 1-03*/
+    margin: 0 !important;
+    /*abhishek 1-03*/
+    justify-content: center !important;
+}
+
+.react-dataTable {
+    border-radius: 0;
+    /*padding-bottom: 60px;*/
+}
+
+footer.footer {
+    display: none;
+}
+
+.header-navbar .navbar-container ul.navbar-nav li.dropdown-user .dropdown-menu {
+    width: 14rem;
+}
+
+#main-loader-ref {
+    z-index: 9;
+    height: 500px;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    width: 150px;
+    height: 150px;
+    position: fixed;
+    left: 50%;
+    width: 100%
+}
+
+[dir] .ecommerce-application .ecommerce-card:hover {
+    box-shadow: none;
+    transform: none !important;
+    border: 1px solid #505050;
+}
+
+.iconthumb {
+    padding-bottom: 6px;
+    padding-top: 6px;
+    margin-bottom: 4px;
+    background: rgba(18, 17, 17, .3803921568627451);
+    border: 0;
+    /* color:#fff; */
+}
+
+.iconthumb:hover {
+    color: #fff;
+    background-color: #000000;
+    border-color: #000000;
+}
+
+.iconthumb:active,
+.iconthumb:focus {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #fff !important;
+}
+
+.grid-view .react-dataTable .rdt_TableRow {
+    height: auto !important;
+}
+
+.thumb_grid_select .custom-checkbox {
+    padding-left: 19px;
+    padding-top: 2px;
+    padding-left: 19px;
+
+    bottom: 0;
+    right: 0;
+}
+
+.btn,
+li a,
+.form-control,
+input,
+li.active,
+.card,
+.navbar {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+[dir] .btn {
+    text-align: center;
+    border-radius: 0.358rem;
+    white-space: nowrap;
+    /* padding: 0.786rem 0.5rem!important; */
+}
+
+[dir] .btn-success,
+[dir] .btn-primary,
+[dir] .btn-secondary {
+    padding: 0.786rem 0.5rem !important;
+}
+
+.add_my_design .btn-success,
+.add_my_design .btn-primary,
+.add_my_design .btn-secondary {
+    padding: 0.486rem 0.5rem !important;
+}
+
+.select.form-control:not([multiple='multiple']) {
+    margin-left: 90px;
+}
+
+.element.style {
+    justify-content: left;
+    margin-bottom: -19px !important;
+}
+
+.col-sm-4.ml-2.yy {
+    margin-bottom: 10px !important;
+}
+
+.react-dataTable .rdt_TableBody .rdt_TableRow .rdt_TableCell {
+    height: auto;
+}
+
+.rightpanel .btn {
+    padding: 0.486rem 0.5rem;
+    font-size: 0.857rem;
+    border-radius: 0.358rem;
+    color: #6e6b7b;
+}
+
+.grid-view .card-body {
+    height: 40px !important;
+}
+
+.login {
+    margin-right: 0;
+    font-weight: 400;
+    right: 200px;
+}
+
+[dir] .input-group:not(.bootstrap-touchspin):focus-within {
+    border-radius: 0rem;
+    box-shadow: none;
+}
+
+[dir] .avatar {
+    background: #fff;
+    border-radius: 0;
+    cursor: pointer;
+    text-align: center;
+    border: 1px #ffffff solid;
+}
+
+[dir=ltr] .main-menu.menu-light .navigation li.nav-item ul.menu-content li:hover>* {
+    transform: none !important;
+    background: #ededed;
+}
+
+.navigation li a i,
+.navigation li a svg {
+    height: 14px !important;
+    width: 14px !important;
+    font-size: 10px;
+}
+
+li.designfab_name {
+    position: absolute;
+    z-index: 1;
+    background-color: rgb(255 255 255);
+    text-transform: capitalize;
+    color: rgb(8 8 8);
+    padding: 5px 8px;
+    display: block;
+    font-size: 0.8rem;
+    margin: 0.5rem;
+}
+
+.header.info_fab_heading {
+    padding-bottom: 1rem;
+    padding-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    border-bottom: 1px solid #ededed;
+}
+
+div.basic_div .control-label {
+    padding-left: 0.2rem;
+}
+
+.show_fabric .iconthumb {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 0.5rem;
+    bottom: 4px;
+    width: calc(100% - 1rem);
+    background: #fff;
+    color: #000;
+    border: none !important;
+}
+
+.show_fabric .iconthumb:hover {
+    background: #0a66c2;
+    color: #fff;
+}
+
+.show_fabric .iconthumb:hover svg {
+    color: #fff;
+}
+
+.Fab_name {
+    position: absolute;
+    width: 100%;
+}
+
+.prod_block .basic_div {
+    height: 484px;
+    max-height: 484px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+}
+
+.AdvanceSearch {
+    position: static;
+    z-index: 9;
+    width: 100%;
+    background: #fff;
+    padding-left: 0;
+    float: left;
+    margin-top: 55px;
+}
+
+.thumb_grid_select {
+    position: absolute;
+    right: 0;
+    justify-content: end;
+    right: 0;
+    margin: 0 .8rem;
+    display: flex;
+    top: 0;
+}
+
+.thumbselectDesign .iconstop {
+    display: flex;
+    flex-direction: column;
+}
+
+[dir] .p-multiselect-panel {
+    z-index: 9999 !important;
+}
+
+.p-dropdown-panel {
+    z-index: 9999 !important;
+}
+
+[dir=ltr] .p-dropdown.p-dropdown-clearable .p-dropdown-label {
+    font-size: .8rem !important;
+    color: #c1c3c5 !important
+}
+
+[dir] .p-dropdown {
+    font-size: .8rem !important;
+    border-radius: 0 !important;
+    padding: 2px 4px !important;
+    border: 1px solid #d8d6de !important;
+    height: 28px;
+    /* width: 100% !important;*/
+    width: 100px !important;
+    margin-right: 0 !important;
+    display: inline-flex !important;
+}
+
+.p-dropdown .pi {
+    font-size: .5rem;
+}
+
+.p-dropdown .p-dropdown-trigger {
+    color: #6c757d !important;
+    width: 0 !important;
+    padding: 0 0.8rem !important;
+    width: 15px !important;
+}
+
+.p-inputtext {
+    padding: 0.25rem 0rem !important;
+}
+
+[dir] .p-dropdown-panel .p-dropdown-header {
+    padding: 0.2rem 0.2rem;
+}
+
+[dir] .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    margin: 0;
+    padding: 0.5rem 0.5rem;
+    border: 0 none;
+    background: transparent;
+    border-radius: 0;
+    font-size: .8rem;
+}
+
+.vertical-layout.vertical-menu-modern .main-menu .navigation>li>a svg,
+.vertical-layout.vertical-menu-modern .main-menu .navigation>li>a i {
+    height: 18px;
+    width: 18px;
+}
+
+input#txtSearch {
+    padding-right: 50px;
+    position: relative;
+    padding-left: 75px;
+}
+
+.filterPanel .input-group-append {
+    position: absolute;
+    right: 15px;
+    top: 1px;
+}
+
+.card-widgets {
+    position: absolute;
+    z-index: 9;
+}
+
+[dir] .header-navbar .navbar-container ul.navbar-nav li a.dropdown-user-link img {
+    box-shadow: none;
+}
+
+.view_season_content .mobile_group_show {
+    display: none;
+}
+
+.season_module .mobile_group_show {
+    display: none;
+}
+
+.iconthumb {
+    padding-bottom: 6px;
+    padding-top: 6px;
+    margin-bottom: 4px;
+    background: #ffffff;
+    /* background: #ffffffb8;*/
+    padding-left: 5px;
+    padding-right: 7px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #000;
+}
+
+[dir] button.iconthumb.btn:hover {
+    background: #000;
+    color: #fff;
+}
+
+[dir] button.iconthumb.btn:hover svg {
+    color: #fff;
+}
+
+button.iconthumb.btn:hover .fa {
+    color: #fff;
+}
+
+.list-gridview button.iconthumb.btn:hover .fa {
+    color: #000000;
+}
+
+[dir] .iconthumb:active svg,
+[dir] .iconthumb:focus svg {
+    color: #fff !important;
+}
+
+a.iconthumb:hover svg {
+    color: #fff;
+}
+
+.iconthumb.btn:hover a {
+    color: #fff;
+}
+
+.iconthumb svg {
+    width: 21px !important;
+    height: 21px !important;
+    color: #000;
+}
+
+.design_crop {
+    position: absolute;
+    color: #fff;
+    padding: 5px 8px;
+    margin: 0.5rem;
+    right: 0;
+    background: #000000;
+}
+
+.design_crop:hover {
+    background: #0a66c2;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.file_input_select {
+    opacity: 0;
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.thumbdesign_name {
+    white-space: pre;
+    width: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.vertical {
+    border-right: 1px solid #82868b;
+    vertical-align: top;
+    display: inline;
+    padding-bottom: 12px;
+    margin: 0px 14px;
+    padding-left: 0;
+}
+
+.rightpanel label,
+.rightpanel button {
+    width: 90px;
+    outline: 1px solid;
+}
+
+button.close {
+    background: #101010 !important;
+    color: #fff;
+}
+
+.modal .modal-header .close:hover,
+.modal .modal-header .close:focus,
+.modal .modal-header .close:active {
+    opacity: 1;
+    outline: none;
+    color: #fff;
+}
+
+.rightpanel .dropdown {
+    position: absolute;
+    right: 0;
+    padding-top: 1rem;
+    top: 0rem;
+    z-index: 999;
+}
+
+.dropdown label,
+.dropdown button {
+    outline: none;
+}
+
+[dir] .swal2-styled.swal2-deny {
+    border: 0;
+    border-radius: 0 !important;
+
+}
+
+[dir] .swal2-styled:focus {
+    box-shadow: none !important;
+}
+
+.swal2-content li {
+    margin-bottom: 0.8rem;
+}
+
+.swal2-content h2,
+.swal2-content h3 {
+    width: 100%;
+    background: #f7f7f7;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0.8rem 1.4rem !important;
+    text-align: left;
+}
+
+.swal2-content p {
+    text-align: left;
+}
+
+ol.listname {
+    padding-left: 24px;
+}
+
+.popupscroll ol {
+    padding-left: 17px;
+}
+
+[dir=ltr] .auth-wrapper.auth-v1 .auth-inner:before,
+[dir=ltr] .auth-wrapper.auth-v1 .auth-inner:after {
+    background-image: none !important;
+}
+
+.auth-wrapper.auth-v1 .auth-inner:before {
+    background-image: none !important;
+}
+
+.filterPanel .input-group-append button {
+    border: none;
+    padding: 0.86rem 0.5rem;
+}
+
+[dir=ltr] .filterPanel .input-group-append .btn {
+    padding: 0.85rem 1rem !important;
+}
+
+.thumb_grid_select svg {
+    background: #f6f6f6;
+    padding: 4px 8px !important;
+}
+
+[dir] .thumb_grid_select svg:hover {
+    background: #e9e9e9;
+    color: #fff;
+}
+
+.totalcount {
+    position: absolute;
+    right: 206px;
+    width: 100px;
+    top: 0px;
+}
+
+.thumb_grid_select .custom-control-label {
+    width: 65px;
+}
+
+/* [dir=ltr] .custom-checkbox .custom-control-label::before, [dir=ltr] .custom-checkbox .custom-control-label::after, [dir=ltr] .custom-radio .custom-control-label::before, [dir=ltr] .custom-radio .custom-control-label::after {
+    left: -1.5rem;
+} */
+
+
+#custom_menu .dropdown-menu.dropdown-menu-right {
+    position: static !important;
+    display: inline-block;
+    transform: none !important;
+    width: 100%;
+    border: 0;
+}
+
+#custom_menu .dropdown-menu .dropdown-item {
+    padding: 0 !important;
+    width: auto;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.customdropitem {
+    clear: both;
+    text-align: inherit;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    color: #6e6b7b;
+    font-weight: 500;
+    padding-right: 0;
+    line-height: 1rem;
+    color: #1e1e1e;
+    font-weight: 500;
+    font-size: 0.7875rem;
+}
+
+.customdropitem:hover {
+    background-color: rgba(10, 102, 194, 0.12);
+}
+
+select#custom-id-Rating {
+    padding: 0.2rem !important;
+    height: 28px;
+}
+
+[dir=ltr] select.form-control:not([multiple='multiple']) {
+    background-position: calc(100% - 8px) 7px, calc(100% - 20px) 13px, 100% 0 !important;
+}
+
+[dir] select.form-control:not([multiple='multiple']) {
+    background-size: 18px 16px, 18px 14px !important;
+}
+
+.multi_field {
+    width: 100%;
+    text-align: left;
+}
+
+[dir=ltr] .custom-checkbox.custom-control,
+[dir=ltr] .custom-radio.custom-control {
+    overflow: visible !important;
+}
+
+.form-control {
+    height: 2.714rem !important;
+}
+
+.control-label {
+    font-weight: 600;
+}
+
+select {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+[dir] .performed_action .ecommerce-card {
+    border: 1px solid #000 !important;
+    background: #cdcdcd !important;
+    box-shadow: rgb(51 48 60 / 3%) 0px 3px 9px 1px, rgb(51 48 60 / 2%) 0px 8px 9px 0px, rgb(51 48 60 / 1%) 0px 1px 6px 4px !important;
+}
+
+button#delete_design_btn {
+    padding: 0 !important;
+    position: static !important;
+    right: 0;
+}
+
+#exportExcelBtn {
+    text-align: left;
+}
+
+a#filter-expand {
+    border-color: #0a66c2 !important;
+    background-color: #0a66c2 !important;
+}
+
+a#filter-expand:hover {
+    background-color: #08539e !important;
+    border-color: #084d92 !important;
+}
+
+.input-group-append .btn-secondary {
+    border-color: #0a66c2 !important;
+    background-color: #0a66c2 !important;
+}
+
+.input-group-append .btn-secondary:focus {
+    border-color: #0a66c2 !important;
+    background-color: #0a66c2 !important;
+}
+
+.input-group-append .btn-secondary:hover {
+    background-color: #08539e !important;
+    border-color: #084d92 !important;
+}
+
+/*table hearder css*/
+[dir] .react-dataTable .rdt_TableHead .rdt_TableHeadRow {
+    background-color: #f3f2f7;
+    border-top: 1px solid;
+    border-color: #ebe9f1;
+}
+
+.react-dataTable .rdt_TableHead .rdt_TableHeadRow {
+    min-height: 0;
+    height: 38px;
+}
+
+[dir] .react-dataTable .rdt_TableHead .rdt_TableHeadRow .rdt_TableCol {
+    padding: 0.72rem 1.5rem;
+}
+
+.react-dataTable .rdt_TableHead .rdt_TableHeadRow .rdt_TableCol .rdt_TableCol_Sortable {
+    color: #1e1e1e;
+    font-weight: bold;
+    font-style: 0.857rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.react-dataTable .rdt_TableHead .rdt_TableHeadRow .rdt_TableCol .rdt_TableCol_Sortable {
+    color: #1e1e1e;
+    font-weight: bold;
+    font-style: 0.857rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.react-dataTable .rdt_TableHead .rdt_TableHeadRow .rdt_TableCol .rdt_TableCol_Sortable {
+    color: #1e1e1e;
+    font-weight: bold;
+    font-style: 0.857rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.supplier_dropdown {
+    position: absolute;
+    right: 0;
+    z-index: 9;
+    right: 2rem;
+    top: 1rem;
+}
+
+/* .card-header .show {
+    border-color: #0a66c2 !important;
+    background-color: #0a66c2 !important;
+} */
+
+/* .card-header .show:hover {
+    background-color: #08539e !important;
+    border-color: #084d92 !important;
+} */
+
+.rectangle-card .show {
+    position: absolute;
+    width: auto;
+    padding: 1rem 1.5rem !important;
+    background: #478cd0 !important;
+    bottom: 11px;
+    right: 19px;
+}
+
+.showcalendar {
+    border: 1px solid #ebe9f1;
+    min-height: 400px;
+}
+
+[dir="ltr"] .rectangle-card .show:hover {
+    background-color: #2867a6 !important;
+    border: 1px solid #2867a6;
+}
+
+button.bg-light:focus {
+    background-color: #478cd0 !important;
+}
+
+#S_buttons button {
+    outline: none;
+    box-shadow: none;
+}
+
+#S_buttons .button {
+    padding: 8px 30px;
+    /* margin: 5px;  */
+    cursor: pointer;
+    border: 1px solid rgb(216, 214, 222);
+    font-size: 0.875rem;
+    /* / font-weight: none; / */
+    /* / background-color: #fff; / */
+    /* / color: #333; / */
+    /* border-radius: 5px;  */
+}
+
+#d_range button {
+    font-weight: normal;
+}
+
+#S_buttons .button:hover {
+    background-color: #ddd;
+}
+
+#S_buttons input[type="radio"] {
+    display: none;
+}
+
+#S_buttons label.selected {
+    background-color: #0a66c2;
+    border: 1px solid #2867a6;
+    color: #fff;
+}
+
+#S_buttons label.selected:hover {
+    background-color: #08539e;
+    border-color: #084d92;
+}
+
+#d_range button.active {
+    background-color: #0a66c2;
+    border: 1px solid #2867a6;
+    color: #fff;
+}
+
+#d_range button.active:hover {
+    background-color: #08539e;
+    border-color: #084d92;
+    color: #fff;
+}
+
+.pp {
+    background-repeat: repeat;
+    background-size: 100%;
+    width: 100%;
+}
+
+.thumbImg {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: crisp-edges;
+}
+
+.thumbouter {
+    width: 100px;
+    height: 100px;
+    background-size: 100%;
+    background-repeat: repeat;
+    overflow: hidden
+}
+
+.AdvanceSearch .rdrDateRangePickerWrapper {
+    left: 0;
+}
+
+.datpickerCalendar .rdrDateRangePickerWrapper {
+    left: auto !important;
+}
+
+.datpickerCalendar .rdrDateRangePickerWrapper {
+    right: auto !important;
+}
+
+/* mayuri    ipad css*/
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+    .button-menu {
+        display: none;
+    }
+
+    .login {
+        display: none;
+    }
+
+    .ipad-portrait
+
+    /* your css rules for ipad portrait */
+    .col-lg-5 .justify-content-left {
+        padding-left: 1.5rem !important;
+        padding-bottom: 5.5rem;
+        justify-content: left !important;
+        justify-content: center;
+    }
+
+    .thumb_grid_select {
+        position: absolute;
+        right: 0;
+        justify-content: end;
+        width: auto;
+    }
+
+    .viewbox {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
+    .mobile_group_show {
+        display: none;
+    }
+}
+
+@media (min-device-width: 800px) {
+
+    #custom_menu .dropdown-menu.dropdown-menu-right {
+        position: static;
+        display: block;
+        transform: none;
+        width: 100%;
+        display: flex;
+        border: 0;
+    }
+}
+
+/* # Tablet */
+@media only screen and (min-width:321px) and (max-width:768px) {
+
+    .totalcount {
+        position: relative !important;
+        right: 206px;
+        left: -11px;
+    }
+
+    .mobile_group_show {
+        clear: right;
+        text-align: right;
+    }
+
+    .login {
+        display: none;
+    }
+
+    div#UshowFabric {
+        height: 210px !important;
+    }
+
+
+
+    button#add_designBTN,
+    #openQ3DQR,
+    .button-menu .dropdown {
+        display: none;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .main-design-div .ecommerce-application .grid-view {
+        display: grid;
+        grid-template-columns: 1fr 1fr !important;
+        column-gap: 0.5rem !important;
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .ecommerce-application .grid-view .ecommerce-card .item-img {
+        min-height: 11.85rem !important;
+    }
+
+    .iconthumb svg {
+        width: 16px !important;
+        height: 16px !important;
+    }
+
+    [dir] .ecommerce-application .grid-view .ecommerce-card {
+        margin-bottom: 0.5rem !important;
+    }
+
+    .contain1.card {
+        margin-bottom: 0;
+    }
+
+    .viewbox {
+        display: grid;
+        grid-template-columns: 1fr !important;
+    }
+
+    button#add_designBTN,
+    #openQ3DQR,
+    .button-menu .dropdown {
+        display: none;
+    }
+
+    .thumb_grid_select {
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        background: #fff;
+        clear: both;
+        justify-content: space-between;
+        margin: 0;
+        top: 12px;
+    }
+
+    .card-widgets {
+        position: absolute;
+        z-index: 9;
+    }
+
+    .AdvanceSearch {
+        top: 52px;
+    }
+
+    [dir] .react-dataTable .rdt_TableBody .rdt_TableRow .rdt_TableCell {
+        padding: 0.5rem 0.5rem;
+    }
+
+    .react-dataTable .rdt_TableBody .rdt_TableRow .rdt_TableCell {
+        height: 52px !important;
+    }
+
+    .rdt_TableCell img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    [dir] .react-dataTable .rdt_TableHead .rdt_TableHeadRow .rdt_TableCol {
+        padding: 0.5rem 0.5rem;
+        justify-content: center;
+    }
+
+    /*  form table head*/
+    [dir] .react-dataTable .rdt_TableHead .rdt_TableHeadRow .rdt_TableCol:first-child {
+        width: 80px;
+        min-width: 80px;
+        justify-content: center;
+    }
+
+    .react-dataTable .rdt_TableHead .rdt_TableHeadRow .rdt_TableCol:nth-child(2) {
+        width: 120px;
+        min-width: 120px;
+        justify-content: center;
+    }
+
+    .react-dataTable .rdt_TableHead .rdt_TableHeadRow .rdt_TableCol:nth-child(3) {
+        width: 120px;
+        min-width: 120px;
+        justify-content: center;
+    }
+
+    /*  form table head ends*/
+
+    /*  form table columns*/
+    [dir] .react-dataTable .rdt_TableBody .rdt_TableRow .rdt_TableCell:first-child {
+        width: 80px;
+        min-width: 80px;
+        justify-content: center;
+    }
+
+    [dir] .react-dataTable .rdt_TableBody .rdt_TableRow .rdt_TableCell:nth-child(2) {
+        width: 120px;
+        min-width: 120px;
+        justify-content: center;
+    }
+
+    .react-dataTable .rdt_TableBody .rdt_TableRow .rdt_TableCell:nth-child(3) {
+        width: 120px;
+        min-width: 120px !important;
+        justify-content: center;
+    }
+
+    .react-dataTable .rdt_TableBody .rdt_TableRow .rdt_TableCell:nth-child(4) {
+        width: 150px;
+        min-width: 150px !important;
+        justify-content: center;
+    }
+
+    .react-dataTable .rdt_TableBody .rdt_TableRow .rdt_TableCell:nth-child(3) {
+        width: 150px;
+        min-width: 150px !important;
+        justify-content: center;
+    }
+
+    /*  form table columns ends*/
+}
+
+@media (min-width:1025px) {
+    .mobile_group_show {
+        display: none;
+    }
+}
+
+/*ipad portrait*/
+@media (max-width: 991.98px) {
+    .button-menu {
+        display: none;
+    }
+
+    .main-design-div .ecommerce-application .grid-view {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 2rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .main-design-div .ecommerce-application .grid-view {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 1200px) {
+    .main-design-div .ecommerce-application .grid-view {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 767.98px) {
+    [dir=ltr] .header-navbar .navbar-container .show .dropdown-menu {
+        right: -1rem !important;
+        left: auto !important;
+        width: auto !important;
+    }
+
+    .iconstop {
+        display: none;
+        flex-direction: column;
+    }
+
+}
+
+@media only screen and (max-width:320px) {}

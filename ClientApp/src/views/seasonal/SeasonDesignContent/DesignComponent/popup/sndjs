@@ -1,0 +1,29 @@
+/* const data = [
+    { id: 1,
+         title: 'Conan the Barbarian',
+         summary: 'Orphaned boy Conan is enslaved after his village is destroyed...',
+          year: '1982'
+     }
+];
+const columns = [  
+    {    name: 'Title',
+        sortable: true,
+        cell: row => <div data-tag="allowRowEvents"><div style={{ fontWeight: bold }}>{row.title}</div>{row.summary}</div>,
+  },
+  {    name: 'Year',
+    selector: 'year',
+    sortable: true,
+    right: true,  },
+];
+ class MyComponent extends Component {  
+    render() {
+            return ( 
+                 <DataTable  
+            title="Arnold Movies"  
+            columns={columns}  
+            data={data}  
+            selectableRows        
+            selectableRowsComponent={Checkbox}        
+            selectableRowsComponentProps={{ inkDisabled: true }}
+                    sortIcon={<FontIcon>arrow_downward</FontIcon>} 
+                   onSelectedRowsChange={handleChange}      />    )  }}; */
