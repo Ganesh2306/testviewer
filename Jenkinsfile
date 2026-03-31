@@ -5,7 +5,7 @@ pipeline {
         APP_SERVER = 'ubuntu@13.234.204.117'
         APP_DIR    = '/var/www/html/textronics/dam/tdst/viewer'
         SERVICE    = 'adminapp.service'
-        DLL_NAME   = 'ARCHIVE_DASHBOARD.dll'
+        DLL_NAME   = 'ARCHIVE_VIEWER.dll'
         VERSION    = "1.0.${BUILD_NUMBER}"
     }
 
@@ -73,7 +73,7 @@ pipeline {
         stage('Publish & Package') {
             steps {
                 // ✅ FIX: ARCHIVE_VIEWER → ARCHIVE_DASHBOARD
-                sh 'dotnet publish ARCHIVE_DASHBOARD.csproj --configuration Release --no-build --output ./publish'
+                sh 'dotnet publish ARCHIVE_VIEWER.csproj --configuration Release --no-build --output ./publish'
 
                 sh """
                     cd publish
