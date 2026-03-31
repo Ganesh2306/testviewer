@@ -72,6 +72,8 @@ pipeline {
 
         stage('Publish & Package') {
             steps {
+                // ✅ जुना publish folder delete करा
+                sh 'rm -rf ./publish'
                 // ✅ FIX: ARCHIVE_VIEWER → ARCHIVE_DASHBOARD
                 sh 'dotnet publish ARCHIVE_DASHBOARD.csproj --configuration Release --no-build --output ./publish'
 
