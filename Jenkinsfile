@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        APP_SERVER = 'ubuntu@13.234.204.117'
+        APP_SERVER = 'ubuntu@3.109.186.11'
         APP_DIR    = '/var/www/html/textronics/dam/tdst/viewer'
         SERVICE    = 'adminapp.service'
         DLL_NAME   = 'ARCHIVE_VIEWER.dll'
