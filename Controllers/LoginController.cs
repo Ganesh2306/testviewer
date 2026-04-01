@@ -2,17 +2,11 @@
 using ARCHIVE_DASHBOARD.Helper;
 using ARCHIVE_DASHBOARD.Model.Organization;
 using ARCHIVE_DASHBOARD.Session;
-using Asp.netCoreReactDemo.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Asp.netCoreReactDemo.Controllers
 {
@@ -215,8 +209,6 @@ namespace Asp.netCoreReactDemo.Controllers
             }
             return Json(_LoggedUserData);
         }
-
-
         public IActionResult ValidateUser([FromBody] LoginUsersDto _LoginUsersDto)
         {
             var response = ApiHelper.PostData(baseAddress, "api/Configuration/LoginOrgUser",
@@ -229,8 +221,8 @@ namespace Asp.netCoreReactDemo.Controllers
                 if (_LoggedUserData.org_type == 2)
                 {
                     seasonalAccess = IsSeasonalAccess(_LoggedUserData.RoleId, _LoggedUserData.AccessToken);
-                   // var n = ;
-                  //  var newdata = ;
+                    // var n = ;
+                    //  var newdata = ;
                 }
                 _LoggedUserData.ability = GetAbilityByRoleType(_LoggedUserData.org_type, _LoggedUserData.is_administrator, seasonalAccess);
                 _LoggedUserData.Password = _LoginUsersDto.password;
@@ -243,10 +235,14 @@ namespace Asp.netCoreReactDemo.Controllers
             string url = configuration.GetSection("Q3dURL").GetSection(Url).Value;
             return Json(url);
         }
-
         public IActionResult Q3drenderpluginURL()
         {
             string url = configuration.GetSection("Q3drenderpluginURL").GetSection("Url").Value;
+            return Json(url);
+        }
+        public IActionResult Getsaasapi()
+        {
+            string url = configuration.GetSection("saasapi").GetSection("saasurl").Value;
             return Json(url);
         }
         public IActionResult LogOutOtherUser()
@@ -277,7 +273,6 @@ namespace Asp.netCoreReactDemo.Controllers
 
             return Json(response);
         }
-
         public IActionResult SendEmail([FromBody] EmailDto emaildto)
         {
 
@@ -323,7 +318,6 @@ namespace Asp.netCoreReactDemo.Controllers
             else
                 return Ok(false);
         }
-
         public IActionResult UpdateUserPassword([FromBody] UpdatePasswordDto UpdatePasswordDto)
         {
 
@@ -334,7 +328,6 @@ namespace Asp.netCoreReactDemo.Controllers
             return Ok(response);
 
         }
-
         public List<Ability> GetAbilityByRoleType(int org_type, bool is_administrator, bool seasonalAccess = false)
         {
             List<Ability> abilities = new List<Ability>() {
@@ -870,7 +863,7 @@ namespace Asp.netCoreReactDemo.Controllers
                         abilities.AddRange(supplierUserAbilities);
                         abilities.AddRange(customerAbilities);
                         abilities.AddRange(customerUserAbilities);
-                       //abilities.AddRange(threedAbilities);
+                        //abilities.AddRange(threedAbilities);
                         //abilities.AddRange(agentAbilities);
                         //abilities.AddRange(agentUserAbilities);
                         abilities.AddRange(designAbilities);
@@ -1009,7 +1002,6 @@ namespace Asp.netCoreReactDemo.Controllers
             var result = ApiHelper.PostData(baseAddress, "api/Configuration/UpdateUserProfile", _Organisation, myComplexObject.AccessToken);
             return Json(result);
         }
-
         public bool IsSeasonalAccess(long roleId, string AccessToken)
         {
             var isHadAccess = false;

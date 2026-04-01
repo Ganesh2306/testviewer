@@ -98,6 +98,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             return Json(result);
         }
         #endregion
+
         #region TdImageConfigurations
         public IActionResult SaveTdImageConfigurations([FromBody] RootThreedImageConfiguration _RootThreedImageConfiguration)
         {
@@ -117,13 +118,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             return Json(result.ToString());
         }
         #endregion
-        public IActionResult GetTdImageConfigurations([FromQuery] long TdImageId)
-        {
-            var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
-            var response = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/GetAllConfiguredRoleTaskByRoleID?RoleId=" + TdImageId + "&OrganisationId=" + myComplexObject.OrganisationId, myComplexObject.AccessToken);
-            var result = JsonConvert.DeserializeObject<Model.Role.RoleTask>(response.ToString());
-            return Json(result);
-        }
         
         #region TdQvImageConfiguration
         public IActionResult SaveTdQvImageConfiguration([FromBody] RootTdQvImageConfiguration _RootTdQvImageConfiguration)
@@ -175,7 +169,13 @@ namespace ARCHIVE_DASHBOARD.Controllers
         }
 
         #endregion
-
+        public IActionResult GetTdImageConfigurations([FromQuery] long TdImageId)
+        {
+            var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
+            var response = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/GetAllConfiguredRoleTaskByRoleID?RoleId=" + TdImageId + "&OrganisationId=" + myComplexObject.OrganisationId, myComplexObject.AccessToken);
+            var result = JsonConvert.DeserializeObject<Model.Role.RoleTask>(response.ToString());
+            return Json(result);
+        }
         public static byte[] ReadFully(Stream input)
         {
             byte[] buffer = new byte[16 * 1024];
@@ -189,7 +189,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
                 return ms.ToArray();
             }
         }
-
         public IActionResult GetProductList()
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -211,7 +210,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
 
        Json(response);
         }
-
         public IActionResult ConfigureTdImageSearchByOrgId([FromBody] ConfigureTdImageSearchByOrgIdRequestDto configureTdImageSearchByOrgIdRequestDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -222,50 +220,37 @@ namespace ARCHIVE_DASHBOARD.Controllers
             // var result = JsonConvert.DeserializeObject<List<Feature>>(response.ToString());
             return Json(response);
         }
-         public IActionResult SavehowroomImageConfiguration([FromBody] RootTdShowroomConfiguration _RootTdShowroomConfiguration)
+        public IActionResult SavehowroomImageConfiguration([FromBody] RootTdShowroomConfiguration _RootTdShowroomConfiguration)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             _RootTdShowroomConfiguration.td_Showroom_Configurations.ForEach(x => x.td_Organisation_Id = myComplexObject.OrganisationId);
             var result = _RootTdShowroomConfiguration == null ? null : ApiHelper.PostData(baseAddress, "api/Configuration/SaveTdShowroomConfiguration", _RootTdShowroomConfiguration.td_Showroom_Configurations, myComplexObject.AccessToken);
             return Json(result.ToString());
         }
-
         public IActionResult RemoveTdImage([FromQuery] string TdImageName)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             var result = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/RemoveTdImage?TdImageName=" + TdImageName, myComplexObject.AccessToken);
             return Json(result.ToString());
         }
-        //GetTdImageConfigurationsByTdimageId
         public IActionResult GetTdImageConfigurationsByTdimageId([FromBody] Tdimgid tdimgid)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             var response = ApiHelper.GetDataNewQS(baseAddress, "api/Configuration/GetTdImageConfigurationsByTdimageId?TdImageId=" + tdimgid.TdImageId , myComplexObject.AccessToken);
             return Json(response);
         }
-
-        //public IActionResult GetConfiguredOrganisations()
-        //{
-        //    //LicenseManager
-        //    var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
-        //    var response = ApiHelper.GetDataNewQS(baseAddress, "api/LicenseManager/GetConfiguredOrganisations", myComplexObject.AccessToken);
-        //    return Json(response);
-        //}
-
         public IActionResult GetConfiguredOrganisations(OrganisationRequestListDto OrganisationRequestListDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             var response = ApiHelper.PostData(baseAddress, "api/LicenseManager/GetConfiguredOrganisations", OrganisationRequestListDto, myComplexObject.AccessToken);
             return Json(response);
         }
-
         public IActionResult GetQ3DProducts([FromQuery] GetQ3DProducts getQ3DProducts)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             var response = ApiHelper.PostData(baseAddress, "api/LicenseManager/GetQ3DProducts?OrganisationId=" + getQ3DProducts.organisationId, getQ3DProducts, myComplexObject.AccessToken);
             return Json(response);
         }
-
         public IActionResult SaveQ3dProductConfiguration([FromBody] List<SaveProductConfig> saveQ3dProductConfiguration)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -278,14 +263,12 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var response = ApiHelper.PostData(baseAddress, "api/LicenseManager/SaveQ3dConfiguration", saveQ3dConfigurationRequest, myComplexObject.AccessToken);
             return Json(response);
         }
-
         public IActionResult GetQ3dConfiguration([FromQuery] GetQ3dConfigurationRequest getQ3dConfigurationRequest)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
             var response = ApiHelper.PostData(baseAddress, "api/LicenseManager/GetQ3dConfiguration?OrganisationId=" + getQ3dConfigurationRequest.OrganisationId, getQ3dConfigurationRequest, myComplexObject.AccessToken);
             return Json(response);
         }
-
         public IActionResult GetOrgProducts([FromBody] OrderProducts orderproducts)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");

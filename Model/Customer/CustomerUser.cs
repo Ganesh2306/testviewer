@@ -34,6 +34,7 @@ namespace ARCHIVE_DASHBOARD.Model.Customer
         public bool is_deleted { get; set; }
         public bool is_blocked { get; set; }
         public bool is_logged_in { get; set; }
+        public int user_type { get; set; }
     }
 
     public class CustomerUser

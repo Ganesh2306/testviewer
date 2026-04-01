@@ -74,7 +74,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
                 data.customer.user.agt_imagebytebase = Convert.ToBase64String(data.customer.user.org_user_imagebyte);
             return Json(data);
         }
-
         public IActionResult SaveCustomer([FromBody] Customer _Customer)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -85,7 +84,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var result = _Customer == null ? null : ApiHelper.PostData(baseAddress, "api/Configuration/CreateCustomer", _Customer, myComplexObject.AccessToken);
             return Json(result);
         }
-
         public IActionResult ModifyCustomer([FromBody] UpdateCustomer _UpdateCustomer)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -93,8 +91,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var result = _UpdateCustomer == null ? null : ApiHelper.PostData(baseAddress, "api/Configuration/CreateCustomer", _UpdateCustomer, myComplexObject.AccessToken);
             return Json(result);
         }
-
-
         public IActionResult CustomerUsers([FromBody] Customer _EditCustomer)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -140,7 +136,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             }
             return Json(data);
         }
-
         public IActionResult SaveCustomerUser([FromBody] GetCustomerUserList _CustomerUserRequest)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -151,6 +146,7 @@ namespace ARCHIVE_DASHBOARD.Controllers
             _CustomerUserRequest.org_id = myComplexObject.OrganisationId;
             _CustomerUserRequest.org_type_id = _CustomerUserRequest.org_type_id != 0 ? _CustomerUserRequest.org_type_id : myComplexObject.org_type_id;
             //_CustomerUserRequest.org_type = myComplexObject.org_type;
+            _CustomerUserRequest.user_type = 0;
 
             var result = ApiHelper.PostData(baseAddress, "api/Configuration/CreateOrgUser", _CustomerUserRequest, myComplexObject.AccessToken);
             return Json(new { data = result, req = _CustomerUserRequest });

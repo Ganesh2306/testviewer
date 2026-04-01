@@ -47,6 +47,8 @@ namespace ARCHIVE_DASHBOARD.Model.ThreeD
         public bool Q3d_is_Show_Info { get; set; }
         public bool q3d_is_q3d_lite { get; set; }
         public bool q3d_is_custom_download { get; set; }
+        public string q3d_Feature_name { get; set; }
+        public bool q3d_qr_render_download { get; set; }
     }
 
     public class GetQ3dConfigurationRequest

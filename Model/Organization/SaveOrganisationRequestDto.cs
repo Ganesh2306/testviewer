@@ -32,5 +32,10 @@ namespace ARCHIVE_DASHBOARD.Model.Organisation
         public long OrganisationId { get; set; }
         public long SupplierId { get; set; }
         public long CustomerId { get; set; }
+        public Int32 fabric_upload_limit { get; set; }
+        public Int32 render_limit { get; set; }
+        public Int32 download_limit { get; set; }
+        public Int32 model_limit { get; set; }
+        public bool is_not_saasuser { get; set; }
     }
 }

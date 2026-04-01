@@ -107,7 +107,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             }
             return Json(result);
         }
-
         public IActionResult CollezioniGetSeasonMastersById(long SeasonId)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -125,7 +124,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             //var data = JsonConvert.DeserializeObject<GetSeasonMastersByIdResponse>(result.ToString());
             //return Json(data);
         }
-
         public IActionResult GetCollectionListBySeasonId([FromBody] CollectionListRequestDto collectionListRequestDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -145,7 +143,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             }
             return Json(result);
         }
-
         public IActionResult SaveCollectionBySeasonId([FromBody] SaveCollectionRequestDto saveCollectionRequestDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -160,7 +157,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var response = ApiHelper.PostData(baseAddress, "api/Configuration/SaveCollectionBySeasonId", saveCollectionRequestDto, myComplexObject.AccessToken);
             return Json(response);
         }
-
         public IActionResult SearchCollectionListBySeasonId([FromBody] CollectionsearchDto collectionsearchDto)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -178,7 +174,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             }
             return Json(result);
         }
-
         public IActionResult GetCollectionById(long CollectionId)
         {
             var myComplexObject = HttpContext.Session.GetObjectFromJson<LoggedUserData>("Auth");
@@ -186,7 +181,6 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var data = JsonConvert.DeserializeObject<GetCollectionByIdResponseDto>(result.ToString());
             return Json(data);
         }
-
         public IActionResult GetConfiguredCustomerList()
         {
 
@@ -202,6 +196,5 @@ namespace ARCHIVE_DASHBOARD.Controllers
             var result2 = ApiHelper.PostData(baseAddress, "api/Configuration/CollezioniGetDesignByCollectionId", cllezioniGetDesignByCollectionIdRequestDto, myComplexObject.AccessToken);
             return Json(result2);
         }
-
     }
 }
