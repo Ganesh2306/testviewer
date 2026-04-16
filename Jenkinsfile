@@ -89,7 +89,7 @@ pipeline {
         stage('Tag Version on GitHub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'github-token',
+                    credentialsId: 'github-token-2',
                     usernameVariable: 'GIT_USER',
                     passwordVariable: 'GIT_TOKEN'
                 )]) {
