@@ -1,5 +1,4 @@
 // ** Icons Import
-import { Heart } from 'react-feather'
 
 const Footer = () => {
   return (
@@ -11,12 +10,7 @@ const Footer = () => {
         </a>
         <span className='d-none d-sm-inline-block'>, All rights Reserved</span>
       </span>
-      {/*
-        <span className='float-md-right d-none d-md-block'>
-          Hand-crafted & Made with
-          <Heart size={14} />
-        </span>
-      */}
+ 
     </p>
   )
 }

@@ -3,10 +3,6 @@
     "name": "white",
     "hex": "#ffffff"
   },
-  "silver": {
-    "name": "ferozi",
-    "hex": "#00d0ff"
-  },
   "grey": {
     "name": "grey",
     "hex": "#808080"
@@ -51,11 +47,11 @@
     "name": "yellow",
     "hex": "#ffff00"
   },
-  "lime": {
+  "cream": {
     "name": "cream",
     "hex": "#fff4b8"
   },
-  "magenta": {
+  "khaki": {
     "name": "khaki",
     "hex": "#baa636"
   },

@@ -36,7 +36,7 @@
   .border-right,
   .border-bottom,
   .border-left {
-    border-color: $theme-dark-border-color !important;
+    border-color: $theme-dark-custom-border !important;//$theme-dark-border-color 
   }
 
   // other tags
@@ -132,7 +132,7 @@
   .navbar-sticky {
     .header-navbar {
       &.navbar-shadow {
-        box-shadow: 0 4px 24px 0 rgba($black, 0.75);
+        // box-shadow: 0 4px 24px 0 rgba($black, 0.75)Manisha D;
       }
     }
   }
@@ -1974,7 +1974,8 @@
       .list-view {
         .ecommerce-card {
           .card-body {
-            border-color: $theme-dark-border-color;
+            border-color:#535353;
+            // border-color: $theme-dark-border-color;
           }
           .item-options {
             .wishlist {

@@ -1,9 +1,9 @@
 .loading {
   position: absolute;
-  left: calc(50% - 35px);
+  left: calc(50% - 60px);
   top: 50%;
-  width: 55px;
-  height: 55px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -49,8 +49,9 @@
 }
 .fallback-logo {
   position: absolute;
-  left: calc(50% - 45px);
-  top: 40%;
+  left: calc(50% - 65px);
+  top: calc(50%  - 5px);
+  padding: 15px;
 }
 
 @keyframes rotate {

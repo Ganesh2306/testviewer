@@ -30,5 +30,6 @@ export const handleLogout = () => {
     localStorage.removeItem('userData')
     localStorage.removeItem(config.storageTokenKeyName)
     localStorage.removeItem(config.storageRefreshTokenKeyName)
+    window.location.reload(true) // `true` is deprecated in modern browsers
   }
 }

@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        APP_SERVER = 'ubuntu@3.109.186.11'
+        APP_SERVER = 'ubuntu@65.0.108.170'
         APP_DIR    = '/var/www/html/textronics/dam/tdst/viewer'
         SERVICE    = 'adminapp.service'
-        DLL_NAME   = 'ARCHIVE_DASHBOARD.dll'
+        DLL_NAME   = 'ARCHIVE_VIEWER.dll'
         VERSION    = "1.0.${BUILD_NUMBER}"
     }
 
@@ -75,7 +75,7 @@ pipeline {
                 // ✅ जुना publish folder delete करा
                 sh 'rm -rf ./publish'
                 // ✅ FIX: ARCHIVE_VIEWER → ARCHIVE_DASHBOARD
-                sh 'dotnet publish ARCHIVE_DASHBOARD.csproj --configuration Release --no-build --output ./publish'
+                sh 'dotnet publish ARCHIVE_VIEWER.csproj --configuration Release --no-build --output ./publish'
 
                 sh """
                     cd publish

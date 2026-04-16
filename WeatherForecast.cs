@@ -1,6 +1,6 @@
 using System;
 
-namespace ARCHIVE_DASHBOARD
+namespace ARCHIVE_VIEWER
 {
     public class WeatherForecast
     {

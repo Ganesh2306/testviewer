@@ -1,6 +1,6 @@
-﻿import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Edit } from 'react-feather'
-import "react-datepicker/dist/react-datepicker.css"
+
 import Avatar from '@components/avatar'
 import { FormGroup, Input, Label, Col, Button, ModalBody, Form, FormFeedback } from 'reactstrap'
 
@@ -22,11 +22,11 @@ const ModalBodyUIProfile = (props) => {
                 text: 'The Uploaded image is too large!  The max image size  (250KB or less) '
             })
         }
-
     }
+
     const EnterKeyPress = (event) => {
         if (event.keyCode === 13) {
-         console.log(event.keyCode)
+         //console.log(event.keyCode)
          if (props.pbtnRef && props.pbtnRef.current) props.pbtnRef.current.click()
         }
      
@@ -60,7 +60,6 @@ const ModalBodyUIProfile = (props) => {
         } 
       }
     }, [])
-
 
     const renderUserAvatar = () => {
         if (img === null) {
@@ -103,7 +102,7 @@ const ModalBodyUIProfile = (props) => {
         <ModalBody>
             <FormGroup row>
                 <Label sm='4' for='name'>
-                    First Name <span style={{color: 'red'}}>*</span>
+                    First Name <span style={{ color: 'red' }}>*</span>
                 </Label>
                 <Col sm='8'>
                     <Input defaultValue={props.profile === undefined || props.profile === null ? "" : props.profile.user_id}
@@ -112,7 +111,12 @@ const ModalBodyUIProfile = (props) => {
                         placeholder='First Name'
                         innerRef={props.register({ required: true })}
                         invalid={props.errors.user_id && true}
-                        name="user_id" />
+                        name="user_id"
+                        onKeyDown={(e) => {
+                            if (e.key === ' ') {
+                              e.preventDefault()
+                            }
+                          }} />
                     {props.errors && props.errors.user_id && <FormFeedback>{props.errors.user_id.message}</FormFeedback>}
                     <Input defaultValue={props.profile === undefined || props.profile === null ? "" : props.profile.first_name}
                         type='text'
@@ -120,7 +124,12 @@ const ModalBodyUIProfile = (props) => {
                         placeholder='First Name'
                         innerRef={props.register({ required: true })}
                         invalid={props.errors.first_name && true}
-                        name="first_name" />
+                        name="first_name" 
+                        onKeyDown={(e) => {
+                            if (e.key === ' ') {
+                              e.preventDefault()
+                            }
+                          }}/>
                     {props.errors && props.errors.first_name && <FormFeedback>{props.errors.first_name.message}</FormFeedback>}
                 </Col>
             </FormGroup>
@@ -135,7 +144,12 @@ const ModalBodyUIProfile = (props) => {
                         placeholder='Last Name'
                         innerRef={props.register({ required: true })}
                         invalid={props.errors.last_name && true}
-                        name="last_name" />
+                        name="last_name" 
+                        onKeyDown={(e) => {
+                            if (e.key === ' ') {
+                              e.preventDefault()
+                            }
+                          }}/>
                     {props.errors && props.errors.last_name && <FormFeedback>{props.errors.last_name.message}</FormFeedback>}
                 </Col>
             </FormGroup>
@@ -167,7 +181,12 @@ const ModalBodyUIProfile = (props) => {
                         placeholder='Email'
                         innerRef={props.register({ required: true })}
                         invalid={props.errors.email && true}
-                        name="email" />
+                        name="email" 
+                        onKeyDown={(e) => {
+                            if (e.key === ' ') {
+                              e.preventDefault()
+                            }
+                          }}/>
                     {props.errors && props.errors.email && <FormFeedback>{props.errors.email.message}</FormFeedback>}
                 </Col>
             </FormGroup>
@@ -198,8 +217,8 @@ const ModalBodyUIProfile = (props) => {
                                     Change
                                 </Button>
                             </Col> */}
-                <Label className="col-sm-4" for='mobile'> Profile</Label>
-                <Col sm='8'>
+                <Label className="control-label col-sm-2">Profile</Label>
+                <div>
                     {renderUserAvatar()}
                     <Button.Ripple id='change-img' tag={Label} className='mr-75 mb-0' color='primary'>
                         <span className='d-none d-sm-block'>Change</span>
@@ -210,7 +229,7 @@ const ModalBodyUIProfile = (props) => {
                             name="profile_Image"
                             type='file' hidden
                             ref={props.fileRef}
-                            id='profile_Image'  
+                            id='profile_Image'
                             onChange={onChange}
                             accept='image/*'
                         />
@@ -219,7 +238,7 @@ const ModalBodyUIProfile = (props) => {
                         {/* props.errors && props.errors.profile_Image && <FormFeedback>{props.errors.profile_Image.message}</FormFeedback> */}
 
                     </Button.Ripple>
-                </Col>
+                </div>
             </FormGroup>
 
         </ModalBody>
